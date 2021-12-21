@@ -3,7 +3,7 @@ version: '3'
 services:
   db_mysql:
     # IOS m1칩 사용자는 아래 (platform: linux/x86_64) 주석을 풀고 실행해주세요 / 다른 분은 주석으로 해주시고 실행해주세요
-    platform: linux/x86_64
+    # platform: linux/x86_64
     build:
       context: ./db_mysql
       dockerfile: ./mysql.Dockerfile
