@@ -18,6 +18,13 @@
   
   ### 웹페이지 접속해서 확인하기(80번 포트)
   localhost:80 에 접속해서 "검정피자" 란 글자가 보이시면 연동이 잘 되고 있는 겁니다.
+
+  ### 서버 종료 하기
+  <pre>docker-compose down</pre>
+
+  ### 서버 삭제 하기
+  <pre>docker rmi blackpizza_db_mysql blackpizza_front blackpizza_back</pre>
+  * 서버를 종료해야 삭제가 가능합니다.
    
 
 ## 프로젝트 구성 안내
