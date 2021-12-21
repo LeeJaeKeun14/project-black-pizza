@@ -2,6 +2,26 @@
 - 최종 서비스 명을 위 괄호 부분에 작성하세요.
 - 최종 서비스의 한 줄 소개를 작성하세요.
 
+## 실행방법
+  ### docker-compose 실행
+  <pre>
+    docker-compose up -d
+  </pre>
+
+  ### back서버에 접속하기(초기 데이터베이스 설정 목적)
+  <pre>
+    docker exec -it blackpizza_back_1 /bin/bash
+  </pre>
+
+  ### 초기 데이터베이스에 값 넣기
+  * 위 명령어가 오류나면 아직 DB의 실행이 덜 끝나서 그러니, 잠시 뒤 한번 더 입력해주시면 됩니다.
+  <pre>
+    docker exec -it blackpizza_back_1 /bin/bash
+  </pre>
+
+  ### 웹페이지 접속해서 확인하기(80번 포트)
+  localhost:80 에 접속해서 "검정피자" 란 글자가 보이시면 연동이 잘 되고 있는 겁니다.
+   
 
 ## 프로젝트 구성 안내
 
