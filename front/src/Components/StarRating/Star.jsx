@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import StarIcon from "./StarIcon";
 
-const Rating = ({
+const Star = ({
   index,
   rating,
   hoverRating,
@@ -28,4 +28,4 @@ const Rating = ({
   );
 };
 
-export default Rating;
+export default Star;

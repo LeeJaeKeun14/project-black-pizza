@@ -7,7 +7,7 @@ const Item = ({ data }) => {
     <div>
       <div>{title}</div>
       <img src={imgURL} alt="poster" />
-      <StarRating />
+      <StarRating id={title} />
     </div>
   );
 };

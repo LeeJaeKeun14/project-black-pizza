@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import Rating from "./Rating";
+import { ratingState } from "../../store/atoms";
+import Star from "./Star";
 
-const StarRating = props => {
-  const [rating, setRating] = useState(0);
+const StarRating = ({ id }) => {
+  const setRating = useSetRecoilState(ratingState);
+  const [rate, setRate] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const onMouseEnter = index => {
     setHoverRating(index);
@@ -12,16 +15,22 @@ const StarRating = props => {
     setHoverRating(0);
   };
   const onSaveRating = index => {
-    setRating(index);
+    setRate(index);
+
+    setRating(cur => {
+      const newArr = [...cur];
+      newArr.push([id, index]);
+      return newArr;
+    });
   };
   return (
     <RatingWrap>
       {[1, 2, 3, 4, 5].map(index => {
         return (
-          <Rating
+          <Star
             key={index}
             index={index}
-            rating={rating}
+            rating={rate}
             hoverRating={hoverRating}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
