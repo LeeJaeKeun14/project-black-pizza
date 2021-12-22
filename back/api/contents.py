@@ -30,8 +30,8 @@ def recommend():
         recommend_contents = temp_list
     else:
         recommend_contents = temp_list
-    res = {"status": 200, "result": "success", "contents": recommend_contents}
-    return jsonify(res)
+    # res = {"status": 200, "result": "success", "contents": recommend_contents}
+    return jsonify(recommend_contents)
 
 
 @contents.route('/test', methods=['GET', 'POST'])
