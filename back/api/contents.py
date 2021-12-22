@@ -21,7 +21,7 @@ def list():
             title = movie[0]
             image = movie[1]
             movie_list.append([title, image])
-    return jsonify(movie_list[0][1])
+    return jsonify(movie_list)
 
 
 @contents.route('/recommend', methods=['GET', 'POST'])
@@ -30,11 +30,9 @@ def recommend():
         recommend_contents = temp_list
     else:
         recommend_contents = temp_list
-<<<<<<< HEAD
-    return jsonify(recommend_contents)
-=======
     res = {"status": 200, "result": "success", "contents": recommend_contents}
     return jsonify(res)
+
 
 @contents.route('/test', methods=['GET', 'POST'])
 def test():
@@ -46,5 +44,3 @@ def test():
         content_info.append(i.image)
         res[i.title] = content_info
     return jsonify(res)
-
->>>>>>> ff1ca9ccfa5068c30c22fcb9e64161e1bb1401f3
