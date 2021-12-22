@@ -4,7 +4,8 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 
 function App() {
-  const [msg, setMsg] = useState("이 글자가 보인다면 api서버와 연결이 안된 겁니다.");
+  //const [msg, setMsg] = useState("이 글자가 보인다면 api서버와 연결이 안된 겁니다.");
+  const [msg, setMsg] = useState([]);
   useEffect(()=>{
     axios('/api').then(res=>{
       setMsg(res.data);
