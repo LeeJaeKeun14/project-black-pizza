@@ -33,8 +33,8 @@ const StarRating = props => {
   );
 };
 const RatingWrap = styled.div`
-  width: 50px;
-  height: 100%;
+  // width: 50px;
+  // height: 100%;
   display: flex;
 `;
 export default StarRating;

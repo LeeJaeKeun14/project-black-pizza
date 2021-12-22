@@ -10,7 +10,7 @@ const List = ({ data }) => (
   </ListWrap>
 );
 const ListWrap = styled.section`
-  // display: flex;
-  // flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 `;
 export default List;
