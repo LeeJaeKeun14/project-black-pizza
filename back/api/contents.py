@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, Blueprint, request, session
-from models import User
+from models import User, Contents
 from db_connect import db
 
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
@@ -24,6 +24,17 @@ def recommend():
         recommend_contents = temp_list
     else:
         recommend_contents = temp_list
-    return jsonify(recommend_contents)
+    res = {"status": 200, "result": "success", "contents": recommend_contents}
+    return jsonify(res)
 
+@contents.route('/test', methods=['GET', 'POST'])
+def test():
+    recommend_contents = db.session.query(Contents).all()
+    res = {}
+    for i in recommend_contents:
+        content_info = []
+        content_info.append(i.title)
+        content_info.append(i.image)
+        res[i.title] = content_info
+    return jsonify(res)
 
