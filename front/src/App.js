@@ -15,6 +15,7 @@ function App() {
         <p>
           {msg}
         </p>
+        <p>검정피자는 맛있다.</p>
         <a
           className="App-link"
           href="https://reactjs.org"

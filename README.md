@@ -4,7 +4,7 @@
 
 ## 실행방법
   ### 리엑트 서드파티모듈 설치
-  <pre>cd front && npm install $$ cd ..</pre>
+  <pre>cd front && npm install && cd ..</pre>
 
   ### docker-compose 실행
   <pre>docker-compose up -d</pre>
