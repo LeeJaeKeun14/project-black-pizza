@@ -19,7 +19,6 @@ const Rating = ({
   }, [rating, hoverRating, index]);
   return (
     <div
-      style={{ display: "inline-block" }}
       onMouseEnter={() => onMouseEnter(index)}
       onMouseLeave={() => onMouseLeave()}
       onClick={() => onSaveRating(index)}
