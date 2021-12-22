@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Item from "./Item";
 
-const List = props => (
+const List = ({ data }) => (
   <ListWrap>
-    {[1, 2, 3, 4, 5].map((e, idx) => (
-      <Item key={idx} />
+    {data.map((e, idx) => (
+      <Item key={idx} data={e} />
     ))}
   </ListWrap>
 );

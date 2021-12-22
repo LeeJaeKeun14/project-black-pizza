@@ -1,7 +1,7 @@
 
 // import './App.css';
 import { GlobalStyle } from "./styles/GlobalStyle";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import Main from './Pages/Main/Main';
@@ -12,19 +12,11 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 
 function App() {
-<<<<<<< HEAD
-  const [msg, setMsg] = useState("이 글자가 보인다면 api서버와 연결이 안된 겁니다.");
-  useEffect(() => {
-    axios('/api').then(res => setMsg(res.data)).catch(console.log);
-=======
   //const [msg, setMsg] = useState("이 글자가 보인다면 api서버와 연결이 안된 겁니다.");
-  const [msg, setMsg] = useState([]);
-  useEffect(()=>{
-    axios('/api').then(res=>{
-      setMsg(res.data);
+  useEffect(() => {
+    axios('/api').then(res => {
       console.log(res.data);
     }).catch(console.log);
->>>>>>> origin/feature
   }, [])
   return (
     <>
