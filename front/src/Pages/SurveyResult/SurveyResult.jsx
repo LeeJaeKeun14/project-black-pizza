@@ -22,18 +22,23 @@ const SurveyResult = props => {
     });
   }, []);
   return (
-    <div>
+    <SurveyResultWrap>
       <Header />
       <Content>
         {Object.values(result).map((e, idx) => (
           <Item key={idx} data={e} />
         ))}
       </Content>
-    </div>
+    </SurveyResultWrap>
   );
 };
-const Content = styled.section`
-  width: 720px;
+const SurveyResultWrap = styled.div`
   margin: 0 auto;
+  max-width: 1024px;
+`;
+const Content = styled.section`
+  padding: 50px;
+  display: flex;
+  flex-wrap: wrap;
 `;
 export default SurveyResult;

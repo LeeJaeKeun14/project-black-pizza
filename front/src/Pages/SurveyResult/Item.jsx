@@ -1,11 +1,13 @@
 import React from "react";
+import styled from "styled-components";
+import { media } from "../../styles/theme";
 
 const Item = ({ data }) => {
   const [title, imgURL, saleType] = data;
   return (
-    <div>
+    <ItemWrap>
       <div>{title}</div>
-      <img src={imgURL} alt="poster" />
+      <Image src={imgURL} alt="poster" />
       <div>
         {saleType["구매"] && (
           <div>
@@ -42,8 +44,21 @@ const Item = ({ data }) => {
           </div>
         )}
       </div>
-    </div>
+    </ItemWrap>
   );
 };
-
+const ItemWrap = styled.div`
+  padding: 10px;
+  box-sizing: border-box;
+  width: ${100 / 3}%;
+  // ${media.mobile}} {
+  //   width: ${100 / 2}%;
+  // }
+  // ${media.tablet} {
+  //   width: ${100 / 3}%;
+  // }
+`;
+const Image = styled.img`
+  width: 100%;
+`;
 export default Item;

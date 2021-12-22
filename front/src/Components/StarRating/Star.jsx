@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import styled from "styled-components";
 import StarIcon from "./StarIcon";
 
 const Star = ({
@@ -18,14 +19,17 @@ const Star = ({
     return "#eee";
   }, [rating, hoverRating, index]);
   return (
-    <div
+    <StarWrap
       onMouseEnter={() => onMouseEnter(index)}
       onMouseLeave={() => onMouseLeave()}
       onClick={() => onSaveRating(index)}
     >
       <StarIcon fill={fill} />
-    </div>
+    </StarWrap>
   );
 };
-
+const StarWrap = styled.div`
+  width: 20%;
+  min-width: 24px;
+`;
 export default Star;

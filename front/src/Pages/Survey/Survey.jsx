@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import { ratingState } from "../../store/atoms";
+import { media } from "../../styles/theme";
 import List from "./List";
 
 const Survey = props => {
@@ -28,17 +29,24 @@ const Survey = props => {
     }
   };
   return (
-    <div>
+    <SurveyWrap>
       <Header />
       <button onClick={requestResult}>click</button>
       <Content>
         <List data={list} />
       </Content>
-    </div>
+    </SurveyWrap>
   );
 };
-const Content = styled.div`
-  width: 720px;
+const SurveyWrap = styled.div`
   margin: 0 auto;
+  max-width: 1024px;
+`;
+
+const Content = styled.div`
+  padding: 50px;
+  // margin: 0 auto;
+  ${media.mobile} {
+  }
 `;
 export default Survey;

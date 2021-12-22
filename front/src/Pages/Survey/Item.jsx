@@ -1,15 +1,31 @@
 import React from "react";
+import styled from "styled-components";
 import StarRating from "../../Components/StarRating/StarRating";
+import { media } from "../../styles/theme";
 
 const Item = ({ data }) => {
   const [title, imgURL] = data;
   return (
-    <div>
+    <ItemWrap>
       <div>{title}</div>
-      <img src={imgURL} alt="poster" />
+      <Image src={imgURL} alt="poster" />
       <StarRating id={title} />
-    </div>
+    </ItemWrap>
   );
 };
+const ItemWrap = styled.div`
+  padding: 10px;
+  box-sizing: border-box;
+  width: ${100 / 5}%;
+  ${media.tablet} {
+    width: ${100 / 4}%;
+  }
+  ${media.mobile} {
+    width: ${100 / 3}%;
+  }
+`;
+const Image = styled.img`
+  width: 100%;
+`;
 
 export default Item;
