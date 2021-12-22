@@ -2,8 +2,10 @@ from flask import Flask
 from flask_migrate import Migrate
 from models import User
 from db_connect import db
+from api.contents import contents
 
 app = Flask(__name__)
+app.register_blueprint(contents)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@db_mysql/BlackPizza'
 db.init_app(app)
