@@ -17,12 +17,12 @@ list_page = 1
 
 @contents.route('/list', methods=['GET'])
 def list():
-    page = list_page
-    movie_list = {'page': page}
+    global list_page
+    movie_list = {'page': list_page}
     if request.method == "GET":
         for i, movie in enumerate((temp_list.values())):
             if (i+1) % 100 == 0:
-                page += 1
+                list_page += 1
                 break
             title = movie[0]
             image = movie[1]
