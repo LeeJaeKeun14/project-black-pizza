@@ -18,9 +18,14 @@ const StarRating = ({ id }) => {
     setRate(index);
 
     setRating(cur => {
-      const newArr = [...cur];
-      newArr.push([id, index]);
-      return newArr;
+      const newObj = { ...cur };
+      if (id in newObj) {
+        if (newObj[id] === index) return cur;
+        else newObj[id] = index;
+      } else {
+        newObj[id] = index;
+      }
+      return newObj;
     });
   };
   return (
