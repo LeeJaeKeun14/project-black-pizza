@@ -1,9 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { media } from "../../styles/theme";
 
 const Item = ({ data }) => {
+  const navigator = useNavigate();
   const [title, imgURL, saleType] = data;
+  const goDetail = () => {
+    navigator(`/detail/${title}`);
+  };
   return (
     <ItemWrap>
       <div>{title}</div>
@@ -44,6 +49,7 @@ const Item = ({ data }) => {
           </div>
         )}
       </div>
+      <Button onClick={goDetail}>콘텐츠 상세보기</Button>
     </ItemWrap>
   );
 };
@@ -60,5 +66,8 @@ const ItemWrap = styled.div`
 `;
 const Image = styled.img`
   width: 100%;
+`;
+const Button = styled.button`
+  cursor: pointer;
 `;
 export default Item;
