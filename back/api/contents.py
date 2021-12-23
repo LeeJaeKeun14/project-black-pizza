@@ -12,15 +12,22 @@ temp_list = {
     "사역소": ["사역소", "https://images.justwatch.com/poster/191247113/s276/sayeogso.webp", {"스트리밍": {"넷플릭스": "정액제"}}],
 }
 
+list_page = 1
+
 
 @contents.route('/list', methods=['GET'])
 def list():
-    movie_list = []
+    page = list_page
+    movie_list = {'page': page}
     if request.method == "GET":
-        for movie in temp_list.values():
+        for i, movie in enumerate((temp_list.values())):
+            if (i+1) % 100 == 0:
+                page += 1
+                break
             title = movie[0]
             image = movie[1]
-            movie_list.append([title, image])
+            movie_list[str(i)] = [title, image]
+
     return jsonify(movie_list)
 
 
