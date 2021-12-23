@@ -9,37 +9,33 @@ const ProgressBar = ({ selectedCount, totalCount }) => {
     } else return 0;
   }, [selectedCount, totalCount]);
   return (
-    <SProgressBarBlock>
-      <SProgressText progress={progress}>{progress}%</SProgressText>
-      <SProgressBorder />
-      <SProgressBar progress={progress} total={totalCount} />
-    </SProgressBarBlock>
+    <ProgressBarBlock>
+      <Text progress={progress}>{progress}%</Text>
+      <Border>
+        <Solid progress={progress} total={totalCount} />
+      </Border>
+    </ProgressBarBlock>
   );
 };
 
-const SProgressBarBlock = styled.div`
+const ProgressBarBlock = styled.div`
   position: relative;
-  width: 100%;
+  width: 50%;
   padding: 10px 0;
+  margin: 0 auto;
 `;
-const SProgressText = styled.div`
-  position: absolute;
-  right: 48%;
-  bottom: 30%;
-  // color: ${props => (props.progress < 50 ? "black" : "white")};
+const Text = styled.div`
+  text-align: center;
 `;
-const SProgressBorder = styled.div`
-  position: absolute;
+const Border = styled.div`
   border: 1px solid white;
-  left: 0;
-  right: 0;
-  height: 26px;
+  height: 13px;
   border-radius: 10px;
 `;
-const SProgressBar = styled.div`
+const Solid = styled.div`
   width: ${props => (props.progress > 0 ? props.progress : 1)}%;
-  height: 26px;
-  background-color: #7d7dcd90;
+  height: 13px;
+  background-color: white;
   border-radius: 10px;
   animation: ${props => animate(props.progress, props.total)} 0.5s ease-out;
 `;

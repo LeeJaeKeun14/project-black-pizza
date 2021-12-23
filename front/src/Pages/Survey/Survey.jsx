@@ -33,9 +33,9 @@ const Survey = props => {
   return (
     <SurveyWrap>
       <Header />
-      <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
-      <button onClick={requestResult}>click</button>
       <Content>
+        <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
+        <button onClick={requestResult}>click</button>
         <List data={list} />
       </Content>
     </SurveyWrap>
@@ -47,7 +47,7 @@ const SurveyWrap = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 50px;
+  padding: 0 50px 50px;
   // margin: 0 auto;
   ${media.mobile} {
   }
