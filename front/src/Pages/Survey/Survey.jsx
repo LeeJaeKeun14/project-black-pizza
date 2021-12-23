@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
+import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 import { ratingState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 import List from "./List";
@@ -20,6 +21,7 @@ const Survey = props => {
       })
       .catch(console.log);
   }, []);
+
   const requestResult = async () => {
     console.log(rating);
     if (rating.length > 0) {
@@ -31,6 +33,7 @@ const Survey = props => {
   return (
     <SurveyWrap>
       <Header />
+      <ProgressBar selectedCount={rating.length} totalCount={5} />
       <button onClick={requestResult}>click</button>
       <Content>
         <List data={list} />
