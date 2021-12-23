@@ -56,13 +56,13 @@ const Item = ({ data }) => {
 const ItemWrap = styled.div`
   padding: 10px;
   box-sizing: border-box;
-  width: ${100 / 3}%;
-  // ${media.mobile}} {
-  //   width: ${100 / 2}%;
-  // }
-  // ${media.tablet} {
-  //   width: ${100 / 3}%;
-  // }
+  width: ${100 / 4}%;
+  ${media.tablet} {
+    width: ${100 / 3}%;
+  }
+  ${media.mobile} {
+    width: ${100 / 2}%;
+  }
 `;
 const Image = styled.img`
   width: 100%;
