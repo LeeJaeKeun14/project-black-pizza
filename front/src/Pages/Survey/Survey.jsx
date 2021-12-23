@@ -5,13 +5,13 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
-import { ratingState } from "../../store/atoms";
+import { ratingStateResult } from "../../store/atoms";
 import { media } from "../../styles/theme";
 import List from "./List";
 
 const Survey = props => {
   const navigator = useNavigate();
-  const rating = useRecoilValue(ratingState);
+  const ratingArr = useRecoilValue(ratingStateResult);
   const [list, setList] = useState([]);
   useEffect(() => {
     axios
@@ -23,8 +23,8 @@ const Survey = props => {
   }, []);
 
   const requestResult = async () => {
-    console.log(rating);
-    if (rating.length > 0) {
+    console.log(ratingArr);
+    if (ratingArr.length > 0) {
       navigator("/result");
     } else {
       alert("1개이상 평점을 등록해주세요");
@@ -33,7 +33,7 @@ const Survey = props => {
   return (
     <SurveyWrap>
       <Header />
-      <ProgressBar selectedCount={rating.length} totalCount={5} />
+      <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
       <button onClick={requestResult}>click</button>
       <Content>
         <List data={list} />
