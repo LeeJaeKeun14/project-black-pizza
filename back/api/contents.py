@@ -12,15 +12,27 @@ temp_list = {
     "사역소": ["사역소", "https://images.justwatch.com/poster/191247113/s276/sayeogso.webp", {"스트리밍": {"넷플릭스": "정액제"}}],
 }
 
+detail_temp_list = {
+    "1": ["모가디슈", "https://images.justwatch.com/poster/247509899/s276/mogadisyu.webp", "2021", ["액션", "드라마", "스릴러"], " 2시간 1분", "Ryoo Seung-wan", ["Kim Yoon-seok", "Jo In-sung", "Heo Joon-ho"]],
+    "2": ["지옥", "https://images.justwatch.com/poster/254406538/s276/jiog.webp", "2021", ["SF", "공포", "스릴러", "범죄", "드라마", "판타지"], "52min", "Yeon Sang-ho", ["Yoo Ah-in", "Kim Hyun-joo", "Park Jeong-min"]],
+}
+
+list_page = 1
+
 
 @contents.route('/list', methods=['GET'])
 def list():
-    movie_list = []
+    global list_page
+    movie_list = {'page': list_page}
     if request.method == "GET":
-        for movie in temp_list.values():
+        for i, movie in enumerate((temp_list.values())):
+            if (i+1) % 100 == 0:
+                list_page += 1
+                break
             title = movie[0]
             image = movie[1]
-            movie_list.append([title, image])
+            movie_list[str(i+1)] = [title, image]
+
     return jsonify(movie_list)
 
 
@@ -32,6 +44,15 @@ def recommend():
         recommend_contents = temp_list
     # res = {"status": 200, "result": "success", "contents": recommend_contents}
     return jsonify(recommend_contents)
+
+
+@contents.route('/detail/<id>', methods=['GET'])
+def detail(id):
+    if request.method == "GET":
+        content = detail_temp_list[id]
+        # content = Contents.query.filter(Contents.id == id).first()
+
+    return jsonify(content)
 
 
 @contents.route('/test', methods=['GET', 'POST'])
