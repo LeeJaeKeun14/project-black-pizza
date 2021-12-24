@@ -14,18 +14,18 @@ class User(db.Model):
 
 
 class Contents(db.Model):
-    __tablename__ = "contents"
+    __tablename__ = "Contents"
 
     id = db.Column(db.Integer, nullable=False,
                    primary_key=True, autoincrement=True)
-    title = db.Column(db.String(255), unique=True, nullable=False)
-    origin_title = db.Column(db.String(255), unique=True, nullable=True)
-    open_year = db.Column(db.Integer, nullable=False)
-    score = db.Column(db.Float, nullable=False)
-    runtime = db.Column(db.Time, nullable=False)
-    director = db.Column(db.String(80), nullable=False)
-    synopsis = db.Column(db.TEXT, nullable=False)
-    image = db.Column(db.String(255), nullable=False)  # 일단 link로 넣을 수 있게 살려둠
+    title = db.Column(db.String(255), nullable=False)
+    origin_title = db.Column(db.String(255), nullable=True)
+    open_year = db.Column(db.Integer, nullable=True)
+    score = db.Column(db.Float, nullable=True)
+    runtime = db.Column(db.Time, nullable=True)
+    director = db.Column(db.String(80), nullable=True)
+    synopsis = db.Column(db.TEXT, nullable=True)
+    image = db.Column(db.String(255), nullable=True)  # 일단 link로 넣을 수 있게 살려둠
 
     def __init__(self, data):
         if type(data) is dict:
@@ -45,12 +45,12 @@ class Contents(db.Model):
 
 class Genre(db.Model):
 
-    __tablename__ = "genre"
+    __tablename__ = "Genre"
 
     id = db.Column(db.Integer, nullable=False,
                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
-        'contents.id'), nullable=False)
+        'Contents.id'), nullable=False)
     genre = db.Column(db.String(80), nullable=False)
 
     def __init__(self, contents_id, genre):
@@ -60,12 +60,12 @@ class Genre(db.Model):
 
 class Actor(db.Model):
 
-    __tablename__ = "actor"
+    __tablename__ = "Actor"
 
     id = db.Column(db.Integer, nullable=False,
                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
-        'contents.id'), nullable=False)
+        'Contents.id'), nullable=False)
     actor = db.Column(db.String(80), nullable=False)
 
     def __init__(self, contents_id, actor):
@@ -74,51 +74,51 @@ class Actor(db.Model):
 
 
 class Streaming(db.Model):
-    __tablename__ = "streaming"
+    __tablename__ = "Streaming"
 
     id = db.Column(db.Integer, nullable=False,
                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
-        'contents.id'), nullable=False, primary_key=True)
+        'Contents.id'), nullable=False, primary_key=True)
     ott = db.Column(db.String(80), nullable=False)
     price = db.Column(db.String(20), nullable=False)  # 정액제, 무료
-    quality = db.Column(db.String(20), nullable=False)
+    quality = db.Column(db.String(20))
 
-    def __init__(self, contents_id, ott, price, quality):
+    def __init__(self, contents_id, ott, price):
         self.contents_id = contents_id
         self.ott = ott
         self.price = price
 
 
 class Buy(db.Model):
-    __tablename__ = "buy"
+    __tablename__ = "Buy"
 
     id = db.Column(db.Integer, nullable=False,
                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
-        'contents.id'), nullable=False)
+        'Contents.id'), nullable=False)
     ott = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    quality = db.Column(db.String(20), nullable=False)
+    quality = db.Column(db.String(20))
 
-    def __init__(self, contents_id, ott, price, quality):
+    def __init__(self, contents_id, ott, price):
         self.contents_id = contents_id
         self.ott = ott
         self.price = price
 
 
 class Rent(db.Model):
-    __tablename__ = "rent"
+    __tablename__ = "Rent"
 
     id = db.Column(db.Integer, nullable=False,
                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
-        'contents.id'), nullable=False)
+        'Contents.id'), nullable=False)
     ott = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    quality = db.Column(db.String(20), nullable=False)
+    quality = db.Column(db.String(20))
 
-    def __init__(self, contents_id, ott, price, quality):
+    def __init__(self, contents_id, ott, price):
         self.contents_id = contents_id
         self.ott = ott
         self.price = price
