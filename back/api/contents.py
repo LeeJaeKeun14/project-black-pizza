@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, Blueprint, request, session
 from models import User, Contents, Genre, Actor
 from db_connect import db
+from datateam.Recommendation import recommendations
 
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 
@@ -37,12 +38,23 @@ def list():
 
 @contents.route('/recommend', methods=['GET', 'POST'])
 def recommend():
-    if request.method == 'GET':
-        recommend_contents = temp_list
-    else:
-        recommend_contents = temp_list
+    user_pick = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    # contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).all()
+    # actors = db.session.query(Actor.contents_id, Actor.actor).all()
+    # genre = db.session.query(Genre.contents_id, Genre.genre).all()
+    contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).limit(10)
+    actors = db.session.query(Actor.contents_id, Actor.actor).limit(10)
+    genre = db.session.query(Genre.contents_id, Genre.genre).limit(10)
+    rcm = recommendations(user_pick, contents_all, actors, genre)
+    print(rcm)
+    
+    # if request.method == 'GET':
+    #     recommend_contents = temp_list
+    # else:
+    #     recommend_contents = temp_list
     # res = {"status": 200, "result": "success", "contents": recommend_contents}
-    return jsonify(recommend_contents)
+    return jsonify(rcm)
+    # return recommend_contents
 
 
 @contents.route('/detail/<id>', methods=['GET'])
