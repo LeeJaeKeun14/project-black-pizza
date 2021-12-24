@@ -5,11 +5,11 @@ from db_connect import db
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 
 temp_list = {
-    "모가디슈": ["모가디슈", "https://images.justwatch.com/poster/247509899/s276/mogadisyu.webp", {"스트리밍": {"넷플릭스": "정액제"}, "대여": {"wavve": 5000, "naver_series_on": 10000}, "구매": {"wavve": 9900, "naver_series_on": 14900}}],
-    "지옥": ["지옥", "https://images.justwatch.com/poster/254406538/s276/jiog.webp", {"스트리밍": {"넷플릭스": "정액제"}}],
-    "그 해 우리는": ["그 해 우리는", "https://images.justwatch.com/poster/256797687/s276/geu-hae-urineun.webp", {"스트리밍": {"넷플릭스": "정액제", "wavve": "정액제"}}],
-    "베놈": ["베놈", "https://images.justwatch.com/poster/245637413/s276/benom.webp", {"스트리밍": {"넷플릭스": "정액제", "watcha": "정액제"}, "대여": {"wavve": 1300, "naver_series_on": 1300}, "구매": {"wavve": 5000, "naver_series_on": 5500}}],
-    "사역소": ["사역소", "https://images.justwatch.com/poster/191247113/s276/sayeogso.webp", {"스트리밍": {"넷플릭스": "정액제"}}],
+    "1": ["모가디슈", "https://images.justwatch.com/poster/247509899/s276/mogadisyu.webp", {"스트리밍": {{"ott": "넷플릭스", "price": "정액제"}}, "대여": {{"ott": "wavve", "price": 5000}, {"ott": "naver_series_on", "price": 10000}}, "구매": {{"ott": "wavve", "price": 9900}, {"ott": "naver_series_on", "price": 14900}}}],
+    "2": ["지옥", "https://images.justwatch.com/poster/254406538/s276/jiog.webp", {"스트리밍": {{"ott": "넷플릭스", "price": "정액제"}}}],
+    "3": ["그 해 우리는", "https://images.justwatch.com/poster/256797687/s276/geu-hae-urineun.webp", {"스트리밍": {{"ott": "넷플릭스", "price": "정액제"}, {"ott": "wavve", "price": "정액제"}}}],
+    "4": ["베놈", "https://images.justwatch.com/poster/245637413/s276/benom.webp", {"스트리밍": {{"ott": "넷플릭스", "price": "정액제"}, {"ott": "watcha", "price": "정액제"}}, "대여": {{"ott": "wavve", "price": 1300}, {"ott": "naver_series_on", "price": 1300}}, "구매": {{"ott": "wavve", "price": 5000}, {"ott": "naver_series_on", "price": 5500}}}],
+    "5": ["사역소", "https://images.justwatch.com/poster/191247113/s276/sayeogso.webp", {"스트리밍": {{"ott": "넷플릭스", "price": "정액제"}}}],
 }
 
 detail_temp_list = {
