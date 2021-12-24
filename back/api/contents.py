@@ -17,15 +17,12 @@ detail_temp_list = {
     "2": ["지옥", "https://images.justwatch.com/poster/254406538/s276/jiog.webp", "2021", ["SF", "공포", "스릴러", "범죄", "드라마", "판타지"], "52min", "Yeon Sang-ho", ["Yoo Ah-in", "Kim Hyun-joo", "Park Jeong-min"]],
 }
 
-list_page = 1
-
 
 @contents.route('/list', methods=['GET'])
 def list():
-    global list_page
-    movie_list = {'page': list_page, 'list': []}
-
     if request.method == "GET":
+        list_page = int(request.args.get('page'))
+        movie_list = {'page': list_page, 'list': []}
         contents = Contents.query.filter(
             (Contents.id >= (list_page-1)*100+1) & (Contents.id <= (list_page)*100)).all()
         for content in contents:
