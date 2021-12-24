@@ -18,9 +18,13 @@ const font = {
     font-weight: 700;
   `,
 };
-
+const color = {
+  font: '#ccc',
+  background: '#1e1e22'
+}
 export const theme = {
-  font
+  font,
+  color
 }
 
 const customMediaQuery = (maxWidth) =>
