@@ -1,64 +1,85 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { media } from "../../styles/theme";
 
 const Item = ({ data }) => {
+  const navigator = useNavigate();
+  const [display, setDisplay] = useState(0);
   const [title, imgURL, saleType] = data;
+
+  const goDetail = () => {
+    navigator(`/detail/${title}`);
+  };
+  const renderPrice = type => {
+    return (
+      saleType[type] && (
+        <div>
+          <span>{type}</span>
+          {Object.entries(saleType[type]).map((e, idx) => (
+            <div key={idx}>
+              <span>{e[0] ? e[0] : ""}</span>
+              <span>{e[1] ? e[1] : ""}</span>
+            </div>
+          ))}
+        </div>
+      )
+    );
+  };
   return (
     <ItemWrap>
-      <div>{title}</div>
-      <Image src={imgURL} alt="poster" />
-      <div>
-        {saleType["구매"] && (
-          <div>
-            <span>구매</span>
-            {Object.entries(saleType["구매"]).map((e, idx) => (
-              <div key={idx}>
-                <span>{e[0] ? e[0] : ""}</span>
-                <span>{e[1] ? e[1] : ""}</span>
-              </div>
-            ))}
-          </div>
-        )}
+      <ImageWrap
+        onMouseEnter={() => setDisplay(1)}
+        onMouseLeave={() => setDisplay(0)}
+      >
+        <Image src={imgURL} alt="poster" />
+        <Button display={display} onClick={goDetail}>
+          콘텐츠 상세보기
+        </Button>
+      </ImageWrap>
 
-        {saleType["대여"] && (
-          <div>
-            <span>대여</span>
-            {Object.entries(saleType["대여"]).map((e, idx) => (
-              <div key={idx}>
-                <span>{e[0] ? e[0] : ""}</span>
-                <span>{e[1] ? e[1] : ""}</span>
-              </div>
-            ))}
-          </div>
-        )}
-        {saleType["스트리밍"] && (
-          <div>
-            <span>스트리밍</span>
-            {Object.entries(saleType["스트리밍"]).map((e, idx) => (
-              <div key={idx}>
-                <span>{e[0] ? e[0] : ""}</span>
-                <span>{e[1] ? e[1] : ""}</span>
-              </div>
-            ))}
-          </div>
-        )}
+      <div>
+        {renderPrice("구매")}
+        {renderPrice("대여")}
+        {renderPrice("스트리밍")}
       </div>
+      <div>{title}</div>
     </ItemWrap>
   );
 };
 const ItemWrap = styled.div`
   padding: 10px;
   box-sizing: border-box;
-  width: ${100 / 3}%;
-  // ${media.mobile}} {
-  //   width: ${100 / 2}%;
-  // }
-  // ${media.tablet} {
-  //   width: ${100 / 3}%;
-  // }
+  width: ${100 / 4}%;
+  ${media.tablet} {
+    width: ${100 / 3}%;
+  }
+  ${media.mobile} {
+    width: ${100 / 2}%;
+  }
+`;
+const Button = styled.button`
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+  background: linear-gradient(#00000030, black);
+  color: white;
+  border: none;
+  width: 100%;
+  height: 50%;
+  visibility:${props => (props.display ? "visible" : "hidden")} ;
+}
+`;
+const ImageWrap = styled.div`
+  position: relative;
+  cursor: pointer;
+  }
 `;
 const Image = styled.img`
   width: 100%;
+  display: block;
 `;
+
 export default Item;

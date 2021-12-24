@@ -10,6 +10,7 @@ import SurveyResult from './Pages/SurveyResult/SurveyResult';
 import { Link } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
+import Detail from './Pages/Detail/Detail';
 
 function App() {
   //const [msg, setMsg] = useState("이 글자가 보인다면 api서버와 연결이 안된 겁니다.");
@@ -35,6 +36,7 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/survey" element={<Survey />} />
             <Route path="/result" element={<SurveyResult />} />
+            <Route path="/detail/:id" element={<Detail />} />
           </Routes>
         </div>
       </ThemeProvider>
