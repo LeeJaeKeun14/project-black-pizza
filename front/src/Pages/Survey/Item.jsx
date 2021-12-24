@@ -4,12 +4,12 @@ import StarRating from "../../Components/StarRating/StarRating";
 import { media } from "../../styles/theme";
 
 const Item = ({ data }) => {
-  const [title, imgURL] = data;
+  const [title, imgURL] = data.info;
   return (
     <ItemWrap>
       <div>{title}</div>
       <Image src={imgURL} alt="poster" />
-      <StarRating id={title} />
+      <StarRating id={data.key} />
     </ItemWrap>
   );
 };

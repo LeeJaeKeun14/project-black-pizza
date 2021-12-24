@@ -6,7 +6,6 @@ import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 import { ratingStateResult } from "../../store/atoms";
-import { media } from "../../styles/theme";
 import List from "./List";
 
 const Survey = props => {
@@ -15,9 +14,9 @@ const Survey = props => {
   const [list, setList] = useState([]);
   useEffect(() => {
     axios
-      .get("/api/contents/list ")
+      .get("/api/contents/list")
       .then(res => {
-        setList(res.data);
+        setList(res.data.list);
       })
       .catch(console.log);
   }, []);
@@ -48,8 +47,5 @@ const SurveyWrap = styled.div`
 
 const Content = styled.div`
   padding: 0 50px 50px;
-  // margin: 0 auto;
-  ${media.mobile} {
-  }
 `;
 export default Survey;

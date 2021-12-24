@@ -1,25 +1,25 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "../../styles/theme";
 
-const Item = ({ data }) => {
+const Item = ({ id, data }) => {
   const navigator = useNavigate();
   const [display, setDisplay] = useState(0);
   const [title, imgURL, saleType] = data;
-
   const goDetail = () => {
-    navigator(`/detail/${title}`);
+    navigator(`/detail/${id}`);
   };
   const renderPrice = type => {
     return (
       saleType[type] && (
         <div>
           <span>{type}</span>
-          {Object.entries(saleType[type]).map((e, idx) => (
+          {saleType[type].map((e, idx) => (
             <div key={idx}>
-              <span>{e[0] ? e[0] : ""}</span>
-              <span>{e[1] ? e[1] : ""}</span>
+              <span>{e.ott ? e.ott : ""}</span>
+              <span>{e.price ? e.price : ""}</span>
             </div>
           ))}
         </div>
