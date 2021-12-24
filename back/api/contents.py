@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, Blueprint, request, session
-from models import User, Contents
+from models import User, Contents, Genre, Actor
 from db_connect import db
 
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
@@ -24,17 +24,16 @@ list_page = 1
 def list():
     global list_page
     movie_list = {'page': list_page, 'list': []}
+
     if request.method == "GET":
-        for i, movie in enumerate((temp_list.values())):
-            if (i+1) % 100 == 0:
-                list_page += 1
-                break
-            title = movie[0]
-            image = movie[1]
+        contents = Contents.query.filter(
+            (Contents.id >= (list_page-1)*100+1) & (Contents.id <= (list_page)*100)).all()
+        for content in contents:
             movie_dict = {}
-            movie_dict['key'] = (i+1)
-            movie_dict['info'] = [title, image]
+            movie_dict['key'] = content.id
+            movie_dict['info'] = [content.title, content.image]
             movie_list['list'].append(movie_dict)
+        list_page += 1
 
     return jsonify(movie_list)
 
@@ -52,10 +51,24 @@ def recommend():
 @contents.route('/detail/<id>', methods=['GET'])
 def detail(id):
     if request.method == "GET":
-        content = detail_temp_list[id]
-        # content = Contents.query.filter(Contents.id == id).first()
+        # content = detail_temp_list[id]
+        content_detail = {}
+        content = Contents.query.filter(Contents.id == id).first()
+        genres = Genre.query.filter(Genre.contents_id == id).all()
+        content_detail['genre'] = []
+        for genre in genres:
+            content_detail['genre'].append(genre.genre)
+        actors = Actor.query.filter(Actor.contents_id == id).all()
+        content_detail['actor'] = []
+        for actor in actors:
+            content_detail['actor'].append(actor.actor)
+        content_detail['title'] = content.title
+        content_detail['image'] = content.image
+        content_detail['open_year'] = content.open_year
+        content_detail['runtime'] = content.runtime.strftime("%H:%M")
+        content_detail['director'] = content.director
 
-    return jsonify(content)
+    return jsonify(content_detail)
 
 
 @contents.route('/test', methods=['GET', 'POST'])
