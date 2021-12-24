@@ -2,16 +2,20 @@ import React, { memo } from "react";
 import styled from "styled-components";
 import Ott from "./Ott";
 
-const PurchaseType = memo(({ saleType, type }) => (
-  <PurchaseTypeBlock>
-    <PurchaseTitle>{type}</PurchaseTitle>
-    <OttWrap>
-      {saleType[type].map((e, idx) => (
-        <Ott key={idx} data={e} />
-      ))}
-    </OttWrap>
-  </PurchaseTypeBlock>
-));
+const PurchaseType = memo(({ type }) => {
+  const [saleType, priceByCompany] = type;
+
+  return (
+    <PurchaseTypeBlock>
+      <PurchaseTitle>{saleType}</PurchaseTitle>
+      <OttWrap>
+        {priceByCompany.map((e, idx) => (
+          <Ott key={idx} data={e} />
+        ))}
+      </OttWrap>
+    </PurchaseTypeBlock>
+  );
+});
 const PurchaseTypeBlock = styled.div`
   & + & {
     padding-top: 10px;

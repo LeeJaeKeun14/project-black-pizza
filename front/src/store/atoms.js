@@ -9,6 +9,6 @@ export const ratingStateResult = selector({
   key: 'ratingStateResult',
   get: ({ get }) => {
     const rating = get(ratingState);
-    return Object.entries(rating)
+    return Object.entries(rating).map(([key, value]) => [parseInt(key), value])
   }
 })

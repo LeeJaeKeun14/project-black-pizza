@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 const Detail = props => {
   const { id } = useParams();
   const [info, setInfo] = useState([]);
-  const [title, imgURL, release, genre, runningTime, director, actors] = info;
   useEffect(() => {
     axios(`/api/contents/detail/${id}`)
       .then(res => {
@@ -19,13 +18,17 @@ const Detail = props => {
   return (
     <div>
       <div>detail</div>
-      <div>{title && title}</div>
-      <img src={title && imgURL} alt="poster" />
-      <div>{release && release}</div>
-      <div>{genre && genre}</div>
-      <div>{runningTime && runningTime}</div>
-      <div>{director && director}</div>
-      <div>{actors && actors.map((e, i) => <span key={i}>{e}</span>)}</div>
+      <div>{info.title && info.title}</div>
+      <img src={info.image && info.image} alt="poster" />
+      <div>{info.open_year && info.open_year}</div>
+      <div>
+        {info.genre && info.genre.map((e, i) => <span key={i}>{e}</span>)}
+      </div>
+      <div>{info.runtime && info.runtime}</div>
+      <div>{info.director && info.director}</div>
+      <div>
+        {info.actor && info.actor.map((e, i) => <span key={i}>{e}</span>)}
+      </div>
     </div>
   );
 };

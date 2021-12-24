@@ -18,7 +18,7 @@ const Item = ({ data }) => {
       >
         <Image src={imgURL} alt="poster" />
         <InfoWrap isDisplay={display} isRated={isRated}>
-          <StarRating id={data.key} isRating={isRating} />
+          <StarRating id={parseInt(data.key)} isRating={isRating} />
           <Title>{title}</Title>
         </InfoWrap>
       </ImageWrap>

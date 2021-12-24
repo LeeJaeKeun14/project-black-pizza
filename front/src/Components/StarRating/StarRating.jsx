@@ -19,6 +19,7 @@ const StarRating = ({ id, isRating }) => {
 
     setRating(cur => {
       const newObj = { ...cur };
+      console.log(id);
       if (id in newObj) {
         if (newObj[id] === index) return cur;
         else newObj[id] = index;

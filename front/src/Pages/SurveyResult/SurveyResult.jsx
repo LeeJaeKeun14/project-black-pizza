@@ -8,18 +8,19 @@ import Item from "./Item";
 
 const SurveyResult = props => {
   const rating = useRecoilValue(ratingState);
-  const [result, setResult] = useState({});
+  const [resultContent, setResultContent] = useState({});
+  const [resultOtt, setResultOtt] = useState({});
   useEffect(() => {
     axios.post("/api/contents/recommend", { data: rating }).then(res => {
-      console.log(res.data);
-      setResult(res.data);
+      console.log(res);
+      setResultContent(res.data[0]);
     });
   }, [rating]);
   return (
     <SurveyResultWrap>
       <Header />
       <Content>
-        {Object.entries(result).map(([key, list], idx) => (
+        {Object.entries(resultContent).map(([key, list], idx) => (
           <Item key={idx} id={key} data={list} />
         ))}
       </Content>

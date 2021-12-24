@@ -27,9 +27,17 @@ const Item = memo(({ id, data }) => {
       </ImageWrap>
 
       <AllPrice>
-        {["구매", "대여", "스트리밍"].map(e => {
-          return saleType[e] && <PurchaseType saleType={saleType} type={e} />;
-        })}
+        {/* {["buy", "rent", "streaming"].map((e, i) => {
+          return (
+            saleType[e] && <PurchaseType key={i} saleType={saleType} type={e} />
+          );
+        })} */}
+        {Object.entries(saleType).map(
+          ([key, value], i) =>
+            value.length !== 0 && (
+              <PurchaseType key={i} saleType={saleType} type={[key, value]} />
+            )
+        )}
       </AllPrice>
     </ItemWrap>
   );

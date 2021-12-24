@@ -14,9 +14,10 @@ const Survey = props => {
   const [list, setList] = useState([]);
   useEffect(() => {
     axios
-      .get("/api/contents/list")
+      .get("/api/contents/list?page=1")
       .then(res => {
         setList(res.data.list);
+        console.log(res.data.list);
       })
       .catch(console.log);
   }, []);
