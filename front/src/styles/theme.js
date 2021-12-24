@@ -20,7 +20,9 @@ const font = {
 };
 const color = {
   font: '#ccc',
-  background: '#1e1e22'
+  background: '#1e1e22',
+  point: '#7148a9',
+  point2: '#887d99'
 }
 export const theme = {
   font,

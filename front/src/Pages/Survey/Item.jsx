@@ -17,7 +17,7 @@ const Item = ({ data }) => {
         onMouseLeave={() => setDisplay(0)}
       >
         <Image src={imgURL} alt="poster" />
-        <InfoWrap display={display} isRated={isRated}>
+        <InfoWrap isDisplay={display} isRated={isRated}>
           <StarRating id={data.key} isRating={isRating} />
           <Title>{title}</Title>
         </InfoWrap>
@@ -55,7 +55,7 @@ const InfoWrap = styled.div`
     if (props.isRated) {
       return "visible";
     } else {
-      if (props.display) return "visible";
+      if (props.isDisplay) return "visible";
       else return "hidden";
     }
   }};

@@ -34,7 +34,7 @@ const Survey = props => {
       <Header />
       <Content>
         <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
-        <button onClick={requestResult}>click</button>
+        <Button onClick={requestResult}>추천영화 확인하기</Button>
         <List data={list} />
       </Content>
     </SurveyWrap>
@@ -44,7 +44,11 @@ const SurveyWrap = styled.div`
   margin: 0 auto;
   max-width: 1024px;
 `;
-
+const Button = styled.button`
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+`;
 const Content = styled.div`
   padding: 0 50px 50px;
 `;

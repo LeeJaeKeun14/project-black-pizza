@@ -1,31 +1,19 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "../../styles/theme";
 
-const Item = ({ id, data }) => {
+import PurchaseType from "./PurchaseType";
+
+const Item = memo(({ id, data }) => {
   const navigator = useNavigate();
   const [display, setDisplay] = useState(0);
   const [title, imgURL, saleType] = data;
   const goDetail = () => {
     navigator(`/detail/${id}`);
   };
-  const renderPrice = type => {
-    return (
-      saleType[type] && (
-        <div>
-          <span>{type}</span>
-          {saleType[type].map((e, idx) => (
-            <div key={idx}>
-              <span>{e.ott ? e.ott : ""}</span>
-              <span>{e.price ? e.price : ""}</span>
-            </div>
-          ))}
-        </div>
-      )
-    );
-  };
+
   return (
     <ItemWrap>
       <ImageWrap
@@ -34,19 +22,18 @@ const Item = ({ id, data }) => {
       >
         <Image src={imgURL} alt="poster" />
         <Button display={display} onClick={goDetail}>
-          콘텐츠 상세보기
+          {`${title} 상세보기`}
         </Button>
       </ImageWrap>
 
-      <div>
-        {renderPrice("구매")}
-        {renderPrice("대여")}
-        {renderPrice("스트리밍")}
-      </div>
-      <div>{title}</div>
+      <AllPrice>
+        {["구매", "대여", "스트리밍"].map(e => {
+          return saleType[e] && <PurchaseType saleType={saleType} type={e} />;
+        })}
+      </AllPrice>
     </ItemWrap>
   );
-};
+});
 const ItemWrap = styled.div`
   padding: 10px;
   box-sizing: border-box;
@@ -81,5 +68,12 @@ const Image = styled.img`
   width: 100%;
   display: block;
 `;
+
+const AllPrice = memo(styled.div`
+  background-color: ${({ theme }) => theme.color.point};
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+`);
 
 export default Item;
