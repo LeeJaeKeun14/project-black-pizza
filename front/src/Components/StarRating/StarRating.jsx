@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ratingState } from "../../store/atoms";
 import Star from "./Star";
 
-const StarRating = ({ id }) => {
+const StarRating = ({ id, isRating }) => {
   const setRating = useSetRecoilState(ratingState);
   const [rate, setRate] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -27,6 +27,7 @@ const StarRating = ({ id }) => {
       }
       return newObj;
     });
+    isRating(id, true);
   };
   return (
     <RatingWrap>
