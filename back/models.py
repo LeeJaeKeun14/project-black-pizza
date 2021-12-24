@@ -21,7 +21,7 @@ class Contents(db.Model):
     title = db.Column(db.String(255), unique=True, nullable=False)
     origin_title = db.Column(db.String(255), unique=True, nullable=True)
     open_year = db.Column(db.Integer, nullable=False)
-    score = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Float, nullable=False)
     runtime = db.Column(db.Time, nullable=False)
     director = db.Column(db.String(80), nullable=False)
     synopsis = db.Column(db.TEXT, nullable=False)
@@ -82,8 +82,9 @@ class Streaming(db.Model):
         'contents.id'), nullable=False, primary_key=True)
     ott = db.Column(db.String(80), nullable=False)
     price = db.Column(db.String(20), nullable=False)  # 정액제, 무료
+    quality = db.Column(db.String(20), nullable=False)
 
-    def __init__(self, contents_id, ott, price):
+    def __init__(self, contents_id, ott, price, quality):
         self.contents_id = contents_id
         self.ott = ott
         self.price = price
@@ -98,8 +99,9 @@ class Buy(db.Model):
         'contents.id'), nullable=False)
     ott = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Integer, nullable=False)
+    quality = db.Column(db.String(20), nullable=False)
 
-    def __init__(self, contents_id, ott, price):
+    def __init__(self, contents_id, ott, price, quality):
         self.contents_id = contents_id
         self.ott = ott
         self.price = price
@@ -114,8 +116,9 @@ class Rent(db.Model):
         'contents.id'), nullable=False)
     ott = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Integer, nullable=False)
+    quality = db.Column(db.String(20), nullable=False)
 
-    def __init__(self, contents_id, ott, price):
+    def __init__(self, contents_id, ott, price, quality):
         self.contents_id = contents_id
         self.ott = ott
         self.price = price

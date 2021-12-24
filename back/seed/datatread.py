@@ -1,44 +1,109 @@
 import pandas as pd
+from parse import compile
 
-# df = pd.read_csv('/Users/whitewind/Desktop/elis/blackpizza/back/seed/temp_movie_data.csv')
+#데이터 pandas로 불러오기
 df = pd.read_csv('./temp_movie_data.csv')
-# print(df.head())
 
-def seed_contents():
+#데이터 전처리
+    #데이터 parse를 위한 compiler 생성
+p_open_year = compile('({})')
+p_score = compile("[{}]")
+p_runtime = compile("['{}시간 {}분']")
+p_runtime2 = compile("['{}min']")
+p_director = compile("[{}]")
+    #데이터 parse
+df['개봉일'] = df['개봉일'].apply(lambda x: int(p_open_year.parse(x)[0]))
+df['평점'] = df['평점'].apply(lambda x: float(p_score.parse(x)[0].split(",")[0].replace("'", "").replace("%", ""))/10 if pd.notnull(x) else x)
+df['재생 시간'] = df['재생 시간'].apply(lambda x: (p_runtime.parse(x)[0]+":"+p_runtime.parse(x)[1] if p_runtime.parse(x) is not None else "0:"+p_runtime2.parse(x)[0]) if pd.notnull(x) else x)
+df['감독'] = df['감독'].apply(lambda x: p_director.parse(x)[0].split(",")[0].replace("'", "") if pd.notnull(x) else x)
+    #
+
+#시드데이터 생성
+def seed_maker():
+    # return 값 초기 설정
     contents = []
+    contents_genre = []
+    contents_actor = []
+    contents_streaming = []
+    contents_buy = []
+    contents_rent = []
+
     for i, line in df.iterrows():
-        # print(line)
+        contents_id = i+1
+        #contens 데이터 생성
         content = {}
         content["title"] = line['제목']
-        content["orgin_title"] = line['원제']
-        content["open"] = line['개봉일']
-        content["score"] = line['평점'].split(" ")
+        content["origin_title"] = line['원제']
+        content["open_year"] = line['개봉일']
+        content["score"] = line['평점']
         content["runtime"] = line['재생 시간']
         content["director"] = line['감독']
         content["synopsis"] = line['시놉시스']
         content["image"] = line['이미지']
         contents.append(content)
-        break
-    return contents
+        
+        #contents_genre 데이터 생성
+        if pd.notnull(line['장르']):
+            p_genre = compile("[{}]")
+            genre = p_genre.parse(line['장르'])[0].replace("'", "").split(",")
+            for gnr in genre:
+                new_row = {}
+                new_row['contents_id'] = contents_id
+                new_row['genre'] = gnr
+                contents_genre.append(new_row)
+        
+        #contents_actor 데이터 생성
+        if pd.notnull(line['출연진']):
+            p_actor = compile("[{}]")
+            actors = p_actor.parse(line['출연진'])[0].replace("'", "").split(",")
+            for act in actors:
+                new_row = {}
+                new_row['contents_id'] = contents_id
+                new_row['actor'] = act
+                contents_actor.append(new_row)
+        
+        #contents_streaming 데이터 생성
+        if pd.notnull(line['스트리밍']):
+            strm = eval(line['스트리밍'])
+            otts_stream = strm.keys()
+            for ott in otts_stream:
+                new_ott = {}
+                new_ott['contents_id'] = contents_id
+                new_ott['ott'] = ott
+                new_ott['price'] = strm[ott][0]
+                if len(strm[ott]) == 2:
+                    new_ott['quality'] = strm[ott][1]
+                contents_streaming.append(new_ott)    
 
-print(seed_contents())
+        #contents_buy 데이터 생성
+        if pd.notnull(line['구매']):
+            buy_list = eval(line['구매'])
+            otts_buy = buy_list.keys()
+            for ott in otts_buy:
+                new_ott = {}
+                new_ott['contents_id'] = contents_id
+                new_ott['ott'] = ott
+                new_ott['price'] = int(buy_list[ott][0].replace("₩", "").replace(',', ''))
+                if len(buy_list[ott]) == 2:
+                    new_ott['quality'] = buy_list[ott][1]
+                contents_buy.append(new_ott) 
 
-def seed_contents_genre():
-    contents_genre = []
-    return contents_genre
+        #contents_rent 데이터 생성
+        if pd.notnull(line['대여']):
+            rent_list = eval(line['대여'])
+            otts_rent = rent_list.keys()
+            for ott in otts_rent:
+                new_ott = {}
+                new_ott['contents_id'] = contents_id
+                new_ott['ott'] = ott
+                new_ott['price'] = int(rent_list[ott][0].replace("₩", "").replace(',', ''))
+                if len(rent_list[ott]) == 2:
+                    new_ott['quality'] = rent_list[ott][1]
+                contents_rent.append(new_ott) 
+        # if i == 20:
+        #     break
+        # break
+        print(i)
+    return contents, contents_genre, contents_actor, contents_streaming, contents_buy, contents_rent
 
-def seed_actor():
-    actor = []
-    return actor
-
-def seed_streaming():
-    streaming = []
-    return streaming
-
-def seed_buy():
-    buy = []
-    return buy
-
-def seed_rent():
-    rent = []
-    return rent
+print(seed_maker())
