@@ -25,12 +25,13 @@ def list():
     if request.method == "GET":
         list_page = int(request.args.get('page'))
         movie_list = {'page': list_page, 'list': []}
-        contents = Contents.query.filter(
-            (Contents.id >= (list_page-1)*100+1) & (Contents.id <= (list_page)*100)).all()
+        contents = Contents.query.order_by(Contents.open_year.desc()).all()[
+            (list_page-1)*100+1:(list_page)*100]
         for content in contents:
             movie_dict = {}
             movie_dict['key'] = content.id
-            movie_dict['info'] = [content.title, content.image]
+            movie_dict['info'] = [content.title,
+                                  content.image, content.open_year]
             movie_list['list'].append(movie_dict)
         list_page += 1
 
@@ -58,10 +59,13 @@ def recommend():
         streaming_list = Streaming.query.filter(Streaming.contents_id == i.id)
         buy_list = Buy.query.filter(Buy.contents_id == i.id)
         rent_list = Rent.query.filter(Rent.contents_id == i.id)
-        ott_info['streaming'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in streaming_list]
-        ott_info['buy'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in buy_list]
-        ott_info['rent'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in rent_list]
-    
+        ott_info['streaming'] = [
+            {'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in streaming_list]
+        ott_info['buy'] = [{'ott': i.ott, 'price': i.price,
+                            'quality': i.quality} for i in buy_list]
+        ott_info['rent'] = [{'ott': i.ott, 'price': i.price,
+                             'quality': i.quality} for i in rent_list]
+
     ott_count = {}
     for value in content.values():
         otts = value[2]
@@ -93,7 +97,7 @@ def recommend():
     # else:
     #     recommend_contents = temp_list
     # res = {"status": 200, "result": "success", "contents": recommend_contents}
-    
+
     # return recommend_contents
 
 
