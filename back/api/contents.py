@@ -31,7 +31,7 @@ def list():
             movie_dict = {}
             movie_dict['key'] = content.id
             movie_dict['info'] = [content.title,
-                                  content.image, content.open_year]
+                                  content.image]
             movie_list['list'].append(movie_dict)
         list_page += 1
 
