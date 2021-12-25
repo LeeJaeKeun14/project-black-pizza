@@ -25,7 +25,7 @@ const Item = ({ data }) => {
     </ItemWrap>
   );
 };
-const ItemWrap = styled.div`
+const ItemWrap = styled.li`
   padding: 10px;
   box-sizing: border-box;
 

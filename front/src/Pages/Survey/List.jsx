@@ -9,7 +9,7 @@ const List = ({ data }) => (
     ))}
   </ListWrap>
 );
-const ListWrap = styled.section`
+const ListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
 `;

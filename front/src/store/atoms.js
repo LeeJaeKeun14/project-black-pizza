@@ -1,5 +1,9 @@
 import { atom, selector } from 'recoil';
 
+export const contentList = atom({
+  key: 'contentList',
+  default: [],
+})
 export const ratingState = atom({
   key: 'ratingState',
   default: {},
@@ -12,3 +16,4 @@ export const ratingStateResult = selector({
     return Object.entries(rating).map(([key, value]) => [parseInt(key), value])
   }
 })
+
