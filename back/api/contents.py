@@ -3,21 +3,9 @@ from flask import Flask, jsonify, Blueprint, request, session
 from models import User, Contents, Genre, Actor, Buy, Streaming, Rent
 from db_connect import db
 from datateam.Recommendation import recommendations
+from datateam.Recommendation2 import recommendations2
 
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
-
-temp_list = {
-    "1": ["모가디슈", "https://images.justwatch.com/poster/247509899/s276/mogadisyu.webp", {"스트리밍": [{"ott": "넷플릭스", "price": "정액제"}], "대여": [{"ott": "wavve", "price": 5000}, {"ott": "naver_series_on", "price": 10000}], "구매": [{"ott": "wavve", "price": 9900}, {"ott": "naver_series_on", "price": 14900}]}],
-    "2": ["지옥", "https://images.justwatch.com/poster/254406538/s276/jiog.webp", {"스트리밍": [{"ott": "넷플릭스", "price": "정액제"}]}],
-    "3": ["그 해 우리는", "https://images.justwatch.com/poster/256797687/s276/geu-hae-urineun.webp", {"스트리밍": [{"ott": "넷플릭스", "price": "정액제"}, {"ott": "wavve", "price": "정액제"}]}],
-    "4": ["베놈", "https://images.justwatch.com/poster/245637413/s276/benom.webp", {"스트리밍": [{"ott": "넷플릭스", "price": "정액제"}, {"ott": "watcha", "price": "정액제"}], "대여": [{"ott": "wavve", "price": 1300}, {"ott": "naver_series_on", "price": 1300}], "구매": [{"ott": "wavve", "price": 5000}, {"ott": "naver_series_on", "price": 5500}]}],
-    "5": ["사역소", "https://images.justwatch.com/poster/191247113/s276/sayeogso.webp", {"스트리밍": [{"ott": "넷플릭스", "price": "정액제"}]}],
-}
-
-detail_temp_list = {
-    "1": ["모가디슈", "https://images.justwatch.com/poster/247509899/s276/mogadisyu.webp", "2021", ["액션", "드라마", "스릴러"], " 2시간 1분", "Ryoo Seung-wan", ["Kim Yoon-seok", "Jo In-sung", "Heo Joon-ho"]],
-    "2": ["지옥", "https://images.justwatch.com/poster/254406538/s276/jiog.webp", "2021", ["SF", "공포", "스릴러", "범죄", "드라마", "판타지"], "52min", "Yeon Sang-ho", ["Yoo Ah-in", "Kim Hyun-joo", "Park Jeong-min"]],
-}
 
 
 @contents.route('/list', methods=['GET'])
@@ -48,7 +36,19 @@ def recommend():
         user_pick_id = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
     con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
     user_pick = [i.title for i in con_list]
-    rcm_df = recommendations(user_pick)
+    # rcm_df = recommendations(user_pick)
+
+    #rcm2 test
+    # user_pick = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).all()
+    actors = db.session.query(Actor.contents_id, Actor.actor).all()
+    genre = db.session.query(Genre.contents_id, Genre.genre).all()
+    # contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).limit(10)
+    # actors = db.session.query(Actor.contents_id, Actor.actor).limit(10)
+    # genre = db.session.query(Genre.contents_id, Genre.genre).limit(10)
+    rcm_df = recommendations2(user_pick, contents_all, actors, genre)
+
+    #rcm -> response
     rcm_title = [line['제목'] for i, line in rcm_df.iterrows()]
     rcm_list = Contents.query.filter(Contents.title.in_(rcm_title))
     res = []
@@ -64,7 +64,7 @@ def recommend():
         ott_info['buy'] = [{'ott': i.ott, 'price': i.price,
                             'quality': i.quality} for i in buy_list]
         ott_info['rent'] = [{'ott': i.ott, 'price': i.price,
-                             'quality': i.quality} for i in rent_list]
+                            'quality': i.quality} for i in rent_list]
 
     ott_count = {}
     for value in content.values():
@@ -80,25 +80,6 @@ def recommend():
     res.append(ott_count)
     print(res)
     return jsonify(res)
-
-    # user_pick = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    # contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).all()
-    # actors = db.session.query(Actor.contents_id, Actor.actor).all()
-    # genre = db.session.query(Genre.contents_id, Genre.genre).all()
-    # contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).limit(10)
-    # actors = db.session.query(Actor.contents_id, Actor.actor).limit(10)
-    # genre = db.session.query(Genre.contents_id, Genre.genre).limit(10)
-    # rcm = recommendations(user_pick, contents_all, actors, genre)
-    # print(rcm)
-    # return jsonify(rcm)
-
-    # if request.method == 'GET':
-    #     recommend_contents = temp_list
-    # else:
-    #     recommend_contents = temp_list
-    # res = {"status": 200, "result": "success", "contents": recommend_contents}
-
-    # return recommend_contents
 
 
 @contents.route('/detail/<id>', methods=['GET'])
