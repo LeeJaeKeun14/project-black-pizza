@@ -3,7 +3,6 @@ from flask import Flask, jsonify, Blueprint, request, session
 from models import User, Contents, Genre, Actor, Buy, Streaming, Rent
 from db_connect import db
 from datateam.Recommendation import recommendations
-from datateam.Recommendation2 import recommendations2
 
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 
@@ -36,17 +35,12 @@ def recommend():
         user_pick_id = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
     con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
     user_pick = [i.title for i in con_list]
-    # rcm_df = recommendations(user_pick)
 
-    #rcm2 test
-    # user_pick = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).all()
     actors = db.session.query(Actor.contents_id, Actor.actor).all()
     genre = db.session.query(Genre.contents_id, Genre.genre).all()
-    # contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).limit(10)
-    # actors = db.session.query(Actor.contents_id, Actor.actor).limit(10)
-    # genre = db.session.query(Genre.contents_id, Genre.genre).limit(10)
-    rcm_df = recommendations2(user_pick, contents_all, actors, genre)
+
+    rcm_df = recommendations(user_pick, contents_all, actors, genre)
 
     #rcm -> response
     rcm_title = [line['제목'] for i, line in rcm_df.iterrows()]
@@ -78,7 +72,7 @@ def recommend():
 
     res.append(content)
     res.append(ott_count)
-    print(res)
+    # print(res)
     return jsonify(res)
 
 
