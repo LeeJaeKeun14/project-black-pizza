@@ -1,5 +1,4 @@
 
-// import './App.css';
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { useEffect } from 'react';
 import axios from 'axios';
