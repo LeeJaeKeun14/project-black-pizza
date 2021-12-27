@@ -9,8 +9,10 @@ import SurveyResult from './Pages/SurveyResult/SurveyResult';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import Detail from './Pages/Detail/Detail';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 function App() {
+  const queryClient = new QueryClient()
   useEffect(() => {
     axios('/api').then(res => {
       console.log(res.data);
@@ -18,17 +20,19 @@ function App() {
   }, [])
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/survey" element={<Survey />} />
-            <Route path="/result" element={<SurveyResult />} />
-            <Route path="/detail/:id" element={<Detail />} />
-          </Routes>
-        </div>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <div className="App">
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/survey" element={<Survey />} />
+              <Route path="/result" element={<SurveyResult />} />
+              <Route path="/detail/:id" element={<Detail />} />
+            </Routes>
+          </div>
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 }

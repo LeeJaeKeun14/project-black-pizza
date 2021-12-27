@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import styled from "styled-components";
 import StarRating from "../../Components/StarRating/StarRating";
 import { media } from "../../styles/theme";
 
-const Item = ({ data }) => {
+const Item = forwardRef(({ data }, ref) => {
   const [title, imgURL] = data.info;
   const [display, setDisplay] = useState(0);
   const [isRated, setIsRated] = useState(0);
@@ -11,7 +11,7 @@ const Item = ({ data }) => {
     if (res === true) setIsRated(1);
   };
   return (
-    <ItemWrap>
+    <ItemWrap ref={ref}>
       <ImageWrap
         onMouseEnter={() => setDisplay(1)}
         onMouseLeave={() => setDisplay(0)}
@@ -24,7 +24,7 @@ const Item = ({ data }) => {
       </ImageWrap>
     </ItemWrap>
   );
-};
+});
 const ItemWrap = styled.li`
   padding: 10px;
   box-sizing: border-box;
