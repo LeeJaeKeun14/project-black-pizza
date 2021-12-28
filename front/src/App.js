@@ -15,11 +15,6 @@ import Login from './Pages/Login/Login';
 
 function App() {
   const queryClient = new QueryClient()
-  useEffect(() => {
-    axios('/api').then(res => {
-      console.log(res.data);
-    }).catch(console.log);
-  }, [])
   return (
     <>
       <QueryClientProvider client={queryClient}>
