@@ -17,10 +17,8 @@ def list():
         for content in contents:
             movie_dict = {}
             movie_dict['key'] = content.id
-            movie_dict['info'] = [content.title,
-                                  content.image]
+            movie_dict['info'] = [content.title, content.image]
             movie_list['list'].append(movie_dict)
-        list_page += 1
 
     return jsonify(movie_list)
 
@@ -36,13 +34,14 @@ def recommend():
     con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
     user_pick = [i.title for i in con_list]
 
-    contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).all()
+    contents_all = db.session.query(
+        Contents.id, Contents.title, Contents.score, Contents.director).all()
     actors = db.session.query(Actor.contents_id, Actor.actor).all()
     genre = db.session.query(Genre.contents_id, Genre.genre).all()
 
     rcm_df = recommendations(user_pick, contents_all, actors, genre)
 
-    #rcm -> response
+    # rcm -> response
     rcm_title = [line['제목'] for i, line in rcm_df.iterrows()]
     rcm_list = Contents.query.filter(Contents.title.in_(rcm_title))
     res = []
