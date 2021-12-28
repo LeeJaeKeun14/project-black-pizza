@@ -1,4 +1,4 @@
-from flask import Blueprint, request, session, g, jsonify
+from flask import Blueprint, request, session, jsonify
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 
@@ -13,14 +13,11 @@ user = Blueprint("user", __name__, url_prefix="/api/user")
 @user.route('/signup', methods=['POST'])
 def signup():
     if request.method == 'POST':
-        name = request.form.get('name', None)
-        email = request.form.get('email', None)
-        password = request.form.get('password', None)
-        password2 = request.form.get('password2', None)
-        # name = 'tester'
-        # email = 'test@test.com'
-        # password = 'test@1234'
-        # password2 = 'test@1234'
+        params = request.get_json()
+        name = params['name']
+        email = params['email']
+        password = params['password']
+        password2 = params['password2']
 
         message = None
 
@@ -63,8 +60,9 @@ def signup():
 @user.route('/signin', methods=['POST'])
 def signin():
     if request.method == 'POST':
-        email = request.form.get('email', None)
-        password = request.form.get('password', None)
+        params = request.get_json()
+        email = params['email']
+        password = params['password']
         message = None
 
         user = User.query.filter(User.email == email).first()
@@ -94,9 +92,3 @@ def signout():
     else:
         value = {"status": 404, "result": "fail"}
     return jsonify(value)
-
-
-@user.before_app_request
-def load_logged_in_user():
-    email = session.get('email')
-    g.email = None if email is None else email
