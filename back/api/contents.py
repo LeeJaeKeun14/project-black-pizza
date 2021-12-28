@@ -11,7 +11,10 @@ contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 @contents.route('/list', methods=['GET'])
 def list():
     if request.method == "GET":
-        list_page = int(request.args.get('page'))
+        if request.args.get('page') is None:
+            list_page = 1
+        else:
+            list_page = int(request.args.get('page'))
         movie_list = {'page': list_page, 'list': []}
         contents = Contents.query.order_by(Contents.open_year.desc()).all()[
             (list_page-1)*20:(list_page)*20]
