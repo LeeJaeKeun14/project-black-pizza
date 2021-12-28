@@ -134,7 +134,7 @@ class User_Taste(db.Model):
     score = db.Column(db.Float, nullable=True)
     is_picked = db.Column(db.Boolean, nullable=True)
 
-    def __init__(self, user_id, contents_id, score=0, is_picked=False):
+    def __init__(self, user_id, contents_id, score=None, is_picked=False):
         self.user_id = user_id
         self.contents_id = contents_id
         self.score = score
