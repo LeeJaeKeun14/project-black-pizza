@@ -29,20 +29,21 @@ def recommend():
     if request.method == 'POST':
         params = request.get_json()
         user_pick_list = params['data']
-        user_pick_id = [i['contents_id'] for i in user_pick_list]
-        user_scores = [i['score'] for i in user_pick_list]
+        user_pick_id = [i[0] for i in user_pick_list]
+        user_scores = [i[1] for i in user_pick_list]
         if session.get('email'):
             user_email = session['email']
             user_id = User.query.filter(User.email == user_email).first()['id']
             for taste in user_pick_list:
                 new_taste = User_Taste(
                     user_id = user_id,
-                    contents_id = taste['contents_id'], 
-                    score = taste['score'] if 'score' in taste else None,
-                    is_picked = taste['is_picked'] if 'is_picked' in taste else False
+                    contents_id = taste[0], 
+                    score = taste[1],
+                    is_picked = False
                 )
                 db.session.add(new_taste)
-            db.session.commit()
+                db.session.commit()
+            
 
     else:
         user_pick_id = random.sample([i for i in range(1, 100)], 10)
