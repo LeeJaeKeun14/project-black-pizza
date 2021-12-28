@@ -57,12 +57,15 @@ def seed_maker():
         if line['출연진'] != None:
             p_actor = compile("[{}]")
             actors = p_actor.parse(line['출연진'])[0].replace("'", "").split(",")
+            actor_count = 0
             for act in actors:
+                if actor_count >= 5:
+                    break
                 new_row = {}
                 new_row['contents_id'] = contents_id
                 new_row['actor'] = act
                 contents_actor.append(new_row)
-        
+                actor_count += 1
         #contents_streaming 데이터 생성
         if line['스트리밍'] != None:
             strm = eval(line['스트리밍'])
