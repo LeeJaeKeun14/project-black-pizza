@@ -2,22 +2,24 @@ from db_connect import db
 
 
 class User(db.Model):
-    __tablename__ = "user"
+    __tablename__ = "User"
     id = db.Column(db.Integer, nullable=False,
-                   primary_key=True, autoincrement=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+                    primary_key=True, autoincrement=True)
+    name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, username, email):
-        self.username = username
+    def __init__(self, name, email, password):
+        self.name = name
         self.email = email
+        self.password = password
 
 
 class Contents(db.Model):
     __tablename__ = "Contents"
 
     id = db.Column(db.Integer, nullable=False,
-                   primary_key=True, autoincrement=True)
+                    primary_key=True, autoincrement=True)
     title = db.Column(db.String(255), nullable=False)
     origin_title = db.Column(db.String(255), nullable=True)
     open_year = db.Column(db.Integer, nullable=True)
@@ -48,7 +50,7 @@ class Genre(db.Model):
     __tablename__ = "Genre"
 
     id = db.Column(db.Integer, nullable=False,
-                   primary_key=True, autoincrement=True)
+                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
         'Contents.id'), nullable=False)
     genre = db.Column(db.String(80), nullable=False)
@@ -63,7 +65,7 @@ class Actor(db.Model):
     __tablename__ = "Actor"
 
     id = db.Column(db.Integer, nullable=False,
-                   primary_key=True, autoincrement=True)
+                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
         'Contents.id'), nullable=False)
     actor = db.Column(db.String(80), nullable=False)
@@ -77,7 +79,7 @@ class Streaming(db.Model):
     __tablename__ = "Streaming"
 
     id = db.Column(db.Integer, nullable=False,
-                   primary_key=True, autoincrement=True)
+                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
         'Contents.id'), nullable=False, primary_key=True)
     ott = db.Column(db.String(80), nullable=False)
@@ -94,7 +96,7 @@ class Buy(db.Model):
     __tablename__ = "Buy"
 
     id = db.Column(db.Integer, nullable=False,
-                   primary_key=True, autoincrement=True)
+                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
         'Contents.id'), nullable=False)
     ott = db.Column(db.String(80), nullable=False)
@@ -111,7 +113,7 @@ class Rent(db.Model):
     __tablename__ = "Rent"
 
     id = db.Column(db.Integer, nullable=False,
-                   primary_key=True, autoincrement=True)
+                    primary_key=True, autoincrement=True)
     contents_id = db.Column(db.Integer, db.ForeignKey(
         'Contents.id'), nullable=False)
     ott = db.Column(db.String(80), nullable=False)
@@ -122,3 +124,18 @@ class Rent(db.Model):
         self.contents_id = contents_id
         self.ott = ott
         self.price = price
+
+
+class User_Taste(db.Model):
+    __tablename__ = "User_Taste"
+    id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    contents_id = db.Column(db.Integer, db.ForeignKey('Contents.id'), nullable=False)
+    score = db.Column(db.Float, nullable=True)
+    is_picked = db.Column(db.Boolean, nullable=True)
+
+    def __init__(self, user_id, contents_id, score=0, is_picked=False):
+        self.user_id = user_id
+        self.contents_id = contents_id
+        self.score = score
+        self.is_picked = is_picked
