@@ -12,6 +12,9 @@ app.register_blueprint(user)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@db_mysql/BlackPizza'
 # os.urandom(16)
 app.config['SECRET_KEY'] = b'\x0c\xe6\xe8\x86\xc5\xec\xfb\xfd\xb7\x9cN=\x10M\x0fg'
+app.config['JSON_AS_ASCII'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
 migrate = Migrate(app, db)
 
