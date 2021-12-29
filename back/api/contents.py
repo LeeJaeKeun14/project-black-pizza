@@ -46,8 +46,8 @@ def recommend():
                 new_taste = User_Taste(
                     user_id=user_id,
                     contents_id=taste['contents_id'],
-                    score=taste['score'],
-                    is_picked=False
+                    score=taste['score'] if 'score' in taste else None,
+                    is_picked=taste['is_picked'] if 'is_picked' in taste else False
                 )
                 db.session.add(new_taste)
             db.session.commit()
