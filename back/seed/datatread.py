@@ -2,17 +2,18 @@ import pandas as pd
 from parse import compile
 
 #데이터 pandas로 불러오기
-df = pd.read_csv('./seed/temp_movie_data.csv')
+# df = pd.read_csv('./seed/temp_movie_data.csv')
+df = pd.read_csv('./seed/total_data.csv')
 
 #데이터 전처리
     #데이터 parse를 위한 compiler 생성
-p_open_year = compile('({})')
+# p_open_year = compile('({})')
 p_score = compile("[{}]")
-p_runtime = compile("['{}시간 {}분']")
-p_runtime2 = compile("['{}min']")
+p_runtime = compile("{}시간 {}분")
+p_runtime2 = compile("{}분")
 p_director = compile("[{}]")
     #데이터 parse
-df['개봉일'] = df['개봉일'].apply(lambda x: int(p_open_year.parse(x)[0]))
+df['개봉일'] = df['개봉일'].apply(lambda x: int(x))
 df['평점'] = df['평점'].apply(lambda x: float(p_score.parse(x)[0].split(",")[0].replace("'", "").replace("%", ""))/10 if pd.notnull(x) else x)
 df['재생 시간'] = df['재생 시간'].apply(lambda x: (p_runtime.parse(x)[0]+":"+p_runtime.parse(x)[1] if p_runtime.parse(x) is not None else "0:"+p_runtime2.parse(x)[0]) if pd.notnull(x) else x)
 df['감독'] = df['감독'].apply(lambda x: p_director.parse(x)[0].split(",")[0].replace("'", "") if pd.notnull(x) else x)
