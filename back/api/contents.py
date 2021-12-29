@@ -16,10 +16,13 @@ contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 @contents.route('/list', methods=['GET'])
 def list():
     if request.method == "GET":
-        list_page = int(request.args.get('page'))
+        if request.args.get('page') is None:
+            list_page = 1
+        else:
+            list_page = int(request.args.get('page'))
         movie_list = {'page': list_page, 'list': []}
         contents = Contents.query.order_by(Contents.open_year.desc()).all()[
-            (list_page-1)*100+1:(list_page)*100]
+            (list_page-1)*20:(list_page)*20]
         for content in contents:
             movie_dict = {}
             movie_dict['key'] = content.id
@@ -41,15 +44,14 @@ def recommend():
             user_id = User.query.filter(User.email == user_email).first().id
             for taste in user_pick_list:
                 new_taste = User_Taste(
-                    user_id = user_id,
-                    contents_id = taste[0], 
-                    score = taste[1],
-                    is_picked = False
+                    user_id=user_id,
+                    contents_id=taste[0],
+                    score=taste[1],
+                    is_picked=False
                 )
                 db.session.add(new_taste)
             db.session.commit()
             
-
     else:
         user_pick_id = random.sample([i for i in range(1, 100)], 10)
         user_scores = [randint(1, 10) for _ in range(10)]
@@ -118,6 +120,34 @@ def detail(id):
         content_detail['director'] = content.director
 
     return jsonify(content_detail)
+
+
+@contents.route('/search', methods=['GET'])
+def search():
+    if request.method == "GET":
+        q = request.args.get('q', None)
+        type = request.args.get('type', None)
+        search_contents, contents_list = [], []
+        res = {'contents': [], 'q': q, 'type': type}
+        if q is not None:
+            if type == 'title':
+                search_contents = Contents.query.filter(
+                    Contents.title.like(f"%{q}%")).order_by(Contents.id).all()
+            elif type == 'director':
+                search_contents = Contents.query.filter(
+                    Contents.director.like(f"%{q}%")).order_by(Contents.id).all()
+            elif type == 'actor':
+                search_contents = Actor.query.filter(
+                    Actor.actor.like(f"%{q}%")).order_by(Contents.id).all()
+
+            for content in search_contents:
+                content_dict = {}
+                content_dict['key'] = content.id
+                content_dict['info'] = [content.title, content.image]
+                contents_list.append(content_dict)
+
+            res['contents'] = contents_list
+        return jsonify(res)
 
 
 @contents.route('/test', methods=['GET', 'POST'])

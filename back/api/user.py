@@ -53,7 +53,6 @@ def signup():
             value = {"status": 200, "result": "success", "msg": message}
         else:
             value = {"status": 404, "result": "fail", "msg": message}
-
     return jsonify(value)
 
 
@@ -74,7 +73,7 @@ def signin():
             message = '비밀번호가 8자리 이상이어야 합니다.'
 
         if message is None:
-            session.clear()
+            # session.clear()
             session['email'] = user.email
             message = '로그인에 성공하였습니다.'
             value = {"status": 200, "result": "success", "msg": message}
@@ -89,6 +88,17 @@ def signout():
     if session.get('email'):
         session.pop('email')
         value = {"status": 200, "result": "success"}
+    else:
+        value = {"status": 404, "result": "fail"}
+    return jsonify(value)
+
+
+@user.route('/isSignin', methods=['GET'])
+def isLogin():
+    if session.get('email'):
+        email = session['email']
+        value = {"status": 200, "result": "success",
+                 "payload": email, "session": session}
     else:
         value = {"status": 404, "result": "fail"}
     return jsonify(value)
