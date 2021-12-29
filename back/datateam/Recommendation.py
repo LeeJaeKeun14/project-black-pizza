@@ -11,7 +11,8 @@ def df_maker(contents_all, actors, genre):
     df_actors.rename(columns={0:'contents_id', 1:'actor'}, inplace = True)
     df_genre.rename(columns={0:'contents_id', 1:'genre'}, inplace = True)
     df['감독'] = df['감독'].apply(lambda x: x.strip().replace(" ", "_") if pd.notnull(x) else x)
-    df['가중치평점'][df['가중치평점'].isna()] = 0
+    # df['가중치평점'][df['가중치평점'].isna()] = 0
+    df['가중치평점'].apply(lambda x: 0 if pd.isnull(x) else x)
 
     actor_dict = {}
     for i, line in df_actors.iterrows():
@@ -32,6 +33,7 @@ def df_maker(contents_all, actors, genre):
     new_df_act = pd.merge(df, df_new_actors, left_on="id", right_on="contents_id", how="left")
     new_df_gnr = pd.merge(new_df_act, df_new_genre, left_on="id", right_on="contents_id", how="left")
     new_df_gnr.iloc[:, 3:].fillna("")
+    # print(new_df_gnr['genre'])
     new_df_gnr['특징'] = new_df_gnr['genre'] + " " + new_df_gnr['감독'] + " " + new_df_gnr['actor']
     
     return new_df_gnr
@@ -42,6 +44,7 @@ def recommendations(user_pick, contents_all, actors, genre, top_n = 20):
     # title_list = ["나 홀로 집에", "해리 포터와 마법사의 돌", "쇼생크 탈출"]
 
     title_list = user_pick
+    print(list(df[df["제목"].apply(lambda x : x in title_list)]["특징"]))
     sum_find = " ".join(list(df[df["제목"].apply(lambda x : x in title_list)]["특징"]))
 
     title_indexes = []
