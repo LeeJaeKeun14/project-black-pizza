@@ -1,7 +1,5 @@
 
 import { GlobalStyle } from "./styles/GlobalStyle";
-import { useEffect } from 'react';
-import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import Main from './Pages/Main/Main';
 import Survey from './Pages/Survey/Survey';
@@ -10,8 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import Detail from './Pages/Detail/Detail';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import Signup from './Pages/Signup/Signup';
-import Login from './Pages/Login/Login';
+import UserForm from './Components/UserForm/UserForm';
 
 function App() {
   const queryClient = new QueryClient()
@@ -26,8 +23,8 @@ function App() {
               <Route path="/survey" element={<Survey />} />
               <Route path="/result" element={<SurveyResult />} />
               <Route path="/detail/:id" element={<Detail />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<UserForm />} />
+              <Route path="/login" element={<UserForm />} />
             </Routes>
           </div>
         </ThemeProvider>
