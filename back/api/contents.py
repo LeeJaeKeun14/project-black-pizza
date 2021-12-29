@@ -122,7 +122,7 @@ def search():
     if request.method == "GET":
         q = request.args.get('q', None)
         type = request.args.get('type', None)
-        search_contents, contents_list = [], []
+        search_contents, search_actors, contents_list = [], [], []
         res = {'contents': [], 'q': q, 'type': type}
         if q is not None:
             if type == 'title':
@@ -132,13 +132,29 @@ def search():
                 search_contents = Contents.query.filter(
                     Contents.director.like(f"%{q}%")).order_by(Contents.id).all()
             elif type == 'actor':
-                search_contents = Actor.query.filter(
-                    Actor.actor.like(f"%{q}%")).order_by(Contents.id).all()
+                search_actors = Actor.query.filter(
+                    Actor.actor.like(f"%{q}%")).order_by(Actor.contents_id).all()
 
             for content in search_contents:
-                content_dict = {}
+                content_dict = {'key': None, 'info': None, 'ott': []}
                 content_dict['key'] = content.id
                 content_dict['info'] = [content.title, content.image]
+                otts = Streaming.query.filter(
+                    Streaming.contents_id == content.id).all()
+                for ott in otts:
+                    content_dict['ott'].append(ott.ott)
+                contents_list.append(content_dict)
+
+            for actor in search_actors:
+                content = Contents.query.filter(
+                    Contents.id == actor.contents_id).first()
+                content_dict = {'key': None, 'info': None, 'ott': []}
+                content_dict['key'] = content.id
+                content_dict['info'] = [content.title, content.image]
+                otts = Streaming.query.filter(
+                    Streaming.contents_id == content.id).all()
+                for ott in otts:
+                    content_dict['ott'].append(ott.ott)
                 contents_list.append(content_dict)
 
             res['contents'] = contents_list
