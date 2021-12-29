@@ -1,6 +1,10 @@
 import { css } from "styled-components";
 
 const font = {
+  xsmall: css`
+    font-size: 1rem;
+    font-weight: 400;
+  `,
   small: css`
     font-size: 1.2rem;
     font-weight: 400;
@@ -20,9 +24,15 @@ const font = {
 };
 const color = {
   font: '#ccc',
-  background: '#1e1e22',
+  // background: '#1e1e22',
+  // 갈수록 흰색
+  background: '#0f102a',
+  background2: '#29273d',
+  background3: '#434458',
+
   point: '#7148a9',
-  point2: '#887d99'
+  point2: '#887d99',
+  coral: '#b84f55'
 }
 export const theme = {
   font,

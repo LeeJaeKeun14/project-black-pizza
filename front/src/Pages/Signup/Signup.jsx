@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import Input from "../../Components/Input/Input";
@@ -10,17 +11,23 @@ const Signup = props => {
   const email = useInput("");
   const password = useInput("");
   const password2 = useInput("");
-  const reqeustPost = async data => {
-    console.log(data);
-    const res = await axios
-      .post("/api/user/signup", data, {
-        headers: {
-          "Content-Type": `application/json`,
-        },
-      })
-      .then(res => {
-        console.log(res);
-      });
+  const navigator = useNavigate();
+  const reqeustPost = async body => {
+    console.log(body);
+    try {
+      const { data } = await axios.post("/api/user/signup", body);
+      console.log(data);
+
+      if (data.status === 200) {
+        navigator("/login");
+      } else {
+        data.msg && alert(data.msg);
+      }
+      return data;
+    } catch (error) {
+      error.response.data && alert(error.response.data);
+      throw Error(error.response.data || error.message);
+    }
   };
 
   const registeUser = () => {
@@ -52,21 +59,21 @@ const Signup = props => {
               inputType={"email"}
               label={"이메일"}
               placeholder={"potato@farm.com"}
-              onChangeHandler={name.setValue}
+              onChangeHandler={email.setValue}
             />
             <Input
               inputId={"password"}
               inputType={"password"}
               label={"비밀번호"}
               placeholder={"●●●●●●●●"}
-              onChangeHandler={name.setValue}
+              onChangeHandler={password.setValue}
             />
             <Input
               inputId={"password2"}
               inputType={"password"}
               label={"비밀번호 확인"}
               placeholder={"●●●●●●●●"}
-              onChangeHandler={name.setValue}
+              onChangeHandler={password2.setValue}
             />
             <Button onClick={registeUser}>가입하기</Button>
           </InputForm>
@@ -94,12 +101,10 @@ const Part = styled.div`
 `;
 const InputForm = styled.div`
   padding: 20px 50px;
-  width: 400px;
-  background-color: #fdfdfd;
+  width: 300px;
+
+  background-color: ${({ theme }) => theme.color.background2};
   border-radius: 25px;
-  // div + div {
-  //   padding-top: 16px;
-  // }
 `;
 const Title = styled.h1`
   ${({ theme }) => theme.font.small};
@@ -115,10 +120,11 @@ const Button = styled.button`
   border-radius: 10px;
   border: none;
   margin: 30px 0;
-  background-color: #eee;
+  background-color: #ffffff;
   cursor: pointer;
   &:hover {
-    background-color: #ccc4d9;
+    background-color: ${({ theme }) => theme.color.coral};
+    color: ${({ theme }) => theme.color.font};
   }
 `;
 export default Signup;

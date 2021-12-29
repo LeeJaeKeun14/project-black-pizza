@@ -1,17 +1,30 @@
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useNavigate } from "react-router";
+import Header from "../../Components/Header/Header";
 import { useInput } from "../../hooks/useInput";
 
 const Login = props => {
+  const navigator = useNavigate();
   const email = useInput("");
   const password = useInput("");
-  const requestlogin = async data => {
-    const json = JSON.stringify(data);
-    console.log(data);
-    await axios.post("/api/user/signin", json).then(res => {
-      console.log(res);
-    });
+  const requestlogin = async body => {
+    console.log(body);
+    try {
+      const { headers, data } = await axios.post("/api/user/signin", body);
+      console.log(data);
+      console.log(headers);
+
+      if (data.status === 200) {
+        navigator("/");
+      } else {
+        data.msg && alert(data.msg);
+      }
+      return data;
+    } catch (error) {
+      // error.response.data && alert(error.response.data);
+      // throw Error(error.response.data || error.message);
+    }
   };
   const sendLoginInfo = () => {
     console.log(email.value);
@@ -21,6 +34,7 @@ const Login = props => {
   };
   return (
     <div>
+      <Header />
       <div>login</div>
       <label htmlFor="id">id</label>
       <input

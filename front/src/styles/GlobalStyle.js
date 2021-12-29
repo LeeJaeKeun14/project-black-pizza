@@ -4,8 +4,8 @@ import reset from "styled-reset";
 export const GlobalStyle = createGlobalStyle`
 	${reset}
 	body{
-		background: #1e1e22;
-    color: #ccc;
+		background: ${({ theme }) => theme.color.background};
+    color: ${({ theme }) => theme.color.font};
     position: relative;
     display: block;
     width: 100%;
