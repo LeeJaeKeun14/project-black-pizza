@@ -1,9 +1,14 @@
 from flask import Flask, jsonify, Blueprint, request, session
 from numpy.random.mtrand import randint
 from scipy.sparse.construct import random
+
 from models import User, Contents, Genre, Actor, Buy, Streaming, Rent, User_Taste
 from db_connect import db
 from datateam.Recommendation import recommendations
+
+from sqlalchemy import subquery
+from sqlalchemy.sql import func
+from sqlalchemy.sql.elements import and_
 
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 
@@ -33,7 +38,7 @@ def recommend():
         user_scores = [i[1] for i in user_pick_list]
         if session.get('email'):
             user_email = session['email']
-            user_id = User.query.filter(User.email == user_email).first()['id']
+            user_id = User.query.filter(User.email == user_email).first().id
             for taste in user_pick_list:
                 new_taste = User_Taste(
                     user_id = user_id,
@@ -42,7 +47,7 @@ def recommend():
                     is_picked = False
                 )
                 db.session.add(new_taste)
-                db.session.commit()
+            db.session.commit()
             
 
     else:
@@ -125,3 +130,39 @@ def test():
         content_info.append(i.image)
         res[i.title] = content_info
     return jsonify(res)
+
+@contents.route('/userpick', methods=['GET'])
+def userpick():
+    if session.get('email'):
+        user_email = session['email']
+        user_id = User.query.filter(User.email == user_email).first().id
+        user_pick = []
+        user_taste = db.session.query(User_Taste).filter(and_(User_Taste.user_id == user_id, User_Taste.is_picked == True)).subquery()
+        contents = db.session.query(Contents.id, Contents.title, Contents.image).join(user_taste, user_taste.c.contents_id == Contents.id).all()
+        
+        for content in contents:
+            print(content)
+            movie_dict = {}
+            movie_dict['key'] = content.id
+            movie_dict['info'] = [content.title, content.image]
+            user_pick.append(movie_dict)
+    else:
+        return jsonify({"status": 404, "result": 'fail', "message": "로그인된 유저가 아닙니다."})
+
+    return jsonify(user_pick)
+
+@contents.route('/favorite', methods=['GET'])
+def favorite():
+    favorite = []
+    # user_taste_score = db.session.query(User_Taste).filter(User_Taste.score != None).subquery()
+    common_favorite = db.session.query(User_Taste.contents_id, func.avg(User_Taste.score).label('avg_score')).filter(User_Taste.score != None).group_by(User_Taste.contents_id).subquery()
+    contents = db.session.query(Contents.id, Contents.title, Contents.image, common_favorite.c.avg_score).join(common_favorite, common_favorite.c.contents_id == Contents.id).order_by(common_favorite.c.avg_score.desc()).limit(10)
+    
+    for content in contents:
+        print(content)
+        movie_dict = {}
+        movie_dict['key'] = content.id
+        movie_dict['info'] = [content.title, content.image]
+        favorite.append(movie_dict)
+
+    return jsonify(favorite)
