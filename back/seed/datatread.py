@@ -2,12 +2,10 @@ import pandas as pd
 from parse import compile
 
 #데이터 pandas로 불러오기
-# df = pd.read_csv('./seed/temp_movie_data.csv')
 df = pd.read_csv('./seed/total_data.csv')
 
 #데이터 전처리
     #데이터 parse를 위한 compiler 생성
-# p_open_year = compile('({})')
 p_score = compile("[{}]")
 p_runtime = compile("{}시간 {}분")
 p_runtime2 = compile("{}분")
