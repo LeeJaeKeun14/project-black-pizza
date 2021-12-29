@@ -73,7 +73,7 @@ def signin():
             message = '비밀번호가 8자리 이상이어야 합니다.'
 
         if message is None:
-            session.clear()
+            # session.clear()
             session['email'] = user.email
             message = '로그인에 성공하였습니다.'
             value = {"status": 200, "result": "success", "msg": message}
