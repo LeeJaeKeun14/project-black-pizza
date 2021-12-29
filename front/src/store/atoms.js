@@ -8,12 +8,16 @@ export const ratingState = atom({
   key: 'ratingState',
   default: {},
 });
-
+export const zzimState = atom({
+  key: 'zzimState',
+  default: {}
+})
 export const ratingStateResult = selector({
   key: 'ratingStateResult',
   get: ({ get }) => {
     const rating = get(ratingState);
-    return Object.entries(rating).map(([key, value]) => [parseInt(key), value])
+    // return Object.entries(rating).map(([key, value]) => [parseInt(key), value])
+    return Object.values(rating)
   }
 })
 
