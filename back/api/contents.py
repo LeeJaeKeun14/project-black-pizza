@@ -53,13 +53,12 @@ def recommend():
             db.session.commit()
             
     else:
-        user_pick_id = random.sample([i for i in range(1, 100)], 10)
+        user_pick_id = [100, 200, 300, 400, 500, 600, 700, 800, 900]
         user_scores = [randint(1, 10) for _ in range(10)]
     con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
     user_pick = [i.title for i in con_list]
 
-    contents_all = db.session.query(
-        Contents.id, Contents.title, Contents.score, Contents.director).all()
+    contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).all()
     actors = db.session.query(Actor.contents_id, Actor.actor).all()
     genre = db.session.query(Genre.contents_id, Genre.genre).all()
 
@@ -78,10 +77,8 @@ def recommend():
         rent_list = Rent.query.filter(Rent.contents_id == i.id)
         ott_info['streaming'] = [
             {'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in streaming_list]
-        ott_info['buy'] = [{'ott': i.ott, 'price': i.price,
-                            'quality': i.quality} for i in buy_list]
-        ott_info['rent'] = [{'ott': i.ott, 'price': i.price,
-                            'quality': i.quality} for i in rent_list]
+        ott_info['buy'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in buy_list]
+        ott_info['rent'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in rent_list]
 
     ott_count = {}
     for value in content.values():
