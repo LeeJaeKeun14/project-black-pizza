@@ -42,8 +42,7 @@ def list():
             movie_dict['info'] = [content.title, content.image]
             # movie_dict['info'] = [content.title, content.image, content.open_year]
             movie_list['list'].append(movie_dict)
-
-    return jsonify(movie_list)
+        return jsonify(movie_list)
 
 
 @contents.route('/recommend', methods=['GET', 'POST'])
