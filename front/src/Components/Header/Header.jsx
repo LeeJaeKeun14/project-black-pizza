@@ -3,18 +3,20 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { loginState } from "../../store/atoms";
 
 const Header = props => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    axios.get("/api/user/isSignin").then(res => {
-      if (res.data.status === 200) {
-        setIsLogin(true);
-      }
-    });
-  }, []);
+  // const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  // useEffect(() => {
+  //   axios.get("/api/user/isSignin").then(res => {
+  //     if (res.data.status === 200) {
+  //       setIsLogin(true);
+  //     }
+  //   });
+  // }, []);
   const logout = () => {
     axios.get("api/user/signout").then(res => {
       if (res.data.status === 200) {

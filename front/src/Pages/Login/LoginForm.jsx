@@ -1,14 +1,17 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Input from "../../Components/Input/Input";
 import { useInput } from "../../hooks/useInput";
+import { loginState } from "../../store/atoms";
 
 const LoginForm = props => {
   const navigator = useNavigate();
   const email = useInput("");
   const password = useInput("");
+  const setIsLogin = useSetRecoilState(loginState);
   const requestlogin = async body => {
     console.log(body);
     try {
@@ -17,6 +20,7 @@ const LoginForm = props => {
       console.log(headers);
 
       if (data.status === 200) {
+        setIsLogin(true);
         navigator("/");
       } else {
         data.msg && alert(data.msg);

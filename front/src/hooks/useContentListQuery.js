@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useInfiniteQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { loginState } from '../store/atoms';
 
 export const useContentListQuery = () => {
-
+  const isLogin = useRecoilValue(loginState);
   const fetchProjects = async ({ pageParam = 1 }) => {
     try {
       const res = await axios
@@ -33,7 +35,7 @@ export const useContentListQuery = () => {
       return lastPage.nextpage;
     }, onError: (error) => {
       console.log(error)
-    }
-  });
+    },
+  }, { enabled: false });
   return { data, error, isLoading, fetchNextPage, isFetching };
 };

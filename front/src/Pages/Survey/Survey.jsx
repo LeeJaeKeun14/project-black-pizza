@@ -5,15 +5,19 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
-import { ratingStateResult } from "../../store/atoms";
+import { loginState, ratingStateResult } from "../../store/atoms";
 import List from "./List";
 
 const Survey = props => {
   const navigator = useNavigate();
   const ratingArr = useRecoilValue(ratingStateResult);
+  const isLogin = useRecoilValue(loginState);
   useEffect(() => {
-    // console.log(ratingArr);
-  }, [ratingArr]);
+    if (!isLogin) {
+      navigator("/");
+      alert("로그인이 필요합니다.");
+    }
+  }, [isLogin, navigator]);
   const requestResult = async () => {
     // console.log(ratingArr);
     if (ratingArr.length > 0) {
