@@ -44,7 +44,7 @@ const ContentDetailBlock = styled.div`
   position: absolute;
   width: 50%;
   right: 0;
-  top: 70%;
+  top: 50%;
 `;
 const Wrap = styled.div`
   display: flex;

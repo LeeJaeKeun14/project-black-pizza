@@ -92,13 +92,13 @@ const Main = props => {
           )}
         </DetailBlock>
         <ContentListBlock>
-          <List>
-            <Wrap>
+          <ListTitle>{searchResult.data ? "검색결과" : "인기영화"}</ListTitle>
+          <Wrap>
+            <List>
               {searchResult.data ? (
-                searchResult.isLoading && searchResult.isLoading ? (
+                searchResult.isLoading ? (
                   <div>loading...</div>
                 ) : (
-                  searchResult.data &&
                   searchResult.data.contents.map((e, i) => (
                     <ContentItem
                       key={i}
@@ -111,7 +111,7 @@ const Main = props => {
                     />
                   ))
                 )
-              ) : favoriteList.isLoading && favoriteList.isLoading ? (
+              ) : favoriteList.isLoading ? (
                 <div>loading...</div>
               ) : (
                 favoriteList.data.map((e, i) => (
@@ -125,11 +125,24 @@ const Main = props => {
                     onSelectItem={onSelectItem}
                   />
                 ))
-              )}
-            </Wrap>
-          </List>
+              )}{" "}
+            </List>
+          </Wrap>
         </ContentListBlock>
+        <Tap>
+          <div>
+            <input
+              type="text"
+              onChange={e => {
+                e.preventDefault();
+                setSearchWord(e.target.value);
+              }}
+            />
+            <button onClick={onSearch}>검색</button>
+          </div>
+        </Tap>
       </BodyWrap>
+
       {/* <div>인기 영화</div>
       {favoriteList.isLoading && favoriteList.isLoading ? (
         <div>loading...</div>
@@ -148,18 +161,6 @@ const Main = props => {
           <img key={i} src={e.info[1]} alt="poster" />
         ))
       )} */}
-      <Tap>
-        <div>
-          <input
-            type="text"
-            onChange={e => {
-              e.preventDefault();
-              setSearchWord(e.target.value);
-            }}
-          />
-          <button onClick={onSearch}>검색</button>
-        </div>
-      </Tap>
     </MainBlock>
   );
 };
@@ -167,10 +168,12 @@ const MainBlock = styled.div`
   height: 100%;
   margin: 0 auto;
   max-width: 1024px;
+  position: relative;
 `;
 const BodyWrap = styled.div`
   height: 100%;
-  margin-top: -80px;
+  // margin-top: -80px;
+  // transform: translate(0, -80px);
 `;
 const LinkWrap = styled.div`
   position: absolute;
@@ -197,18 +200,20 @@ const DetailBlock = styled.section`
 const ContentListBlock = styled.section`
   height: 50%;
   width: 100%;
-  overflow: scroll;
-  padding-top: 50px;
+  // overflow: scroll;
+  // padding-top: 50px;
   box-sizing: border-box;
-  position: relative;
 `;
-
+const ListTitle = styled.h2`
+  padding-left: 4%;
+`;
 const Wrap = styled.div`
   position: relative;
   white-space: nowrap;
   padding-right: 4%;
   padding-left: 4%;
   overflow-x: visible;
+  overflow: scroll;
 `;
 const List = styled.ul`
   position: relative;
@@ -216,27 +221,8 @@ const List = styled.ul`
   // flex-direction: row;
   // padding: 0 50px;
   vertical-align: middle;
+
+  padding-top: 50px;
 }
-`;
-const ImageBlock = styled.li`
-  border-radius: 10px;
-  margin: 20px;
-  width: 25%;
-  position: relative;
-  display: inline-block;
-  & + & {
-    // margin: 20px 20px 20px 0;
-  }
-  // transition: transform 0.2s;
-  &:hover {
-    // border: 1px solid white;
-    // width: 30%;
-    // transform: scale(1.2);
-  }
-`;
-const Image = styled.img`
-  width: 100%;
-  border-radius: 10px;
-  display: block;
 `;
 export default Main;

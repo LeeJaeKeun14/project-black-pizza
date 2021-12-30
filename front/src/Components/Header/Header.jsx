@@ -29,7 +29,12 @@ const Header = props => {
       </Title>
 
       {isLogin === true ? (
-        <button onClick={logout}>로그아웃</button>
+        <Nav>
+          <LinkBlock>
+            <Link to="/survey">survey</Link>
+          </LinkBlock>
+          <button onClick={logout}>로그아웃</button>
+        </Nav>
       ) : (
         <Nav>
           <LinkBlock>
@@ -49,7 +54,6 @@ const HeaderWrap = styled.header`
   justify-content: space-between;
   padding: 1rem 1.5rem;
   box-sizing: border-box;
-  z-index: 100;
 `;
 
 const Title = styled.h1`
@@ -61,6 +65,7 @@ const Title = styled.h1`
 `;
 const Nav = styled.nav`
   display: flex;
+  align-items: center;
 `;
 const LinkBlock = styled.div`
   ${({ theme }) => theme.font.small}
