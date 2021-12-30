@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, Blueprint, request, session
 from numpy.random.mtrand import randint
 
-from models import User, Contents, Genre, Actor, Buy, Streaming, Rent, User_Taste
+from models import User, Contents, Genre, Actor, Buy, Streaming, Rent, User_Taste, Genre_Matrix
 from db_connect import db
 from datateam.Recommendation import recommendations
 
@@ -73,11 +73,16 @@ def recommend():
     user_pick = [i.title for i in con_list]
 
     contents_all = db.session.query(
-        Contents.id, Contents.title, Contents.score, Contents.director).all()
-    actors = db.session.query(Actor.contents_id, Actor.actor).all()
-    genre = db.session.query(Genre.contents_id, Genre.genre).all()
+        Contents.id, Contents.title, Contents.score, Contents.rate_count).all()
 
-    rcm_df = recommendations(user_pick, contents_all, actors, genre)
+    genre_matrix = db.session.query( 
+        Genre_Matrix.top1, Genre_Matrix.top2, Genre_Matrix.top3, Genre_Matrix.top4, Genre_Matrix.top5, 
+        Genre_Matrix.top6, Genre_Matrix.top7, Genre_Matrix.top8, Genre_Matrix.top9, Genre_Matrix.top10, 
+        Genre_Matrix.top11, Genre_Matrix.top12, Genre_Matrix.top13, Genre_Matrix.top14, Genre_Matrix.top15,
+        Genre_Matrix.top16, Genre_Matrix.top17, Genre_Matrix.top18, Genre_Matrix.top19, Genre_Matrix.top20,
+        ).all()
+
+    rcm_df = recommendations(user_pick, contents_all, genre_matrix)
 
     # rcm -> response
     rcm_title = [line['제목'] for i, line in rcm_df.iterrows()]
