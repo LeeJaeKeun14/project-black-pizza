@@ -1,12 +1,10 @@
 from flask import Flask, jsonify, Blueprint, request, session
 from numpy.random.mtrand import randint
-from scipy.sparse.construct import random
 
 from models import User, Contents, Genre, Actor, Buy, Streaming, Rent, User_Taste
 from db_connect import db
 from datateam.Recommendation import recommendations
 
-from sqlalchemy import subquery
 from sqlalchemy.sql import func
 from sqlalchemy.sql.elements import and_
 
