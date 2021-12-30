@@ -7,20 +7,16 @@ import styled from "styled-components";
 
 const Header = props => {
   const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {
-    console.log(isLogin);
-  }, [isLogin]);
+
   useEffect(() => {
     axios.get("/api/user/isSignin").then(res => {
-      console.log(res);
       if (res.data.status === 200) {
         setIsLogin(true);
       }
     });
-  });
+  }, []);
   const logout = () => {
     axios.get("api/user/signout").then(res => {
-      console.log(res);
       if (res.data.status === 200) {
         setIsLogin(false);
       }

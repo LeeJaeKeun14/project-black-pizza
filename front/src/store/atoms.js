@@ -18,6 +18,15 @@ export const ratingStateResult = selector({
     const rating = get(ratingState);
     // return Object.entries(rating).map(([key, value]) => [parseInt(key), value])
     return Object.values(rating)
+    //   .map(e => {
+    //   if (e.score === 0) {
+    //     return { contents_id: e.contents_id, is_picked: e.is_picked }
+    //   } else if (!e.is_picked) {
+    //     return { contents_id: e.contents_id, score: e.score }
+    //   } else {
+    //     return e
+    //   }
+    // })
   }
 })
 

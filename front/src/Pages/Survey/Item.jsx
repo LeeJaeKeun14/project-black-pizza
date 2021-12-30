@@ -3,7 +3,7 @@ import { memo } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import StarRating from "../../Components/StarRating/StarRating";
-import { ratingState, zzimState } from "../../store/atoms";
+import { ratingState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 
 const Item = memo(
@@ -12,7 +12,6 @@ const Item = memo(
     const [display, setDisplay] = useState(0);
     const [isStarRated, setIsStarRated] = useState(0);
     const [isZZimed, setIsZZimed] = useState(0);
-    const setZZimState = useSetRecoilState(zzimState);
     const setRating = useSetRecoilState(ratingState);
     // [{'contents_id': 영화id, 'score': 별점, 'is_picked': 보고싶어요 여부(불린값)}, ..]
     const isRating = (id, rate) => {
@@ -21,7 +20,7 @@ const Item = memo(
       if (rate === isStarRated) setIsStarRated(0);
     };
     const isZZiming = () => {
-      console.log(data.key);
+      // console.log(data.key);
       const id = data.key;
       setIsZZimed(cur => (cur === 1 ? 0 : 1));
       setRating(cur => {
@@ -34,30 +33,6 @@ const Item = memo(
         console.log(newObj);
         return newObj;
       });
-
-      // setZZimState(cur => {
-      //   const newObj = { ...cur };
-      //   if (id in newObj) {
-      //     newObj[id] = {
-      //       ...newObj,
-      //       is_picked: !newObj[id].is_picked,
-      //     };
-      //   } else {
-      //     newObj[id] = { contents_id: id, is_picked: true };
-      //   }
-      //   console.log(newObj);
-      //   return newObj;
-      // });
-      // setRating(cur => {
-      //   const newObj = { ...cur };
-      //   if (data.key in newObj) {
-      //     newObj[data.key] = !newObj[data.key];
-      //   } else {
-      //     newObj[data.key] = true;
-      //   }
-      //   console.log(newObj);
-      //   return newObj;
-      // });
     };
     return (
       <ItemWrap ref={ref}>
