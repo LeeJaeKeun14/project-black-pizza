@@ -114,9 +114,15 @@ const Main = props => {
                 ) : (
                   searchResult.data &&
                   searchResult.data.contents.map((e, i) => (
-                    <ImageBlock key={i}>
-                      <Image src={e.info[1]} alt="poster" />
-                    </ImageBlock>
+                    <ContentItem
+                      key={i}
+                      data={e}
+                      hoveringContent={hoveringContent}
+                      selectContent={selectContent}
+                      onMouseEnter={onMouseEnter}
+                      onMouseLeave={onMouseLeave}
+                      onSelectItem={onSelectItem}
+                    />
                   ))
                 )
               ) : favoriteList.isLoading && favoriteList.isLoading ? (
