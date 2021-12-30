@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -10,9 +11,11 @@ import List from "./List";
 const Survey = props => {
   const navigator = useNavigate();
   const ratingArr = useRecoilValue(ratingStateResult);
-
+  useEffect(() => {
+    // console.log(ratingArr);
+  }, [ratingArr]);
   const requestResult = async () => {
-    console.log(ratingArr);
+    // console.log(ratingArr);
     if (ratingArr.length > 0) {
       navigator("/result");
     } else {

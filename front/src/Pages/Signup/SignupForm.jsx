@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Input from "../../Components/Input/Input";
 import { useInput } from "../../hooks/useInput";
@@ -9,6 +10,7 @@ const SignupForm = props => {
   const email = useInput("");
   const password = useInput("");
   const password2 = useInput("");
+  const navigator = useNavigate();
 
   const reqeustPost = async body => {
     console.log(body);
@@ -23,6 +25,7 @@ const SignupForm = props => {
       }
       return data;
     } catch (error) {
+      console.log(error);
       error.response.data && alert(error.response.data);
       throw Error(error.response.data || error.message);
     }

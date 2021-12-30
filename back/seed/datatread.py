@@ -13,7 +13,6 @@ p_runtime2 = compile("{}분")
 p_director = compile("[{}]")
     #데이터 parse
 df['개봉일'] = df['개봉일'].apply(lambda x: int(x))
-# df['평점'] = df['평점'].apply(lambda x: float(p_score.parse(x)[0].split(",")[0].replace("'", "").replace("%", ""))/10 if pd.notnull(x) else x)
 df['재생 시간'] = df['재생 시간'].apply(lambda x: (p_runtime.parse(x)[0]+":"+p_runtime.parse(x)[1] if p_runtime.parse(x) is not None else "0:"+p_runtime2.parse(x)[0]) if pd.notnull(x) else x)
 df['감독'] = df['감독'].apply(lambda x: p_director.parse(x)[0].split(",")[0].replace("'", "") if pd.notnull(x) else x)
     #NaN 값을 None으로 변경
@@ -121,7 +120,6 @@ def matrix_maker():
 
     for i, line in df2.iterrows():
         row = {}
-        row['contents_id'] = i+1
         for j in range(1, 21):
             key = f"top{j}"
             row[key] = int(line[j])

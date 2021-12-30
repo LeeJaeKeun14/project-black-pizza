@@ -144,8 +144,7 @@ class User_Taste(db.Model):
 
 class Genre_Matrix(db.Model):
     __tablename__ = "Genre_Matrix"
-    id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
-    contents_id = db.Column(db.Integer, db.ForeignKey('Contents.id'), nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('Contents.id'), nullable=False, primary_key=True, autoincrement=True)
     top1 = db.Column(db.Integer, nullable=False)
     top2 = db.Column(db.Integer, nullable=False)
     top3 = db.Column(db.Integer, nullable=False)
