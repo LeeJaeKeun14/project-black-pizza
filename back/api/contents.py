@@ -1,32 +1,46 @@
 from flask import Flask, jsonify, Blueprint, request, session
 from numpy.random.mtrand import randint
-from scipy.sparse.construct import random
 
 from models import User, Contents, Genre, Actor, Buy, Streaming, Rent, User_Taste
 from db_connect import db
 from datateam.Recommendation import recommendations
 
-from sqlalchemy import subquery
 from sqlalchemy.sql import func
 from sqlalchemy.sql.elements import and_
 
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 
 
-@contents.route('/list', methods=['GET'])
+@contents.route('/list', methods=['GET', 'POST'])
 def list():
-    if request.method == "GET":
-        if request.args.get('page') is None:
-            list_page = 1
-        else:
-            list_page = int(request.args.get('page'))
+    if request.method == "POST":
+        params = request.get_json()
+        genres = params['genres']
+        years = sorted(params['years'], reverse=True)
+        list_page = int(params['page'])
+
+        # genres = ['로맨스', '드라마', 'SF']
+        # years = sorted([1990, 2000], reverse=True)
+        # list_page = 1
+
+        contents = []
         movie_list = {'page': list_page, 'list': []}
-        contents = Contents.query.order_by(Contents.open_year.desc()).all()[
-            (list_page-1)*20:(list_page)*20]
-        for content in contents:
+        contents_genre = db.session.query(Genre.contents_id).filter(
+            Genre.genre.in_(genres)).scalar_subquery()
+        for year in years:
+            contents.extend(Contents.query.filter((Contents.id.in_(contents_genre)) & (
+                Contents.open_year >= year) & (Contents.open_year < year+10)).all())
+
+        contents_res = contents[(list_page-1)*20:(list_page)*20]
+        for content in contents_res:
             movie_dict = {}
             movie_dict['key'] = content.id
+            # movie_dict['genre'] = []
+            # genres = Genre.query.filter(Genre.contents_id == content.id).all()
+            # for genre in genres:
+            #     movie_dict['genre'].append(genre.genre)
             movie_dict['info'] = [content.title, content.image]
+            # movie_dict['info'] = [content.title, content.image, content.open_year]
             movie_list['list'].append(movie_dict)
 
     return jsonify(movie_list)
@@ -51,14 +65,15 @@ def recommend():
                 )
                 db.session.add(new_taste)
             db.session.commit()
-            
+
     else:
         user_pick_id = [100, 200, 300, 400, 500, 600, 700, 800, 900]
         user_scores = [randint(1, 10) for _ in range(10)]
     con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
     user_pick = [i.title for i in con_list]
 
-    contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.director).all()
+    contents_all = db.session.query(
+        Contents.id, Contents.title, Contents.score, Contents.director).all()
     actors = db.session.query(Actor.contents_id, Actor.actor).all()
     genre = db.session.query(Genre.contents_id, Genre.genre).all()
 
@@ -77,8 +92,10 @@ def recommend():
         rent_list = Rent.query.filter(Rent.contents_id == i.id)
         ott_info['streaming'] = [
             {'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in streaming_list]
-        ott_info['buy'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in buy_list]
-        ott_info['rent'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in rent_list]
+        ott_info['buy'] = [{'ott': i.ott, 'price': i.price,
+                            'quality': i.quality} for i in buy_list]
+        ott_info['rent'] = [{'ott': i.ott, 'price': i.price,
+                             'quality': i.quality} for i in rent_list]
 
     ott_count = {}
     for value in content.values():
@@ -174,15 +191,18 @@ def test():
         res[i.title] = content_info
     return jsonify(res)
 
+
 @contents.route('/userpick', methods=['GET'])
 def userpick():
     if session.get('email'):
         user_email = session['email']
         user_id = User.query.filter(User.email == user_email).first().id
         user_pick = []
-        user_taste = db.session.query(User_Taste).filter(and_(User_Taste.user_id == user_id, User_Taste.is_picked == True)).subquery()
-        contents = db.session.query(Contents.id, Contents.title, Contents.image).join(user_taste, user_taste.c.contents_id == Contents.id).all()
-        
+        user_taste = db.session.query(User_Taste).filter(
+            and_(User_Taste.user_id == user_id, User_Taste.is_picked == True)).subquery()
+        contents = db.session.query(Contents.id, Contents.title, Contents.image).join(
+            user_taste, user_taste.c.contents_id == Contents.id).all()
+
         for content in contents:
             print(content)
             movie_dict = {}
@@ -194,13 +214,16 @@ def userpick():
 
     return jsonify(user_pick)
 
+
 @contents.route('/favorite', methods=['GET'])
 def favorite():
     favorite = []
     # user_taste_score = db.session.query(User_Taste).filter(User_Taste.score != None).subquery()
-    common_favorite = db.session.query(User_Taste.contents_id, func.avg(User_Taste.score).label('avg_score')).filter(User_Taste.score != None).group_by(User_Taste.contents_id).subquery()
-    contents = db.session.query(Contents.id, Contents.title, Contents.image, common_favorite.c.avg_score).join(common_favorite, common_favorite.c.contents_id == Contents.id).order_by(common_favorite.c.avg_score.desc()).limit(10)
-    
+    common_favorite = db.session.query(User_Taste.contents_id, func.avg(User_Taste.score).label(
+        'avg_score')).filter(User_Taste.score != None).group_by(User_Taste.contents_id).subquery()
+    contents = db.session.query(Contents.id, Contents.title, Contents.image, common_favorite.c.avg_score).join(
+        common_favorite, common_favorite.c.contents_id == Contents.id).order_by(common_favorite.c.avg_score.desc()).limit(10)
+
     for content in contents:
         print(content)
         movie_dict = {}

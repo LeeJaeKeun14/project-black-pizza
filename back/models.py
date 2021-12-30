@@ -24,10 +24,12 @@ class Contents(db.Model):
     origin_title = db.Column(db.String(255), nullable=True)
     open_year = db.Column(db.Integer, nullable=True)
     score = db.Column(db.Float, nullable=True)
+    rate_count = db.Column(db.Integer, nullable=True)
     runtime = db.Column(db.Time, nullable=True)
     director = db.Column(db.String(80), nullable=True)
     synopsis = db.Column(db.TEXT, nullable=True)
     image = db.Column(db.String(255), nullable=True)  # 일단 link로 넣을 수 있게 살려둠
+    isMovie = db.Column(db.Boolean, nullable=True)
 
     def __init__(self, data):
         if type(data) is dict:
@@ -139,3 +141,28 @@ class User_Taste(db.Model):
         self.contents_id = contents_id
         self.score = score
         self.is_picked = is_picked
+
+class Genre_Matrix(db.Model):
+    __tablename__ = "Genre_Matrix"
+    id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
+    contents_id = db.Column(db.Integer, db.ForeignKey('Contents.id'), nullable=False)
+    top1 = db.Column(db.Integer, nullable=False)
+    top2 = db.Column(db.Integer, nullable=False)
+    top3 = db.Column(db.Integer, nullable=False)
+    top4 = db.Column(db.Integer, nullable=False)
+    top5 = db.Column(db.Integer, nullable=False)
+    top6 = db.Column(db.Integer, nullable=False)
+    top7 = db.Column(db.Integer, nullable=False)
+    top8 = db.Column(db.Integer, nullable=False)
+    top9 = db.Column(db.Integer, nullable=False)
+    top10 = db.Column(db.Integer, nullable=False)
+    top11 = db.Column(db.Integer, nullable=False)
+    top12 = db.Column(db.Integer, nullable=False)
+    top13 = db.Column(db.Integer, nullable=False)
+    top14 = db.Column(db.Integer, nullable=False)
+    top15 = db.Column(db.Integer, nullable=False)
+    top16 = db.Column(db.Integer, nullable=False)
+    top17 = db.Column(db.Integer, nullable=False)
+    top18 = db.Column(db.Integer, nullable=False)
+    top19 = db.Column(db.Integer, nullable=False)
+    top20 = db.Column(db.Integer, nullable=False)

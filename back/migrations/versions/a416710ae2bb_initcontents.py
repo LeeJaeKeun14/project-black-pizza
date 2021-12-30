@@ -26,10 +26,12 @@ def upgrade():
     sa.Column('origin_title', sa.String(length=255), nullable=True),
     sa.Column('open_year', sa.Integer(), nullable=True),
     sa.Column('score', sa.Float(), nullable=True),
+    sa.Column('rate_count', sa.Integer(), nullable=True),
     sa.Column('runtime', sa.Time(), nullable=True),
     sa.Column('director', sa.String(length=80), nullable=True),
     sa.Column('synopsis', sa.TEXT(), nullable=True),
     sa.Column('image', sa.String(length=255), nullable=True),
+    sa.Column('isMovie', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     )
     op.create_table('Actor',
@@ -82,10 +84,12 @@ def upgrade():
         column('origin_title', sa.String),
         column('open_year', sa.Integer),
         column('score', sa.Float),
+        column('rate_count', sa.Integer),
         column('runtime', sa.Time),
         column('director', sa.String),
         column('synopsis', sa.TEXT),
         column('image', sa.String),
+        column('isMovie', sa.Boolean),
     )
     op.bulk_insert(seed_contents, contents)
 
