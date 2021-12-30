@@ -82,7 +82,7 @@ const Main = props => {
     <MainBlock>
       <Header />
       <BodyWrap>
-        <DetailBlock>
+        <DetailBlock contentToView={contentDetail.data}>
           {contentDetail.data ? (
             <ContentDetail data={contentDetail.data} />
           ) : (
@@ -195,7 +195,11 @@ const Tap = styled.div`
 const DetailBlock = styled.section`
   height: 50%;
   position: relative;
-  // z-index: -100;
+
+  background: ${props =>
+    props.contentToView
+      ? "linear-gradient(217deg, #e96d71, rgba(255, 0, 0, 0) 70.71%),linear-gradient(127deg, #ffd26f, rgba(0, 255, 0, 0) 70.71%),linear-gradient(336deg, rgb(54 119 255), rgba(0, 0, 255, 0) 70.71%)"
+      : ""};
 `;
 const ContentListBlock = styled.section`
   height: 50%;
@@ -205,7 +209,10 @@ const ContentListBlock = styled.section`
   box-sizing: border-box;
 `;
 const ListTitle = styled.h2`
+  padding-top: 50px;
   padding-left: 4%;
+
+  ${({ theme }) => theme.font.medium};
 `;
 const Wrap = styled.div`
   position: relative;
@@ -217,12 +224,9 @@ const Wrap = styled.div`
 `;
 const List = styled.ul`
   position: relative;
-  // display: flex;
-  // flex-direction: row;
-  // padding: 0 50px;
   vertical-align: middle;
-
-  padding-top: 50px;
+  // padding-top: 50px;
+  padding:20px 0;
 }
 `;
 export default Main;
