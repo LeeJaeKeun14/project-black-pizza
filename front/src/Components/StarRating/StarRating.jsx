@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { memo } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { ratingState } from "../../store/atoms";
 import Star from "./Star";
 
-const StarRating = ({ id, isRating }) => {
+const StarRating = memo(({ id, isRating }) => {
   const setRating = useSetRecoilState(ratingState);
   const [rate, setRate] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -15,19 +16,22 @@ const StarRating = ({ id, isRating }) => {
     setHoverRating(0);
   };
   const onSaveRating = index => {
-    setRate(index);
+    console.log(index);
+    setRate(cur => (cur === index ? 0 : index));
 
     setRating(cur => {
       const newObj = { ...cur };
       if (id in newObj) {
-        if (newObj[id] === index) return cur;
-        else newObj[id] = index;
+        if (newObj[id].score === index)
+          newObj[id] = { ...newObj[id], score: 0 };
+        else newObj[id] = { ...newObj[id], score: index };
       } else {
-        newObj[id] = index;
+        newObj[id] = { contents_id: id, score: index, is_picked: false };
       }
+      console.log(newObj);
       return newObj;
     });
-    isRating(id, true);
+    isRating(id, index);
   };
   return (
     <RatingWrap>
@@ -46,7 +50,7 @@ const StarRating = ({ id, isRating }) => {
       })}
     </RatingWrap>
   );
-};
+});
 const RatingWrap = styled.div`
   // width: 50px;
   // height: 100%;
