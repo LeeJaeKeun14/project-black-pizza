@@ -41,7 +41,7 @@ def signup():
         else:
             user = User.query.filter(User.email == email).first()
             if user is not None:
-                message = f'{name} 계정은 이미 등록된 계정입니다.'
+                message = f'{user.name} 계정은 이미 등록된 계정입니다.'
 
         if message is None:
             # 유저 테이블에 추가
