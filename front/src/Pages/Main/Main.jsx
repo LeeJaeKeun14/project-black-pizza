@@ -82,27 +82,13 @@ const Main = props => {
     <MainBlock>
       <Header />
       <BodyWrap>
-        <Tap>
-          <LinkWrap>
-            <Link to="/survey">survey</Link>
-          </LinkWrap>
-          <div>
-            <input
-              type="text"
-              onChange={e => {
-                e.preventDefault();
-                setSearchWord(e.target.value);
-              }}
-            />
-            <button onClick={onSearch}>검색</button>
-          </div>
-        </Tap>
-
         <DetailBlock>
           {contentDetail.data ? (
             <ContentDetail data={contentDetail.data} />
           ) : (
-            <div>초기상태</div>
+            <LinkWrap>
+              <Link to="/survey">survey</Link>
+            </LinkWrap>
           )}
         </DetailBlock>
         <ContentListBlock>
@@ -144,7 +130,6 @@ const Main = props => {
           </List>
         </ContentListBlock>
       </BodyWrap>
-
       {/* <div>인기 영화</div>
       {favoriteList.isLoading && favoriteList.isLoading ? (
         <div>loading...</div>
@@ -163,6 +148,18 @@ const Main = props => {
           <img key={i} src={e.info[1]} alt="poster" />
         ))
       )} */}
+      <Tap>
+        <div>
+          <input
+            type="text"
+            onChange={e => {
+              e.preventDefault();
+              setSearchWord(e.target.value);
+            }}
+          />
+          <button onClick={onSearch}>검색</button>
+        </div>
+      </Tap>
     </MainBlock>
   );
 };
@@ -176,6 +173,11 @@ const BodyWrap = styled.div`
   margin-top: -80px;
 `;
 const LinkWrap = styled.div`
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(0, -50%);
+
   > a {
     color: ${({ theme }) => theme.color.font};
     text-decoration: none;
@@ -190,7 +192,7 @@ const Tap = styled.div`
 const DetailBlock = styled.section`
   height: 50%;
   position: relative;
-  z-index: -100;
+  // z-index: -100;
 `;
 const ContentListBlock = styled.section`
   height: 50%;
@@ -225,12 +227,11 @@ const ImageBlock = styled.li`
   & + & {
     // margin: 20px 20px 20px 0;
   }
-  transition: transform 0.2s;
+  // transition: transform 0.2s;
   &:hover {
     // border: 1px solid white;
     // width: 30%;
-    transform: scale(1.2);
-    z-index: 100;
+    // transform: scale(1.2);
   }
 `;
 const Image = styled.img`

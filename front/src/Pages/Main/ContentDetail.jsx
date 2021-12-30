@@ -35,6 +35,7 @@ const ContentDetail = ({ data }) => {
           </span>
         ))}
       </div>
+      <button>찜</button>
     </ContentDetailBlock>
   );
 };
