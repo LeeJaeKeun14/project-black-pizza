@@ -13,9 +13,8 @@ const Item = memo(
     const [isStarRated, setIsStarRated] = useState(0);
     const [isUserpick, setIsUserPick] = useState(0);
     const setRating = useSetRecoilState(ratingState);
-    // [{'contents_id': 영화id, 'score': 별점, 'is_picked': 보고싶어요 여부(불린값)}, ..]
+
     const isRating = (id, rate) => {
-      console.log(rate);
       if (rate) setIsStarRated(rate);
       if (rate === isStarRated) setIsStarRated(0);
     };

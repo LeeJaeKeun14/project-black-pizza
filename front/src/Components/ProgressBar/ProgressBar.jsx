@@ -4,15 +4,26 @@ import styled, { keyframes } from "styled-components";
 
 const ProgressBar = ({ selectedCount, totalCount }) => {
   const progress = useMemo(() => {
-    if (selectedCount > 0) {
-      return Math.ceil((selectedCount / totalCount) * 100);
-    } else return 0;
+    if (selectedCount === 0) {
+      return 0;
+    } else if (selectedCount > totalCount) {
+      return 50;
+    } else return Math.ceil((selectedCount / totalCount) * 100);
   }, [selectedCount, totalCount]);
+
+  const total = useMemo(() => {
+    if (selectedCount > totalCount) {
+      return 0;
+    } else return totalCount;
+  }, [selectedCount, totalCount]);
+
   return (
     <ProgressBarBlock>
-      <Text progress={progress}>{progress}%</Text>
+      <Text progress={progress}>
+        {selectedCount > 5 ? "더 선택하시는군요!" : `${progress}%`}
+      </Text>
       <Border>
-        <Solid progress={progress} total={totalCount} />
+        <Solid progress={progress} total={total} />
       </Border>
     </ProgressBarBlock>
   );
