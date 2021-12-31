@@ -3,7 +3,10 @@ version: '3'
 services:
   db_mysql:
     # MacOS m1칩 사용자는 아래 (platform: linux/x86_64) 주석을 풀고 실행해주세요 / 다른 분은 주석으로 해주시고 실행해주세요
+    # docker system prune --volumes : memory 오류가 날 경우 실행
     # platform: linux/x86_64
+    volumes:
+      - ./db_mysql/data:/var/lib/mysql
     build:
       context: ./db_mysql
       dockerfile: ./mysql.Dockerfile
@@ -19,7 +22,7 @@ services:
       - db_mysql
     build: ./back
     ports: 
-      - "8000:5000"
+      - "5000:5000"
     volumes:
       - ./back:/app
     environment:
