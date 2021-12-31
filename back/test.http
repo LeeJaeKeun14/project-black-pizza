@@ -1,0 +1,20 @@
+# Contents api
+GET http://localhost:8000/api/contents/recommend
+
+###
+POST http://localhost:8000/api/contents/recommend
+Content-Type: application/json
+
+{
+  "data": [
+    {"contents_id": 1000, "score": 5},
+    {"contents_id": 2000, "score": 7},
+    {"contents_id": 3000, "score": 9},
+    {"contents_id": 4000, "score": 3},
+    {"contents_id": 5000, "score": 1},
+    {"contents_id": 6000, "is_picked": true},
+    {"contents_id": 7000, "is_picked": true},
+    {"contents_id": 8000, "is_picked": true},
+    {"contents_id": 9000, "is_picked": true}
+  ]
+}
