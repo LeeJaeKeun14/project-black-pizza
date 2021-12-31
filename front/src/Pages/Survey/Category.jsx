@@ -49,7 +49,7 @@ const Category = props => {
         </ButtonsWrap>
       </GenreWrap>
       <GenreWrap>
-        <p>어느 년도의 콘텐츠를 보고 싶은가요?</p>
+        <p>어느 연도의 콘텐츠를 보고 싶은가요?</p>
         <ButtonsWrap>
           {[1970, 1980, 1990, 2000, 2010, 2020].map((e, i) => (
             <ToggleButton key={i} onClickCategoty={onClickYear} text={e} />

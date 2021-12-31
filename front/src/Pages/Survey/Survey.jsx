@@ -8,13 +8,14 @@ import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 import { loginState, ratingStateResult } from "../../store/atoms";
 import Category from "./Category";
 import List from "./List";
-
+import { userSelectedGenres, userSelectedYears } from "../../store/atoms";
 const Survey = props => {
   const navigator = useNavigate();
   const [hasCategory, setHasCategory] = useState(false);
   const ratingArr = useRecoilValue(ratingStateResult);
   const isLogin = useRecoilValue(loginState);
-
+  const userGenres = useRecoilValue(userSelectedGenres);
+  const userYears = useRecoilValue(userSelectedYears);
   useEffect(() => {
     if (!isLogin) {
       navigator("/");
@@ -32,7 +33,7 @@ const Survey = props => {
   return (
     <SurveyWrap>
       <Header />
-      <button onClick={() => setHasCategory(!hasCategory)}>set category</button>
+
       {hasCategory ? (
         <div>
           <div>
@@ -44,7 +45,15 @@ const Survey = props => {
           </Content>
         </div>
       ) : (
-        <Category />
+        <div>
+          <button
+            disabled={userGenres.length === 0 || userYears.length === 0}
+            onClick={() => setHasCategory(!hasCategory)}
+          >
+            set category
+          </button>
+          <Category />
+        </div>
       )}
     </SurveyWrap>
   );
