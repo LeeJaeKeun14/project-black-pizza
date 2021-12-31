@@ -5,6 +5,16 @@ export const contentList = atom({
   default: [],
 })
 
+export const userSelectedGenres = atom({
+  key: 'userSelectedGenres',
+  default: []
+})
+
+export const userSelectedYears = atom({
+  key: 'userSelectedYears',
+  default: []
+})
+
 export const ratingState = atom({
   key: 'ratingState',
   default: {},

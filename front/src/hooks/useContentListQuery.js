@@ -1,16 +1,27 @@
 import axios from 'axios';
+import { useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../store/atoms';
+import { loginState, userSelectedYears, userSelectedGenres } from '../store/atoms';
 
 export const useContentListQuery = () => {
   const isLogin = useRecoilValue(loginState);
+  const userGenres = useRecoilValue(userSelectedGenres);
+  const userYears = useRecoilValue(userSelectedYears);
+
+  useEffect(() => {
+    console.log(userGenres)
+    console.log(userYears)
+  }, [userGenres, userYears])
   const fetchProjects = async ({ pageParam = 1 }) => {
+    const data = { genres: userGenres, years: userYears, page: pageParam }
+
     try {
       const res = await axios
-        .get(`/api/contents/list?page=${pageParam}`)
+        .post("/api/contents/list", data)
         .then(res => res.data.list)
       // .catch(console.log);
+      console.log(res)
       return {
         result: res,
         nextpage: pageParam + 1,
@@ -36,6 +47,6 @@ export const useContentListQuery = () => {
     }, onError: (error) => {
       console.log(error)
     },
-  }, { enabled: false });
+  }, { enabled: !!isLogin });
   return { data, error, isLoading, fetchNextPage, isFetching };
 };

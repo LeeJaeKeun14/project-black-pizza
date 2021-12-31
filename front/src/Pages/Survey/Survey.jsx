@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
@@ -6,12 +6,15 @@ import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 import { loginState, ratingStateResult } from "../../store/atoms";
+import Category from "./Category";
 import List from "./List";
 
 const Survey = props => {
   const navigator = useNavigate();
+  const [hasCategory, setHasCategory] = useState(false);
   const ratingArr = useRecoilValue(ratingStateResult);
   const isLogin = useRecoilValue(loginState);
+
   useEffect(() => {
     if (!isLogin) {
       navigator("/");
@@ -29,14 +32,20 @@ const Survey = props => {
   return (
     <SurveyWrap>
       <Header />
-      <div>
-        <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
-        <Button onClick={requestResult}>추천영화 확인하기</Button>
-      </div>
-
-      <Content>
-        <List />
-      </Content>
+      <button onClick={() => setHasCategory(!hasCategory)}>set category</button>
+      {hasCategory ? (
+        <div>
+          <div>
+            <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
+            <Button onClick={requestResult}>추천영화 확인하기</Button>
+          </div>
+          <Content>
+            <List />
+          </Content>
+        </div>
+      ) : (
+        <Category />
+      )}
     </SurveyWrap>
   );
 };
