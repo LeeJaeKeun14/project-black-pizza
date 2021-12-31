@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from './store/atoms';
+import SignupForm from './Pages/Signup/SignupForm';
+import LoginForm from './Pages/Login/LoginForm';
 
 function App() {
   const queryClient = new QueryClient()
@@ -42,8 +44,8 @@ function App() {
               <Route path="/survey" element={<Survey />} />
               <Route path="/result" element={<SurveyResult />} />
               <Route path="/detail/:id" element={<Detail />} />
-              <Route path="/signup" element={<UserForm />} />
-              <Route path="/login" element={<UserForm />} />
+              <Route path="/signup" element={<UserForm  ><SignupForm /></UserForm>} />
+              <Route path="/login" element={<UserForm ><LoginForm /></UserForm>} />
             </Routes>
           </div>
         </ThemeProvider>
