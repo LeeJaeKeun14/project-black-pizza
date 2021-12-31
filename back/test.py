@@ -4,7 +4,7 @@ import json
 import jsonpath
 
 
-base_url = "http://localhost:8000/api"
+base_url = "http://localhost:5000/api"
 
 
 def test_contents_recommend():

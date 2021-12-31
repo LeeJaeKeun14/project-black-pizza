@@ -1,6 +1,6 @@
 # User api
 ### signup api
-POST http://localhost:8000/api/user/signup
+POST http://localhost:5000/api/user/signup
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### signin api
-POST http://localhost:8000/api/user/signin
+POST http://localhost:5000/api/user/signin
 Content-Type: application/json
 
 {
@@ -20,8 +20,8 @@ Content-Type: application/json
 }
 
 ### signout api
-GET http://localhost:8000/api/user/signout
+GET http://localhost:5000/api/user/signout
 
 ### isSignin api
-GET http://localhost:8000/api/user/isSignin
+GET http://localhost:5000/api/user/isSignin
 
