@@ -9,13 +9,9 @@ export const useContentListQuery = () => {
   const userGenres = useRecoilValue(userSelectedGenres);
   const userYears = useRecoilValue(userSelectedYears);
 
-  useEffect(() => {
-    console.log(userGenres)
-    console.log(userYears)
-  }, [userGenres, userYears])
   const fetchProjects = async ({ pageParam = 1 }) => {
     const data = { genres: userGenres, years: userYears, page: pageParam }
-
+    console.log(pageParam)
     try {
       const res = await axios
         .post("/api/contents/list", data)
@@ -42,11 +38,10 @@ export const useContentListQuery = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery("contentList", fetchProjects, {
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.nextpage;
-    }, onError: (error) => {
+    getNextPageParam: (lastPage, pages) => lastPage.nextpage
+    , onError: (error) => {
       console.log(error)
     },
-  }, { enabled: !!isLogin });
-  return { data, error, isLoading, fetchNextPage, isFetching };
+  });
+  return { data, error, isLoading, fetchNextPage, isFetching, hasNextPage };
 };

@@ -17,10 +17,8 @@ const Category = props => {
     console.log(userYears);
   }, [userGenres, userYears]);
   useEffect(() => {
-    return () => {
-      setUserGenres([]);
-      setUserYears([]);
-    };
+    setUserGenres([]);
+    setUserYears([]);
   }, [setUserGenres, setUserYears]);
   const onClickGenre = genre => {
     setUserGenres(cur => {
