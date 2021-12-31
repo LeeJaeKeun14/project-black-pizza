@@ -188,7 +188,7 @@ const LinkWrap = styled.div`
   position: absolute;
   right: 50%;
   top: 50%;
-  transform: translate(0, -50%);
+  transform: translate(50%, -50%);
 
   > a {
     color: ${({ theme }) => theme.color.font};

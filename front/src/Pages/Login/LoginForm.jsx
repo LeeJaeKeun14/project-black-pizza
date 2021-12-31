@@ -9,6 +9,7 @@ import { loginState } from "../../store/atoms";
 
 const LoginForm = props => {
   const navigator = useNavigate();
+
   const email = useInput("");
   const password = useInput("");
   const setIsLogin = useSetRecoilState(loginState);

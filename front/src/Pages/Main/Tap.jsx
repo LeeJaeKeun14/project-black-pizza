@@ -17,8 +17,8 @@ const Tap = memo(
     };
     return (
       <TapBlock>
-        <Button onClick={setMainPage}>main</Button>
-        <Button onClick={() => setIsDisplay(!isDisplay)}>search</Button>
+        <Button onClick={setMainPage}>홈</Button>
+        <Button onClick={() => setIsDisplay(!isDisplay)}>검색</Button>
         <SearchBarBlock isDisplay={isDisplay}>
           <Input
             ref={inputRef}
@@ -28,7 +28,7 @@ const Tap = memo(
               setSearchWord(e.target.value);
             }}
           />
-          <Button onClick={onClickSearchButton}>검색</Button>
+          <Button onClick={onClickSearchButton}>찾기</Button>
         </SearchBarBlock>
       </TapBlock>
     );
@@ -43,6 +43,7 @@ const TapBlock = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 20px 0;
 `;
 const Button = styled.button`
   background: none;
@@ -60,10 +61,12 @@ const SearchBarBlock = styled.div`
 const Input = styled.input`
   box-sizing: border-box;
   padding: 4px 16px;
-  border: none;
-  border-radius: 10px;
+  border: 2px solid ${({ theme }) => theme.color.font};
+  border-radius: 15px;
   outline: none;
-  background-color: ${({ theme }) => theme.color.background3};
+  background: none;
+
+  // background-color: ${({ theme }) => theme.color.background3};
   color: ${({ theme }) => theme.color.font};
 `;
 export default Tap;
