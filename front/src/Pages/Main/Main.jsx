@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import ContentDetail from "./ContentDetail";
 import ContentItem from "./ContentItem";
+import Tap from "./Tap";
 
 const Main = props => {
   const [searchWord, setSearchWord] = useState("");
@@ -98,7 +99,7 @@ const Main = props => {
               {searchResult.data ? (
                 searchResult.isLoading ? (
                   <div>loading...</div>
-                ) : (
+                ) : searchResult.data.contents.length > 0 ? (
                   searchResult.data.contents.map((e, i) => (
                     <ContentItem
                       key={i}
@@ -110,6 +111,8 @@ const Main = props => {
                       onSelectItem={onSelectItem}
                     />
                   ))
+                ) : (
+                  <div>검색결과가 없습니다.</div>
                 )
               ) : favoriteList.isLoading ? (
                 <div>loading...</div>
@@ -125,11 +128,17 @@ const Main = props => {
                     onSelectItem={onSelectItem}
                   />
                 ))
-              )}{" "}
+              )}
             </List>
           </Wrap>
         </ContentListBlock>
-        <Tap>
+        <Tap
+          onSearch={onSearch}
+          setSearchWord={setSearchWord}
+          setSelectContent={setSelectContent}
+          setHoveringContent={setHoveringContent}
+        />
+        {/* <Tap>
           <div>
             <input
               type="text"
@@ -140,7 +149,7 @@ const Main = props => {
             />
             <button onClick={onSearch}>검색</button>
           </div>
-        </Tap>
+        </Tap> */}
       </BodyWrap>
 
       {/* <div>인기 영화</div>
@@ -186,12 +195,12 @@ const LinkWrap = styled.div`
     text-decoration: none;
   }
 `;
-const Tap = styled.div`
-  position: absolute;
-  top: 80px;
-  left: 50%;
-  transform: translate(-50%, 0);
-`;
+// const Tap = styled.div`
+//   position: absolute;
+//   top: 80px;
+//   left: 50%;
+//   transform: translate(-50%, 0);
+// `;
 const DetailBlock = styled.section`
   height: 50%;
   position: relative;
