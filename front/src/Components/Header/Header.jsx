@@ -49,6 +49,7 @@ const HeaderWrap = styled.header`
   justify-content: space-between;
   padding: 1rem 1.5rem;
   box-sizing: border-box;
+  z-index: 100;
 `;
 
 const Title = styled.h1`
