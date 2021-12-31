@@ -16,15 +16,21 @@ const Category = props => {
     console.log(userGenres);
     console.log(userYears);
   }, [userGenres, userYears]);
+  useEffect(() => {
+    return () => {
+      setUserGenres([]);
+      setUserYears([]);
+    };
+  }, [setUserGenres, setUserYears]);
   const onClickGenre = genre => {
     setUserGenres(cur => {
-      if (cur.includes(genre)) return cur;
+      if (cur.includes(genre)) return [...cur.filter(e => e !== genre)];
       else return [...cur, genre];
     });
   };
   const onClickYear = year => {
     setUserYears(cur => {
-      if (cur.includes(year)) return cur;
+      if (cur.includes(year)) return [...cur.filter(e => e !== year)];
       else return [...cur, year];
     });
   };
@@ -35,10 +41,9 @@ const Category = props => {
       <GenreWrap>
         <p>어떤 장르의 콘텐츠를 보고 싶은가요?</p>
         <ButtonsWrap>
-          {["로맨스", "공포", "로맨스", "공포", "로맨스", "공포"].map(
+          {["로맨스", "공포", "가족", "코미디", "액션", "애니메이션"].map(
             (e, i) => (
-              <ToggleButton onClickCategoty={onClickGenre} text={e} />
-              // <Button onClick={() => onClickGenre(e)}>{e}</Button>
+              <ToggleButton key={i} onClickCategoty={onClickGenre} text={e} />
             )
           )}
         </ButtonsWrap>
@@ -46,8 +51,8 @@ const Category = props => {
       <GenreWrap>
         <p>어느 년도의 콘텐츠를 보고 싶은가요?</p>
         <ButtonsWrap>
-          {[1990, 2000, 1990, 2000, 1990, 2000].map((e, i) => (
-            <ToggleButton onClickCategoty={onClickYear} text={e} />
+          {[1970, 1980, 1990, 2000, 2010, 2020].map((e, i) => (
+            <ToggleButton key={i} onClickCategoty={onClickYear} text={e} />
           ))}
         </ButtonsWrap>
       </GenreWrap>
