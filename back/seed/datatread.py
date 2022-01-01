@@ -2,18 +2,17 @@ import pandas as pd
 from parse import compile
 
 #데이터 pandas로 불러오기
-df = pd.read_csv('./seed/temp_movie_data.csv')
+df = pd.read_csv('./seed/total_data.csv')
+df2 = pd.read_csv('./seed/genre_sim_matrix.csv')
 
 #데이터 전처리
     #데이터 parse를 위한 compiler 생성
-p_open_year = compile('({})')
 p_score = compile("[{}]")
-p_runtime = compile("['{}시간 {}분']")
-p_runtime2 = compile("['{}min']")
+p_runtime = compile("{}시간 {}분")
+p_runtime2 = compile("{}분")
 p_director = compile("[{}]")
     #데이터 parse
-df['개봉일'] = df['개봉일'].apply(lambda x: int(p_open_year.parse(x)[0]))
-df['평점'] = df['평점'].apply(lambda x: float(p_score.parse(x)[0].split(",")[0].replace("'", "").replace("%", ""))/10 if pd.notnull(x) else x)
+df['개봉일'] = df['개봉일'].apply(lambda x: int(x))
 df['재생 시간'] = df['재생 시간'].apply(lambda x: (p_runtime.parse(x)[0]+":"+p_runtime.parse(x)[1] if p_runtime.parse(x) is not None else "0:"+p_runtime2.parse(x)[0]) if pd.notnull(x) else x)
 df['감독'] = df['감독'].apply(lambda x: p_director.parse(x)[0].split(",")[0].replace("'", "") if pd.notnull(x) else x)
     #NaN 값을 None으로 변경
@@ -36,11 +35,13 @@ def seed_maker():
         content["title"] = line['제목'] if pd.notnull(line['제목']) else None
         content["origin_title"] = line['원제'] if pd.notnull(line['원제']) else None
         content["open_year"] = line['개봉일'] if pd.notnull(line['개봉일']) else None
-        content["score"] = line['평점'] if pd.notnull(line['평점']) else None
+        content["score"] = float(line['평점']) if pd.notnull(line['평점']) else None
+        content["rate_count"] = int(line['평가수']) if pd.notnull(line['평가수']) else None
         content["runtime"] = line['재생 시간'] if pd.notnull(['재생 시간']) else None
         content["director"] = line['감독'] if pd.notnull(line['감독']) else None
         content["synopsis"] = line['시놉시스'] if pd.notnull(line['시놉시스']) else None
         content["image"] = line['이미지'] if pd.notnull(line['이미지']) else None
+        content["isMovie"] = True if line['종류'] == '영화' else False
         contents.append(content)
         
         #contents_genre 데이터 생성
@@ -112,3 +113,16 @@ def seed_maker():
                 contents_rent.append(new_ott) 
 
     return contents, contents_genre, contents_actor, contents_streaming, contents_buy, contents_rent
+
+
+def matrix_maker():
+    matrix = []
+
+    for i, line in df2.iterrows():
+        row = {}
+        for j in range(1, 21):
+            key = f"top{j}"
+            row[key] = int(line[j])
+        matrix.append(row)
+    
+    return matrix

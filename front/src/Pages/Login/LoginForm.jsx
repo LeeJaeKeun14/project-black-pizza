@@ -1,14 +1,20 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Input from "../../Components/Input/Input";
 import { useInput } from "../../hooks/useInput";
+import { loginState } from "../../store/atoms";
 
 const LoginForm = props => {
   const navigator = useNavigate();
+
   const email = useInput("");
   const password = useInput("");
+  const setIsLogin = useSetRecoilState(loginState);
+  const [message, setMessage] = useState("");
+
   const requestlogin = async body => {
     console.log(body);
     try {
@@ -17,9 +23,11 @@ const LoginForm = props => {
       console.log(headers);
 
       if (data.status === 200) {
+        setIsLogin(true);
         navigator("/");
       } else {
-        data.msg && alert(data.msg);
+        // data.msg && alert(data.msg);
+        data.msg && setMessage(data.msg);
       }
       return data;
     } catch (error) {
@@ -51,6 +59,7 @@ const LoginForm = props => {
         placeholder={"●●●●●●●●"}
         onChangeHandler={password.setValue}
       />
+      <Alert>{message}</Alert>
       <Button onClick={sendLoginInfo}>login</Button>
     </InputForm>
   );
@@ -68,6 +77,9 @@ const Title = styled.h1`
 
   margin: 20px 0;
 `;
+const Alert = styled.p`
+  padding: 20px 0;
+`;
 const Button = styled.button`
   width: 100%;
   height: 40px;
@@ -75,7 +87,7 @@ const Button = styled.button`
   padding: 4px 16px;
   border-radius: 10px;
   border: none;
-  margin: 30px 0;
+  margin-bottom: 30px 0;
   background-color: #ffffff;
   cursor: pointer;
   &:hover {

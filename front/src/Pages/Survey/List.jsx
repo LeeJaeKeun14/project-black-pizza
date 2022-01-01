@@ -1,28 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useContentListQuery } from "../../hooks/useContentListQuery";
 import Item from "./Item";
+import useIntersectionObserver from "./useIntersectionObserver";
 
 const List = props => {
-  const [target, setTarget] = useState(null);
-  const { data, error, isLoading, fetchNextPage, isFetching } =
+  const lastRef = useRef();
+  const { data, error, isLoading, fetchNextPage, isFetching, hasNextPage } =
     useContentListQuery();
 
-  useEffect(() => {
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(observerCallback, observerOptions);
-      observer.observe(target);
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
-
-  const observerOptions = { root: null, rootMargin: "0px", threshold: 1 };
-  const observerCallback = async ([entries], observer) => {
-    if (entries.isIntersecting) {
-      fetchNextPage();
-    }
-  };
+  useIntersectionObserver({
+    target: lastRef,
+    onIntersect: fetchNextPage,
+    enabled: hasNextPage,
+  });
   return isLoading ? (
     <p>loading</p>
   ) : error ? (
@@ -34,7 +25,7 @@ const List = props => {
           <React.Fragment key={i}>
             {group.result.map((e, idx) => {
               if (group.result.length === idx + 1) {
-                return <Item key={idx} ref={setTarget} data={e} />;
+                return <Item key={idx} data={e} />;
               } else {
                 return <Item key={idx} data={e} />;
               }
@@ -42,6 +33,9 @@ const List = props => {
           </React.Fragment>
         ))}
       </ListWrap>
+      <button ref={lastRef} onClick={() => fetchNextPage()}>
+        here
+      </button>
       <div>{isFetching ? <p>loading</p> : null}</div>
     </>
   );

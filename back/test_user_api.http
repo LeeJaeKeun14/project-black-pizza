@@ -1,0 +1,27 @@
+# User api
+### signup api
+POST http://localhost:5000/api/user/signup
+Content-Type: application/json
+
+{
+  "name": "tester",
+  "email": "test2@test.com",
+  "password": "test@1234",
+  "password2": "test@1234"
+}
+
+### signin api
+POST http://localhost:5000/api/user/signin
+Content-Type: application/json
+
+{
+  "email": "test2@test.com",
+  "password": "test@1234"
+}
+
+### signout api
+GET http://localhost:5000/api/user/signout
+
+### isSignin api
+GET http://localhost:5000/api/user/isSignin
+
