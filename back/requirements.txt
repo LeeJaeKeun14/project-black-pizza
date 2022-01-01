@@ -12,5 +12,7 @@ scikit-learn==1.0.1
 scipy==1.7.3 
 sklearn==0.0 
 threadpoolctl==3.0.0
-
+pytest==6.2.5
+jsonpath==0.82
+requests==2.26.0
 cryptography

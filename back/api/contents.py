@@ -43,7 +43,7 @@ def list():
             # movie_dict['info'] = [content.title, content.image, content.open_year]
             movie_list['list'].append(movie_dict)
 
-    return jsonify(movie_list)
+        return jsonify(movie_list)
 
 
 @contents.route('/recommend', methods=['GET', 'POST'])
@@ -72,11 +72,12 @@ def recommend():
     con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
     user_pick = [i.title for i in con_list]
 
-    contents_all = db.session.query(Contents.id, Contents.title, Contents.score, Contents.rate_count).all()
+    contents_all = db.session.query(
+        Contents.id, Contents.title, Contents.score, Contents.rate_count).all()
     genre_matrix = db.session.query(
-        Genre_Matrix.top1, Genre_Matrix.top2, Genre_Matrix.top3, Genre_Matrix.top4, Genre_Matrix.top5, 
+        Genre_Matrix.top1, Genre_Matrix.top2, Genre_Matrix.top3, Genre_Matrix.top4, Genre_Matrix.top5,
         Genre_Matrix.top6, Genre_Matrix.top7, Genre_Matrix.top8, Genre_Matrix.top9, Genre_Matrix.top10,
-        Genre_Matrix.top11, Genre_Matrix.top12, Genre_Matrix.top13, Genre_Matrix.top14, Genre_Matrix.top15, 
+        Genre_Matrix.top11, Genre_Matrix.top12, Genre_Matrix.top13, Genre_Matrix.top14, Genre_Matrix.top15,
         Genre_Matrix.top16, Genre_Matrix.top17, Genre_Matrix.top18, Genre_Matrix.top19, Genre_Matrix.top20
     ).all()
     rcm_df = recommendations(user_pick, contents_all, genre_matrix)
@@ -94,8 +95,10 @@ def recommend():
         rent_list = Rent.query.filter(Rent.contents_id == i.id)
         ott_info['streaming'] = [
             {'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in streaming_list]
-        ott_info['buy'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in buy_list]
-        ott_info['rent'] = [{'ott': i.ott, 'price': i.price, 'quality': i.quality} for i in rent_list]
+        ott_info['buy'] = [{'ott': i.ott, 'price': i.price,
+                            'quality': i.quality} for i in buy_list]
+        ott_info['rent'] = [{'ott': i.ott, 'price': i.price,
+                             'quality': i.quality} for i in rent_list]
 
     ott_count = {}
     for value in content.values():
