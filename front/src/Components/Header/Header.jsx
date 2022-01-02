@@ -1,9 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { loginState } from "../../store/atoms";
 
@@ -20,9 +18,9 @@ const Header = props => {
   };
   return (
     <HeaderWrap>
-      <Title>
-        <Link to="/">Black Pizza 🍕</Link>
-      </Title>
+      <StyledLink to="/">
+        <Title>Black Pizza 🍕 </Title>
+      </StyledLink>
 
       {isLogin === true ? (
         <Nav>
@@ -53,15 +51,13 @@ const HeaderWrap = styled.header`
 `;
 
 const Title = styled.h1`
-  > a {
-    ${({ theme }) => theme.font.large}
-    color: ${({ theme }) => theme.color.font};
-    text-decoration: none;
-  }
+  ${({ theme }) => theme.font.large}
+  color: ${({ theme }) => theme.color.font};
+  text-decoration: none;
 `;
 const Nav = styled.nav`
   display: flex;
-  align-items: center;
+  align-items: baseline;
 `;
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.color.font};
