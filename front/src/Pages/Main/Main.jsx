@@ -20,13 +20,6 @@ const Main = props => {
     console.log(data);
     return data;
   };
-  const fetchUserPick = async () => {
-    const { data } = await axios.get("/api/contents/userpick").then(res => {
-      return res;
-    });
-    console.log(data);
-    return data;
-  };
   const fetchSearchItem = async searchWord => {
     const { data } = await axios
       .get(`/api/contents/search?q=${searchWord}&type=title`)
@@ -45,7 +38,6 @@ const Main = props => {
     return data;
   };
   const favoriteList = useQuery("favoriteList", fetchfavoriteList);
-  // const userPick = useQuery("userPick", fetchUserPick);
 
   const searchResult = useQuery(
     ["search", searchWord],
@@ -55,12 +47,8 @@ const Main = props => {
     }
   );
 
-  const contentDetail = useQuery(
-    ["contentDetail", selectContent],
-    () => fetchContentDetail(selectContent),
-    {
-      enabled: false,
-    }
+  const contentDetail = useQuery(["contentDetail", selectContent], () =>
+    fetchContentDetail(selectContent)
   );
 
   const onSearch = async () => {
@@ -85,7 +73,11 @@ const Main = props => {
       <BodyWrap>
         <DetailBlock contentToView={contentDetail.data}>
           {contentDetail.data ? (
-            <ContentDetail data={contentDetail.data} />
+            contentDetail.isLoading ? (
+              <div>loading...</div>
+            ) : (
+              <ContentDetail data={contentDetail.data} />
+            )
           ) : (
             <LinkWrap>
               <Link to="/survey">survey</Link>
@@ -138,38 +130,7 @@ const Main = props => {
           setSelectContent={setSelectContent}
           setHoveringContent={setHoveringContent}
         />
-        {/* <Tap>
-          <div>
-            <input
-              type="text"
-              onChange={e => {
-                e.preventDefault();
-                setSearchWord(e.target.value);
-              }}
-            />
-            <button onClick={onSearch}>검색</button>
-          </div>
-        </Tap> */}
       </BodyWrap>
-
-      {/* <div>인기 영화</div>
-      {favoriteList.isLoading && favoriteList.isLoading ? (
-        <div>loading...</div>
-      ) : (
-        favoriteList.data.map((e, i) => (
-          <img key={i} src={e.info[1]} alt="poster" />
-        ))
-      )} */}
-      {/* <div>찜한 목록</div>
-      {userPick.isLoading && userPick.isLoading ? (
-        <div>loading...</div>
-      ) : userPick.data.length === 0 ? (
-        <div>찜한 목록이 없습니다.</div>
-      ) : (
-        userPick.data.map((e, i) => (
-          <img key={i} src={e.info[1]} alt="poster" />
-        ))
-      )} */}
     </MainBlock>
   );
 };

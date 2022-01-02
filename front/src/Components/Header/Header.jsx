@@ -1,21 +1,14 @@
 import axios from "axios";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { loginState } from "../../store/atoms";
 
 const Header = props => {
   const { pathname } = useLocation();
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const isLogin = useRecoilValue(loginState);
 
-  const logout = () => {
-    axios.get("api/user/signout").then(res => {
-      if (res.data.status === 200) {
-        setIsLogin(false);
-      }
-    });
-  };
   return (
     <HeaderWrap>
       <StyledLink to="/">
@@ -30,7 +23,7 @@ const Header = props => {
           >
             영화 찾으러 가기
           </StyledLink>
-          <Button onClick={logout}>로그아웃</Button>
+          <StyledLink to="/mypage">마이페이지</StyledLink>
         </Nav>
       ) : (
         <Nav>
@@ -65,12 +58,5 @@ const StyledLink = styled(Link)`
   ${({ theme }) => theme.font.small}
   padding: 0 6px;
   display: ${props => (props.location === "true" ? "none" : "block")};
-`;
-const Button = styled.button`
-  color: ${({ theme }) => theme.color.font};
-  ${({ theme }) => theme.font.small}
-  background: none;
-  border: none;
-  cursor: pointer;
 `;
 export default Header;

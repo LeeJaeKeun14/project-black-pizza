@@ -17,6 +17,7 @@ import SignupForm from './Pages/Signup/SignupForm';
 import LoginForm from './Pages/Login/LoginForm';
 import { ReactQueryDevtools } from 'react-query/devtools'
 import PrivateRoute from './PrivateRoute';
+import MyPage from './Pages/MyPage/MyPage';
 function App() {
   const queryClient = new QueryClient()
   const setIsLogin = useSetRecoilState(loginState);
@@ -49,6 +50,7 @@ function App() {
               <Route path="/detail/:id" element={<Detail />} />
               <Route path="/signup" element={<UserForm  ><SignupForm /></UserForm>} />
               <Route path="/login" element={<UserForm ><LoginForm /></UserForm>} />
+              <Route path="/mypage" element={<MyPage />} />
             </Routes>
           </div>
         </ThemeProvider>
