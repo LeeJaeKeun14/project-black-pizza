@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router";
+// import { useLocation } from "react-router";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
-import LoginForm from "../../Pages/Login/LoginForm";
-import SignupForm from "../../Pages/Signup/SignupForm";
 
 const UserForm = ({ children }) => {
-  const { pathname } = useLocation();
+  // const location = useLocation();
+
   // useEffect(() => {
-  //   console.log(children);
-  // }, [children]);
+  //   // console.log(children);
+  //   console.log(location);
+  // }, [location]);
   return (
     <SignUpBlock>
       <Header />

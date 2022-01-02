@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
-import { useSetRecoilState } from "recoil";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Input from "../../Components/Input/Input";
 import { useInput } from "../../hooks/useInput";
@@ -9,11 +9,15 @@ import { loginState } from "../../store/atoms";
 
 const LoginForm = props => {
   const navigator = useNavigate();
-
   const email = useInput("");
   const password = useInput("");
   const setIsLogin = useSetRecoilState(loginState);
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const location = useLocation();
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
+  const { from, message } = location.state || { from: "/", message: "" };
 
   const requestlogin = async body => {
     console.log(body);
@@ -24,10 +28,10 @@ const LoginForm = props => {
 
       if (data.status === 200) {
         setIsLogin(true);
-        navigator("/");
+        navigator(from);
       } else {
         // data.msg && alert(data.msg);
-        data.msg && setMessage(data.msg);
+        data.msg && setErrorMessage(data.msg);
       }
       return data;
     } catch (error) {
@@ -35,6 +39,7 @@ const LoginForm = props => {
       // throw Error(error.response.data || error.message);
     }
   };
+
   const sendLoginInfo = e => {
     e.preventDefault();
     console.log(email.value);
@@ -45,6 +50,7 @@ const LoginForm = props => {
   return (
     <InputForm>
       <Title>login</Title>
+      <p>{message}</p>
       <Input
         inputId={"email"}
         inputType={"email"}
@@ -59,7 +65,7 @@ const LoginForm = props => {
         placeholder={"●●●●●●●●"}
         onChangeHandler={password.setValue}
       />
-      <Alert>{message}</Alert>
+      <Alert>{errorMessage}</Alert>
       <Button onClick={sendLoginInfo}>login</Button>
     </InputForm>
   );

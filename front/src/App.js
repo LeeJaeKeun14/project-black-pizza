@@ -15,7 +15,8 @@ import { useSetRecoilState } from 'recoil';
 import { loginState } from './store/atoms';
 import SignupForm from './Pages/Signup/SignupForm';
 import LoginForm from './Pages/Login/LoginForm';
-
+import { ReactQueryDevtools } from 'react-query/devtools'
+import PrivateRoute from './PrivateRoute';
 function App() {
   const queryClient = new QueryClient()
   const setIsLogin = useSetRecoilState(loginState);
@@ -36,12 +37,14 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <div className="App">
             <Routes>
               <Route path="/" element={<Main />} />
-              <Route path="/survey" element={<Survey />} />
+              {/* <Route path="/survey" element={<Survey />} /> */}
+              <Route path="/survey" element={<PrivateRoute redirectTo="/login"><Survey /></PrivateRoute>} />
               <Route path="/result" element={<SurveyResult />} />
               <Route path="/detail/:id" element={<Detail />} />
               <Route path="/signup" element={<UserForm  ><SignupForm /></UserForm>} />
