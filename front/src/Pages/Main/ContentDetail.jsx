@@ -11,7 +11,11 @@ const ContentDetail = ({ data }) => {
   }, [data.runtime]);
   return (
     <ContentDetailBlock>
-      <Title>{data.title}</Title>
+      <TitleWrap>
+        <Title>{data.title}</Title>
+        <Button>찜하기</Button>
+      </TitleWrap>
+
       <Wrap>
         <Year>{data.open_year}</Year>
         <div>
@@ -35,16 +39,32 @@ const ContentDetail = ({ data }) => {
           </span>
         ))}
       </div>
-      <button>찜</button>
     </ContentDetailBlock>
   );
 };
 
 const ContentDetailBlock = styled.div`
   position: absolute;
-  width: 50%;
-  right: 0;
-  top: 70%;
+  width: 40%;
+  right: 10%;
+  top: 50%;
+`;
+const TitleWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Button = styled.button`
+  background: none;
+  border: 1px solid white;
+  padding: 8px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.color.font};
+  margin-left: 10px;
+  &:hover {
+    background-color: ${({ theme }) => theme.color.coral};
+    border-color: ${({ theme }) => theme.color.coral};
+  }
 `;
 const Wrap = styled.div`
   display: flex;
@@ -59,7 +79,7 @@ const Year = styled.div`
 const GenreTag = styled.span`
   background-color: ${({ theme }) => theme.color.coral};
   padding: 2px 5px;
-  border-radius: 2px;
+  border-radius: 6px;
   & + & {
     margin-left: 5px;
   }
@@ -67,4 +87,5 @@ const GenreTag = styled.span`
 const SpanTitle = styled.span`
   font-weight: bold;
 `;
+
 export default ContentDetail;

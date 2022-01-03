@@ -2,19 +2,15 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { loginState } from "../../store/atoms";
 
 const Header = props => {
-  const [isLogin, setIsLogin] = useState(false);
+  const { pathname } = useLocation();
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
 
-  useEffect(() => {
-    axios.get("/api/user/isSignin").then(res => {
-      if (res.data.status === 200) {
-        setIsLogin(true);
-      }
-    });
-  }, []);
   const logout = () => {
     axios.get("api/user/signout").then(res => {
       if (res.data.status === 200) {
@@ -29,15 +25,20 @@ const Header = props => {
       </Title>
 
       {isLogin === true ? (
-        <button onClick={logout}>로그아웃</button>
+        <Nav>
+          <StyledLink
+            location={(pathname === "/survey").toString()}
+            to="/survey"
+          >
+            영화 찾으러 가기
+          </StyledLink>
+          <Button onClick={logout}>로그아웃</Button>
+        </Nav>
       ) : (
         <Nav>
-          <LinkBlock>
-            <Link to="/signup">가입하기</Link>
-          </LinkBlock>
-          <LinkBlock>
-            <Link to="/login">로그인</Link>
-          </LinkBlock>
+          <StyledLink to="/signup">가입하기</StyledLink>
+
+          <StyledLink to="/login">로그인</StyledLink>
         </Nav>
       )}
     </HeaderWrap>
@@ -49,7 +50,6 @@ const HeaderWrap = styled.header`
   justify-content: space-between;
   padding: 1rem 1.5rem;
   box-sizing: border-box;
-  z-index: 100;
 `;
 
 const Title = styled.h1`
@@ -61,16 +61,20 @@ const Title = styled.h1`
 `;
 const Nav = styled.nav`
   display: flex;
+  align-items: center;
 `;
-const LinkBlock = styled.div`
+const StyledLink = styled(Link)`
+  color: ${({ theme }) => theme.color.font};
+  text-decoration: none;
   ${({ theme }) => theme.font.small}
-
-  & + & {
-    padding-left: 10px;
-  }
-  > a {
-    color: ${({ theme }) => theme.color.font};
-    text-decoration: none;
-  }
+  padding: 0 6px;
+  display: ${props => (props.location === "true" ? "none" : "block")};
+`;
+const Button = styled.button`
+  color: ${({ theme }) => theme.color.font};
+  ${({ theme }) => theme.font.small}
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 export default Header;
