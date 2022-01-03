@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { logout } from "../../api/user";
 import Header from "../../Components/Header/Header";
 import { loginState } from "../../store/atoms";
 
@@ -19,9 +20,10 @@ const MyPage = props => {
   };
 
   const userPick = useQuery("userPick", fetchUserPick);
-  const logout = () => {
-    axios.get("api/user/signout").then(res => {
-      if (res.data.status === 200) {
+
+  const logoutHandler = async () => {
+    await logout().then(res => {
+      if (res.status === 200) {
         setIsLogin(false);
         navigator("/");
       }
@@ -30,7 +32,7 @@ const MyPage = props => {
   return (
     <div>
       <Header />
-      <Button onClick={logout}>로그아웃</Button>
+      <Button onClick={logoutHandler}>로그아웃</Button>
       <div>mypage</div>
       <div>찜한 목록</div>
       {userPick.isLoading && userPick.isLoading ? (
