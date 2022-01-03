@@ -1,9 +1,11 @@
-import axios from "axios";
 import { useState } from "react";
-import { useEffect } from "react";
-import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import {
+  useContentDetail,
+  useFavoriteList,
+  useSearchResult,
+} from "../../api/content";
 import Header from "../../Components/Header/Header";
 import ContentDetail from "./ContentDetail";
 import ContentItem from "./ContentItem";
@@ -14,48 +16,9 @@ const Main = props => {
   const [selectContent, setSelectContent] = useState(null);
   const [hoveringContent, setHoveringContent] = useState(null);
   const [viewContent, setViewContent] = useState(null);
-  const fetchfavoriteList = async () => {
-    const { data } = await axios.get("/api/contents/favorite").then(res => {
-      return res;
-    });
-    console.log(data);
-    return data;
-  };
-  const fetchSearchItem = async searchWord => {
-    const { data } = await axios
-      .get(`/api/contents/search?q=${searchWord}&type=title`)
-      .then(res => {
-        console.log(res);
-        return res;
-      });
-    return data;
-  };
-  const fetchContentDetail = async id => {
-    console.log(id);
-    const { data } = await axios(`/api/contents/detail/${id}`).then(res => {
-      console.log(res);
-      return res;
-    });
-    return data;
-  };
-  const favoriteList = useQuery("favoriteList", fetchfavoriteList);
-
-  const searchResult = useQuery(
-    ["search", searchWord],
-    () => fetchSearchItem(searchWord),
-    {
-      enabled: false,
-    }
-  );
-
-  const contentDetail = useQuery(
-    ["contentDetail", viewContent],
-    () => fetchContentDetail(viewContent),
-    {
-      enabled: !!viewContent,
-      keepPreviousData: true,
-    }
-  );
+  const favoriteList = useFavoriteList();
+  const contentDetail = useContentDetail(viewContent);
+  const searchResult = useSearchResult(searchWord);
 
   const onSearch = async () => {
     searchResult.refetch();
@@ -162,12 +125,6 @@ const LinkWrap = styled.div`
     text-decoration: none;
   }
 `;
-// const Tap = styled.div`
-//   position: absolute;
-//   top: 80px;
-//   left: 50%;
-//   transform: translate(-50%, 0);
-// `;
 const DetailBlock = styled.section`
   height: 50%;
   position: relative;
