@@ -9,6 +9,7 @@ import { theme } from './styles/theme';
 import Detail from './Pages/Detail/Detail';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import UserForm from './Components/UserForm/UserForm';
+import Test from "./Pages/Main/Test";
 
 function App() {
   const queryClient = new QueryClient()
@@ -25,6 +26,7 @@ function App() {
               <Route path="/detail/:id" element={<Detail />} />
               <Route path="/signup" element={<UserForm />} />
               <Route path="/login" element={<UserForm />} />
+              <Route path="/test" element={<Test />} />
             </Routes>
           </div>
         </ThemeProvider>
