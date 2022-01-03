@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Input from "../../Components/Input/Input";
@@ -11,7 +11,7 @@ const SignupForm = props => {
   const password = useInput("");
   const password2 = useInput("");
   const navigator = useNavigate();
-
+  const [message, setMseeage] = useState("");
   const reqeustPost = async body => {
     console.log(body);
     try {
@@ -20,8 +20,10 @@ const SignupForm = props => {
 
       if (data.status === 200) {
         navigator("/login");
+        alert(data.msg);
       } else {
-        data.msg && alert(data.msg);
+        // data.msg && alert(data.msg);
+        data.msg && setMseeage(data.msg);
       }
       return data;
     } catch (error) {
@@ -72,6 +74,7 @@ const SignupForm = props => {
         placeholder={"●●●●●●●●"}
         onChangeHandler={password2.setValue}
       />
+      <Alert>{message}</Alert>
       <Button onClick={registeUser}>가입하기</Button>
     </InputForm>
   );
@@ -89,6 +92,9 @@ const Title = styled.h1`
 
   margin: 20px 0;
 `;
+const Alert = styled.p`
+  padding: 20px 0;
+`;
 const Button = styled.button`
   width: 100%;
   height: 40px;
@@ -96,7 +102,7 @@ const Button = styled.button`
   padding: 4px 16px;
   border-radius: 10px;
   border: none;
-  margin: 30px 0;
+  margin-bottom: 30px;
   background-color: #ffffff;
   cursor: pointer;
   &:hover {

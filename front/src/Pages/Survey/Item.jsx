@@ -11,18 +11,17 @@ const Item = memo(
     const [title, imgURL] = data.info;
     const [display, setDisplay] = useState(0);
     const [isStarRated, setIsStarRated] = useState(0);
-    const [isZZimed, setIsZZimed] = useState(0);
+    const [isUserpick, setIsUserPick] = useState(0);
     const setRating = useSetRecoilState(ratingState);
-    // [{'contents_id': 영화id, 'score': 별점, 'is_picked': 보고싶어요 여부(불린값)}, ..]
+
     const isRating = (id, rate) => {
-      console.log(rate);
       if (rate) setIsStarRated(rate);
       if (rate === isStarRated) setIsStarRated(0);
     };
-    const isZZiming = () => {
+    const onClickUserPick = () => {
       // console.log(data.key);
       const id = data.key;
-      setIsZZimed(cur => (cur === 1 ? 0 : 1));
+      setIsUserPick(cur => (cur === 1 ? 0 : 1));
       setRating(cur => {
         const newObj = { ...cur };
         if (id in newObj) {
@@ -44,11 +43,13 @@ const Item = memo(
           <InfoWrap
             isDisplay={display}
             isStarRated={isStarRated}
-            isZZimed={isZZimed}
+            isUserpick={isUserpick}
           >
             <StarRating id={parseInt(data.key)} isRating={isRating} />
-            <Title>{title}</Title>
-            <button onClick={isZZiming}>찜하기</button>
+            <Title isUserpick={isUserpick}>{title}</Title>
+            <UserPickButton isUserpick={isUserpick} onClick={onClickUserPick}>
+              찜하기
+            </UserPickButton>
           </InfoWrap>
         </ImageWrap>
       </ItemWrap>
@@ -79,10 +80,12 @@ const InfoWrap = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(#00000010, #000000);
-  padding: 20px 0;
+  padding-top: 20px;
   visibility: ${props => {
-    if (props.isStarRated || props.isZZimed) {
+    if (props.isStarRated || props.isUserpick) {
       return "visible";
     } else {
       if (props.isDisplay) return "visible";
@@ -92,6 +95,19 @@ const InfoWrap = styled.div`
 `;
 const Title = styled.div`
   text-align: center;
+  border-bottom: ${props =>
+    props.isUserpick ? "none" : "1px solid #cccccc80"};
+  margin: 0 20px;
 `;
+const UserPickButton = styled.button`
+  padding: 10px 0;
+  background: ${props => (props.isUserpick ? "#cccccc80" : "none")};
+  border: none;
 
+  cursor: pointer;
+  color: ${({ theme }) => theme.color.font};
+  &:hover {
+    // background-color: ${({ theme }) => theme.color.coral};
+  }
+`;
 export default Item;

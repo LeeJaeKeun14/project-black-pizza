@@ -7,11 +7,36 @@ import SurveyResult from './Pages/SurveyResult/SurveyResult';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import Detail from './Pages/Detail/Detail';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, useQueries, useQuery } from 'react-query';
 import UserForm from './Components/UserForm/UserForm';
+
+import Test from "./Pages/Main/Test";
+
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useSetRecoilState } from 'recoil';
+import { loginState } from './store/atoms';
+import SignupForm from './Pages/Signup/SignupForm';
+import LoginForm from './Pages/Login/LoginForm';
+
 
 function App() {
   const queryClient = new QueryClient()
+  const setIsLogin = useSetRecoilState(loginState);
+  const auth = async () => {
+
+    const res = await axios.get("/api/user/isSignin").then(res => res.data.status)
+    if (res === 200) {
+      setIsLogin(true)
+    }
+    else {
+      setIsLogin(false)
+    }
+  }
+
+  useEffect(() => {
+    auth()
+  }, []);
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -23,8 +48,11 @@ function App() {
               <Route path="/survey" element={<Survey />} />
               <Route path="/result" element={<SurveyResult />} />
               <Route path="/detail/:id" element={<Detail />} />
-              <Route path="/signup" element={<UserForm />} />
-              <Route path="/login" element={<UserForm />} />
+
+              <Route path="/signup" element={<UserForm  ><SignupForm /></UserForm>} />
+              <Route path="/login" element={<UserForm ><LoginForm /></UserForm>} />
+              <Route path="/test" element={<Test />} />
+
             </Routes>
           </div>
         </ThemeProvider>
