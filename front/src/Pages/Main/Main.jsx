@@ -13,6 +13,7 @@ const Main = props => {
   const [searchWord, setSearchWord] = useState("");
   const [selectContent, setSelectContent] = useState(null);
   const [hoveringContent, setHoveringContent] = useState(null);
+  const [viewContent, setViewContent] = useState(null);
   const fetchfavoriteList = async () => {
     const { data } = await axios.get("/api/contents/favorite").then(res => {
       return res;
@@ -47,8 +48,13 @@ const Main = props => {
     }
   );
 
-  const contentDetail = useQuery(["contentDetail", selectContent], () =>
-    fetchContentDetail(selectContent)
+  const contentDetail = useQuery(
+    ["contentDetail", viewContent],
+    () => fetchContentDetail(viewContent),
+    {
+      enabled: !!viewContent,
+      keepPreviousData: true,
+    }
   );
 
   const onSearch = async () => {
@@ -57,14 +63,13 @@ const Main = props => {
 
   const onMouseEnter = key => {
     setHoveringContent(key);
-    setSelectContent(key);
   };
   const onMouseLeave = () => {
     setHoveringContent(null);
+    setSelectContent(null);
   };
   const onSelectItem = key => {
-    console.log(key);
-    contentDetail.refetch();
+    setViewContent(key);
   };
 
   return (
@@ -129,6 +134,7 @@ const Main = props => {
           setSearchWord={setSearchWord}
           setSelectContent={setSelectContent}
           setHoveringContent={setHoveringContent}
+          setViewContent={setViewContent}
         />
       </BodyWrap>
     </MainBlock>

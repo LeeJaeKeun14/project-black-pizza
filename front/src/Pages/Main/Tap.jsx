@@ -2,13 +2,20 @@ import React, { memo, useRef, useState } from "react";
 import styled from "styled-components";
 
 const Tap = memo(
-  ({ setSearchWord, onSearch, setHoveringContent, setSelectContent }) => {
+  ({
+    setSearchWord,
+    onSearch,
+    setHoveringContent,
+    setSelectContent,
+    setViewContent,
+  }) => {
     const inputRef = useRef("");
     const [isDisplay, setIsDisplay] = useState(false);
     const setMainPage = () => {
       setSearchWord("");
       setHoveringContent(null);
       setSelectContent(null);
+      setViewContent(null);
       inputRef.current.value = "";
     };
     const onClickSearchButton = () => {
