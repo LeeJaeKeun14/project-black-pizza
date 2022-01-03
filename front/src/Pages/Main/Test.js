@@ -4,7 +4,7 @@ function Test() {
   
   return (
     <div>
-      <img src="/files/11.jpg" alt="" />
+      <img src="/files/27.jpg" alt="" />
     </div>
   )
 }
