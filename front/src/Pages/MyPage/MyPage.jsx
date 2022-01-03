@@ -1,25 +1,16 @@
-import axios from "axios";
-import React, { useEffect } from "react";
-import { useQuery } from "react-query";
+import React from "react";
 import { useNavigate } from "react-router";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { logout } from "../../api/user";
+import { useUserPick } from "../../api/userPick";
 import Header from "../../Components/Header/Header";
 import { loginState } from "../../store/atoms";
 
 const MyPage = props => {
   const setIsLogin = useSetRecoilState(loginState);
   const navigator = useNavigate();
-  const fetchUserPick = async () => {
-    const { data } = await axios.get("/api/contents/userpick").then(res => {
-      return res;
-    });
-    console.log(data);
-    return data;
-  };
-
-  const userPick = useQuery("userPick", fetchUserPick);
+  const userPick = useUserPick();
 
   const logoutHandler = async () => {
     await logout().then(res => {
