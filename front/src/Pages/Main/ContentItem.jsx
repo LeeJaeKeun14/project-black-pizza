@@ -9,10 +9,12 @@ const ContentItem = ({
   onSelectItem,
   hoveringContent,
   selectContent,
+  ranking = 0,
 }) => (
   <ImageBlock
     hovering={hoveringContent === data.key || selectContent === data.key}
   >
+    {ranking !== 0 && <Rank>{ranking}</Rank>}
     <Image
       src={data.info[1]}
       alt="poster"
@@ -50,6 +52,23 @@ const ImageBlock = styled.li`
   ${media.mobile} {
     width: 50%;
   }
+`;
+const Rank = styled.span`
+  position: absolute;
+
+  background-color: rgba(0, 0, 0, 0.77);
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 4px;
+  opacity: 1;
+  transition: opacity 300ms ease 0s;
+  bottom: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  line-height: 27px;
 `;
 const Image = styled.img`
   width: 100%;

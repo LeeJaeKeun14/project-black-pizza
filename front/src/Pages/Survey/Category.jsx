@@ -4,7 +4,6 @@ import styled from "styled-components";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 import { userSelectedGenres, userSelectedYears } from "../../store/atoms";
 import { contentGenreCategory, contentYearCategory } from "../../utils/utils";
-import CategoryQuetion from "./CategoryQuetion";
 import ToggleButton from "./ToggleButton";
 const Category = props => {
   const [userGenres, setUserGenres] = useRecoilState(userSelectedGenres);

@@ -81,6 +81,7 @@ const Main = props => {
                   <ContentItem
                     key={i}
                     data={e}
+                    ranking={i + 1}
                     hoveringContent={hoveringContent}
                     selectContent={selectContent}
                     onMouseEnter={onMouseEnter}
