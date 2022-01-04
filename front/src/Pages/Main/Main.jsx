@@ -7,6 +7,8 @@ import {
   useSearchResult,
 } from "../../api/content";
 import Header from "../../Components/Header/Header";
+import { media } from "../../styles/theme";
+import Banner from "./Banner";
 import ContentDetail from "./ContentDetail";
 import ContentItem from "./ContentItem";
 import Tap from "./Tap";
@@ -47,9 +49,7 @@ const Main = props => {
               <ContentDetail data={contentDetail.data} />
             )
           ) : (
-            <LinkWrap>
-              <Link to="/survey">survey</Link>
-            </LinkWrap>
+            <Banner />
           )}
         </DetailBlock>
         <ContentListBlock>
@@ -106,14 +106,29 @@ const Main = props => {
 const MainBlock = styled.div`
   height: 100%;
   margin: 0 auto;
-  max-width: 1024px;
+  //
   position: relative;
+  ${media.tablet} {
+    max-width: 1024px;
+  }
 `;
 const BodyWrap = styled.div`
   height: 100%;
   // margin-top: -80px;
   // transform: translate(0, -80px);
 `;
+const StyledLink = styled(Link)`
+  color: ${({ theme }) => theme.color.font};
+  text-decoration: none;
+  ${({ theme }) => theme.font.small};
+  // padding: 0 6px;
+  // display: ${props => (props.location === "true" ? "none" : "block")};
+`;
+// const Banner = styled.div`
+//   width: 80%;
+//   margin: 0 auto;
+//   height: 100%;
+// `;
 const LinkWrap = styled.div`
   position: absolute;
   right: 50%;
@@ -133,6 +148,7 @@ const DetailBlock = styled.section`
     props.contentToView
       ? "linear-gradient(217deg, #e96d71, rgba(255, 0, 0, 0) 70.71%),linear-gradient(127deg, #ffd26f, rgba(0, 255, 0, 0) 70.71%),linear-gradient(336deg, rgb(54 119 255), rgba(0, 0, 255, 0) 70.71%)"
       : ""};
+  overflow: hidden;
 `;
 const ContentListBlock = styled.section`
   height: 50%;
@@ -143,17 +159,20 @@ const ContentListBlock = styled.section`
 `;
 const ListTitle = styled.h2`
   padding-top: 50px;
-  padding-left: 4%;
-
+  // padding-left: 4%;
+  width: 80%;
+  margin: 0 auto;
   ${({ theme }) => theme.font.medium};
 `;
 const Wrap = styled.div`
   position: relative;
   white-space: nowrap;
-  padding-right: 4%;
-  padding-left: 4%;
+  // padding-right: 4%;
+  // padding-left: 4%;
   overflow-x: visible;
   overflow: scroll;
+  width: 80%;
+  margin: 0 auto;
 `;
 const List = styled.ul`
   position: relative;

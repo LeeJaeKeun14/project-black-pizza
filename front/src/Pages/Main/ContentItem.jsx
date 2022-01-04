@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { media } from "../../styles/theme";
 
 const ContentItem = ({
   data,
@@ -25,7 +26,7 @@ const ContentItem = ({
 const ImageBlock = styled.li`
   border-radius: 10px;
   margin: 20px;
-  width: 25%;
+  width: 12%;
   position: relative;
   display: inline-block;
   transform: ${props => (props.hovering ? "scale(1.2)" : "none")};
@@ -38,6 +39,13 @@ const ImageBlock = styled.li`
     // width: 30%;
     // transform: scale(1.2);
     z-index: 100;
+  }
+
+  ${media[1440]} {
+    width: 20%;
+  }
+  ${media.mobile} {
+    width: 50%;
   }
 `;
 const Image = styled.img`
