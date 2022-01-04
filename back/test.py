@@ -3,7 +3,6 @@ import requests
 import json
 import jsonpath
 from main import create_app
-from flask_migrate import Migrate
 from db_connect import db
 from flask import session
 import config
