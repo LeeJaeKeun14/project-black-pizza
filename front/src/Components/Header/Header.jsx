@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { logout } from "../../api/user";
@@ -8,6 +9,7 @@ import { loginState } from "../../store/atoms";
 const Header = props => {
   const { pathname } = useLocation();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const navigator = useNavigate();
   const handleLogout = async () => {
     await logout().then(res => {
       if (res.status === 200) {

@@ -22,9 +22,9 @@ const Survey = props => {
       alert("로그인이 필요합니다.");
     }
   }, [isLogin, navigator]);
-  const requestResult = async () => {
-    // console.log(ratingArr);
-    if (ratingArr.length > 0) {
+  const requestResult = () => {
+    console.log(ratingArr);
+    if (ratingArr.length > 5) {
       navigator("/result");
     } else {
       alert("5개 이상의 콘텐츠를 평가하거나 찜해주세요");
