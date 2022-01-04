@@ -1,15 +1,12 @@
 import axios from 'axios';
 
-const fetchContentSurveyList = async ({ pageParam = 1, userGenres, userYears }) => {
+export const fetchContentSurveyList = async ({ pageParam = 1, userGenres, userYears }) => {
   const data = { genres: userGenres, years: userYears, page: pageParam }
   console.log(pageParam)
   try {
     const res = await axios
       .post("/api/contents/list", data)
       .then(res => res.data.list)
-
-    // .catch(console.log);
-
     console.log(res)
     return {
       result: res,
