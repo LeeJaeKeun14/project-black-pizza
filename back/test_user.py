@@ -3,9 +3,13 @@ from flask import session
 from main import create_app
 from flask_migrate import Migrate
 from db_connect import db
+import config
 
-
-app = create_app(test_config=True)
+TEST_CONFIG = {
+    # 'DB_URL': 'mysql+pymysql://root:password@db_mysql/BlackPizza',
+    'DB_URL': config.TEST_DB_URL,
+}
+app = create_app(TEST_CONFIG)
 db.init_app(app)
 migrate = Migrate(app, db)
 

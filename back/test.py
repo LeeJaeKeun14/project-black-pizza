@@ -6,7 +6,8 @@ from main import create_app
 from flask_migrate import Migrate
 from db_connect import db
 from flask import session
-
+import config
+from sqlalchemy import create_engine, text
 
 base_url = "http://localhost:5000/api"
 
@@ -72,26 +73,67 @@ def test_contents_search():
         responseJson_get, "$.contents..ott")[0]) == list
 
 
-test_db_url = 'mysql+pymysql://root:1234@localhost:3306/test_db'
+# user test
 
-test_config = {
-    'DB_URL': 'mysql+pymysql://root:password@db_mysql/BlackPizza',
-    # 'DB_URL': test_db_url,
+def db_file(db, filename):
+    sql_lines = []
+    with open(filename, 'r') as file_data:
+        # .sql를 주석을 제외하고 라인별로 분류
+        sql_lines = [line.strip('\n') for line in file_data if not line.startswith(
+            '--') and line.strip('\n')]
+
+        with db.connect() as conn:
+            sql_command = ''
+            for line in sql_lines:
+                sql_command += line
+                # ; 나오면 execute
+                if sql_command.endswith(';'):
+                    try:
+                        conn.execute(text(sql_command))
+                    except Exception as e:
+                        print('Fail DB Reset!!')
+                        print(e)
+                        return False
+                    finally:
+                        sql_command = ''
+    return True
+
+
+TEST_CONFIG = {
+    # 'DB_URL': 'mysql+pymysql://root:password@db_mysql/BlackPizza',
+    'DB_URL': config.TEST_DB_URL,
 }
-app = create_app(test_config)
-db.init_app(app)
-migrate = Migrate(app, db)
 
 
-def test_user():
+@pytest.fixture(scope='session')  # 테스트 실행시 한번만 실행
+def app():
+    app = create_app(TEST_CONFIG)
+    db.init_app(app)
+    return app
+
+
+@pytest.fixture(scope='session')
+def db_():
+    db = create_engine(TEST_CONFIG['DB_URL'], encoding='utf-8', max_overflow=0)
+    return db
+
+
+@pytest.fixture  # 매 테스트 실행 마다 실행
+def client(app, db_):
+    db_file(db_, 'test.sql')
+    client = app.test_client()
+    return client
+
+
+def test_user(client):
 
     name = 'tester'
     email = 'tester@tester.com'
 
-    with app.test_client() as c:
-        base_url = "localhost:5000/api"
-        # base_url = "/api"
+    # base_url = "localhost:5000/api"
+    base_url = "/api"
 
+    with client as c:
         # 회원가입
         path = '/user/signup'
         response_post = c.post(
