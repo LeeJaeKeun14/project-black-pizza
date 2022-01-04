@@ -30,21 +30,21 @@ export const useContentDetail = (contentId) => {
     () => fetchContentDetail(contentId),
     {
       enabled: !!contentId,
-      keepPreviousData: true,
+      // keepPreviousData: true,
     }
   )
 };
 
 
-const fetchSearchItem = async searchWord => {
+const fetchSearchItem = async (searchWord, searchType) => {
   const { data } = await axios
-    .get(`/api/contents/search?q=${searchWord}&type=title`)
+    .get(`/api/contents/search?q=${searchWord}&type=${searchType}`)
   return data;
 };
-export const useSearchResult = (searchWord) => {
+export const useSearchResult = (searchWord, searchType) => {
   return useQuery(
-    ["search", searchWord],
-    () => fetchSearchItem(searchWord),
+    ["search", searchWord, searchType],
+    () => fetchSearchItem(searchWord, searchType),
     {
       enabled: false,
     }

@@ -15,12 +15,13 @@ import Tap from "./Tap";
 
 const Main = props => {
   const [searchWord, setSearchWord] = useState("");
+  const [searchType, setSearchType] = useState("title");
   const [selectContent, setSelectContent] = useState(null);
   const [hoveringContent, setHoveringContent] = useState(null);
   const [viewContent, setViewContent] = useState(null);
   const favoriteList = useFavoriteList();
   const contentDetail = useContentDetail(viewContent);
-  const searchResult = useSearchResult(searchWord);
+  const searchResult = useSearchResult(searchWord, searchType);
 
   const onSearch = async () => {
     searchResult.refetch();
@@ -96,6 +97,7 @@ const Main = props => {
         <Tap
           onSearch={onSearch}
           setSearchWord={setSearchWord}
+          setSearchType={setSearchType}
           setSelectContent={setSelectContent}
           setHoveringContent={setHoveringContent}
           setViewContent={setViewContent}
