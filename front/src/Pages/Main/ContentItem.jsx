@@ -44,6 +44,9 @@ const ImageBlock = styled.li`
   ${media[1440]} {
     width: 20%;
   }
+  ${media.tablet} {
+    width: 33%;
+  }
   ${media.mobile} {
     width: 50%;
   }
