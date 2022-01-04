@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { useQuery } from 'react-query';
 
-const fetchUserPick = async () => {
+export const fetchUserPick = async () => {
   try {
     const { data } = await axios.get("/api/contents/userpick")
     return data;
@@ -10,4 +9,4 @@ const fetchUserPick = async () => {
   }
 };
 
-export const useUserPick = () => { return useQuery("userPick", fetchUserPick) };
+// export const useUserPick = () => { return useQuery("userPick", fetchUserPick) };

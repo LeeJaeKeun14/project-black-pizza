@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {
-  useContentDetail,
-  useFavoriteList,
-  useSearchResult,
-} from "../../api/content";
 import Header from "../../Components/Header/Header";
+import {
+  useFavoriteList,
+  useContentDetail,
+  useSearchResult,
+} from "../../hooks/content";
 import { media } from "../../styles/theme";
 import Banner from "./Banner";
 import ContentDetail from "./ContentDetail";

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { logout } from "../../api/user";
-import { useUserPick } from "../../api/userPick";
 import Header from "../../Components/Header/Header";
+import { useUserPick } from "../../hooks/userPick";
 import { loginState } from "../../store/atoms";
 
 const MyPage = props => {
