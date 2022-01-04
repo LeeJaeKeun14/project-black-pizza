@@ -1,7 +1,6 @@
-import axios from "axios";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { loginState } from "../../store/atoms";
 
@@ -21,7 +20,7 @@ const Header = props => {
             location={(pathname === "/survey").toString()}
             to="/survey"
           >
-            영화 찾으러 가기
+            추천받기
           </StyledLink>
           <StyledLink to="/mypage">마이페이지</StyledLink>
         </Nav>
@@ -41,6 +40,7 @@ const HeaderWrap = styled.header`
   justify-content: space-between;
   padding: 1rem 1.5rem;
   box-sizing: border-box;
+  align-items: center;
 `;
 
 const Title = styled.h1`

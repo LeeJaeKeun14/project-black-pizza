@@ -57,9 +57,6 @@ const ResultChart = ({ data }) => {
     };
     return temp;
   }, [data]);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <ChartBlock>
       <Doughnut

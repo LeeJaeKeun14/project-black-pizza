@@ -5,18 +5,11 @@ import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 
 const UserForm = ({ children }) => {
-  // const location = useLocation();
-
-  // useEffect(() => {
-  //   // console.log(children);
-  //   console.log(location);
-  // }, [location]);
   return (
     <SignUpBlock>
       <Header />
       <SignUpWrap>
         <Part />
-        {/* <Part>{pathname === "/signup" ? <SignupForm /> : <LoginForm />}</Part> */}
         <Part>{children}</Part>
       </SignUpWrap>
     </SignUpBlock>

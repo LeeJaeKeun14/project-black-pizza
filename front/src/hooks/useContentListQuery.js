@@ -9,14 +9,13 @@ export const useContentListQuery = () => {
   const userGenres = useRecoilValue(userSelectedGenres);
   const userYears = useRecoilValue(userSelectedYears);
 
-  const fetchProjects = async ({ pageParam = 1 }) => {
+  const fetchContentSurveyList = async ({ pageParam = 1 }) => {
     const data = { genres: userGenres, years: userYears, page: pageParam }
     console.log(pageParam)
     try {
       const res = await axios
         .post("/api/contents/list", data)
         .then(res => res.data.list)
-      // .catch(console.log);
       console.log(res)
       return {
         result: res,
@@ -28,6 +27,7 @@ export const useContentListQuery = () => {
     }
 
   };
+
   const {
     data,
     error,
@@ -37,7 +37,7 @@ export const useContentListQuery = () => {
     isFetching,
     isFetchingNextPage,
     status,
-  } = useInfiniteQuery("contentList", fetchProjects, {
+  } = useInfiniteQuery("contentList", fetchContentSurveyList, {
     getNextPageParam: (lastPage, pages) => lastPage.nextpage
     , onError: (error) => {
       console.log(error)

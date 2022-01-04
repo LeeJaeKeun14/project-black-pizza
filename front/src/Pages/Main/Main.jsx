@@ -127,22 +127,6 @@ const StyledLink = styled(Link)`
   // padding: 0 6px;
   // display: ${props => (props.location === "true" ? "none" : "block")};
 `;
-// const Banner = styled.div`
-//   width: 80%;
-//   margin: 0 auto;
-//   height: 100%;
-// `;
-const LinkWrap = styled.div`
-  position: absolute;
-  right: 50%;
-  top: 50%;
-  transform: translate(50%, -50%);
-
-  > a {
-    color: ${({ theme }) => theme.color.font};
-    text-decoration: none;
-  }
-`;
 const DetailBlock = styled.section`
   height: 50%;
   position: relative;

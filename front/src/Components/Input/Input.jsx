@@ -1,17 +1,8 @@
 import React from "react";
-import { useRef } from "react";
-import { useState } from "react";
 
 import styled from "styled-components";
 
 const Input = ({ inputId, inputType, label, placeholder, onChangeHandler }) => {
-  const [pointer, setPointer] = useState(false);
-  const inputref = useRef();
-  const onClickHandler = e => {
-    console.log(e);
-    console.log(inputref.current.value);
-  };
-
   return (
     <InputBlock>
       <label htmlFor={inputId}>{label}</label>
@@ -47,5 +38,5 @@ const InputBlock = styled.div`
     color: ${({ theme }) => theme.color.font};
   }
 `;
-const Label = styled.label``;
+
 export default Input;

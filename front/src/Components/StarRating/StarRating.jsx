@@ -16,7 +16,6 @@ const StarRating = memo(({ id, isRating }) => {
     setHoverRating(0);
   };
   const onSaveRating = index => {
-    console.log(index);
     setRate(cur => (cur === index ? 0 : index));
 
     setRating(cur => {
@@ -28,7 +27,7 @@ const StarRating = memo(({ id, isRating }) => {
       } else {
         newObj[id] = { contents_id: id, score: index, is_picked: false };
       }
-      console.log(newObj);
+
       return newObj;
     });
     isRating(id, index);

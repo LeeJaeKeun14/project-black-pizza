@@ -36,9 +36,8 @@ const Tap = memo(
       setIsDIsplaySearchType(!isDisplaySearchType);
     };
     const handlerSearchType = e => {
-      // title, director, actor
       const type = e.target.dataset.type;
-      console.log(type);
+
       setSearchType(type);
       setSeletedType(type);
     };

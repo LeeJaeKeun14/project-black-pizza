@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginState } from "./store/atoms";
@@ -6,9 +6,7 @@ import { loginState } from "./store/atoms";
 const PrivateRoute = ({ children, redirectTo }) => {
   const isLogin = useRecoilValue(loginState);
   const location = useLocation();
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
+
   return isLogin ? (
     children
   ) : (
