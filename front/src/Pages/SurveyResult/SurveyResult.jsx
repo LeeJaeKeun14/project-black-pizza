@@ -13,12 +13,9 @@ const SurveyResult = props => {
   const rating = useRecoilValue(ratingStateResult);
   const [resultContent, setResultContent] = useState({});
   const [resultOtt, setResultOtt] = useState({});
-  // const temp = [{ contents_id: 3836, is_picked: false, score: 3 }];
 
   useEffect(() => {
-    // console.log(rating);
     axios.post("/api/contents/recommend", { data: rating }).then(res => {
-      // console.log(res);
       setResultContent(res.data[0]);
       setResultOtt(res.data[1]);
     });

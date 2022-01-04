@@ -1,13 +1,21 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { logout } from "../../api/user";
 import { loginState } from "../../store/atoms";
 
 const Header = props => {
   const { pathname } = useLocation();
-  const isLogin = useRecoilValue(loginState);
-
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const handleLogout = async () => {
+    await logout().then(res => {
+      if (res.status === 200) {
+        setIsLogin(false);
+        navigator("/");
+      }
+    });
+  };
   return (
     <HeaderWrap>
       <StyledLink to="/">
@@ -22,12 +30,15 @@ const Header = props => {
           >
             추천받기
           </StyledLink>
-          <StyledLink to="/mypage">마이페이지</StyledLink>
+          {pathname === "/mypage" ? (
+            <Button onClick={handleLogout}>로그아웃</Button>
+          ) : (
+            <StyledLink to="/mypage">마이페이지</StyledLink>
+          )}
         </Nav>
       ) : (
         <Nav>
           <StyledLink to="/signup">가입하기</StyledLink>
-
           <StyledLink to="/login">로그인</StyledLink>
         </Nav>
       )}
@@ -58,5 +69,12 @@ const StyledLink = styled(Link)`
   ${({ theme }) => theme.font.small}
   padding: 0 6px;
   display: ${props => (props.location === "true" ? "none" : "block")};
+`;
+const Button = styled.button`
+  color: ${({ theme }) => theme.color.font};
+  ${({ theme }) => theme.font.small}
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 export default Header;
