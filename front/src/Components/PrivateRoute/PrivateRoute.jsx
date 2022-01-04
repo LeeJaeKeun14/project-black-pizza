@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { loginState } from "./store/atoms";
+import { loginState } from "../../store/atoms";
 
 const PrivateRoute = ({ children, redirectTo }) => {
   const isLogin = useRecoilValue(loginState);

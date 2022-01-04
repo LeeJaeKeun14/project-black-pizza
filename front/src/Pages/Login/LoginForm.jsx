@@ -35,7 +35,7 @@ const LoginForm = props => {
   };
   return (
     <InputForm>
-      <Title>login</Title>
+      <Title>로그인</Title>
       <p>{message}</p>
       <Input
         inputId={"email"}

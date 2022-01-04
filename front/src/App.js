@@ -7,7 +7,7 @@ import SurveyResult from './Pages/SurveyResult/SurveyResult';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import Detail from './Pages/Detail/Detail';
-import { QueryClient, QueryClientProvider, useQueries, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import UserForm from './Components/UserForm/UserForm';
 
 import Test from "./Pages/Main/Test";
@@ -19,7 +19,7 @@ import { loginState } from './store/atoms';
 import SignupForm from './Pages/Signup/SignupForm';
 import LoginForm from './Pages/Login/LoginForm';
 import { ReactQueryDevtools } from 'react-query/devtools'
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 import MyPage from './Pages/MyPage/MyPage';
 
 
