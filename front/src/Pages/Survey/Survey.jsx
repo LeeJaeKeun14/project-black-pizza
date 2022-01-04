@@ -11,7 +11,7 @@ import List from "./List";
 import { userSelectedGenres, userSelectedYears } from "../../store/atoms";
 const Survey = props => {
   const navigator = useNavigate();
-  const [hasCategory, setHasCategory] = useState(false);
+  const [selectAllCategory, setSelectAllCategory] = useState(false);
   const ratingArr = useRecoilValue(ratingStateResult);
   const isLogin = useRecoilValue(loginState);
   const userGenres = useRecoilValue(userSelectedGenres);
@@ -27,31 +27,40 @@ const Survey = props => {
     if (ratingArr.length > 0) {
       navigator("/result");
     } else {
-      alert("1개이상 평점을 등록해주세요");
+      alert("5개 이상의 콘텐츠를 평가하거나 찜해주세요");
+    }
+  };
+  const gotoRating = () => {
+    if (userGenres.length === 0 || userYears.length === 0) {
+      alert("장르와 연도를 모두 선택해주세요");
+    } else {
+      setSelectAllCategory(!selectAllCategory);
     }
   };
   return (
     <SurveyWrap>
       <Header />
-
-      {hasCategory ? (
+      {selectAllCategory ? (
         <div>
           <div>
+            <Button isDisabled={ratingArr.length < 5} onClick={requestResult}>
+              추천영화 확인하기
+            </Button>
             <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
-            <Button onClick={requestResult}>추천영화 확인하기</Button>
           </div>
           <Content>
+            <Question>5개 이상의 콘텐츠를 평가하거나 찜해주세요</Question>
             <List />
           </Content>
         </div>
       ) : (
         <div>
-          <button
-            disabled={userGenres.length === 0 || userYears.length === 0}
-            onClick={() => setHasCategory(!hasCategory)}
+          <Button
+            isDisabled={userGenres.length === 0 || userYears.length === 0}
+            onClick={gotoRating}
           >
-            set category
-          </button>
+            평가하기
+          </Button>
           <Category />
         </div>
       )}
@@ -66,8 +75,25 @@ const Button = styled.button`
   margin: 0 auto;
   display: flex;
   justify-content: center;
+  color: ${({ theme }) => theme.color.font};
+  background-color: ${props =>
+    props.isDisabled
+      ? ({ theme }) => theme.color.background3
+      : ({ theme }) => theme.color.coral};
+  border: none;
+  padding: 10px;
+
+  cursor: pointer;
+  border-radius: 10px;
+  &:hover {
+    background-color: ${({ theme }) => theme.color.coral};
+  }
 `;
 const Content = styled.div`
   padding: 0 50px 50px;
+`;
+const Question = styled.p`
+  padding: 30px 0;
+  text-align: center;
 `;
 export default Survey;
