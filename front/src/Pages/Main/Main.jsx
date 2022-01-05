@@ -6,7 +6,7 @@ import {
   useFavoriteList,
   useContentDetail,
   useSearchResult,
-} from "../../hooks/content";
+} from "../../hooks/useContent";
 import { media } from "../../styles/theme";
 import Banner from "./Banner";
 import ContentDetail from "./ContentDetail";

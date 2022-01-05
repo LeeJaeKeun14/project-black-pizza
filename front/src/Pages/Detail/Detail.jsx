@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
-import { useContentDetail } from "../../hooks/content";
+import { useContentDetail } from "../../hooks/useContent";
 
 const Detail = props => {
   const { id } = useParams();
