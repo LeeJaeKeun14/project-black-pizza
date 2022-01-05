@@ -19,7 +19,7 @@ const Part = styled.section`
   display: flex;
 
   justify-content: center;
-  background-color: #0000008c;
+  background-color: #000000c0;
 
   &:before {
     content: "";
@@ -40,7 +40,6 @@ const Text = styled.h1`
   justify-content: center;
   padding: 50px;
   text-align: center;
-  color: #ffffff;
 `;
 const Sub = styled.p`
   font-size: 3rem;

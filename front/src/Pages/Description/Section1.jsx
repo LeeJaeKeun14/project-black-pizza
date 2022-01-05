@@ -22,7 +22,7 @@ const Part = styled.section`
   height: 100vh;
   position: relative;
   display: flex;
-  background-color: #0000008c;
+  background-color: #000000c0;
 
   &:before {
     content: "";

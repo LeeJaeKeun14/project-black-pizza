@@ -10,9 +10,11 @@ const Section7 = props => {
   return (
     <Part>
       <Text>
-        <p>다양해진 OTT 플랫폼 사이에서</p>
-        <p>나에게 딱 맞는 플랫폼은</p>
-        <p>어떻게 찾을까?</p>
+        <p>보고싶은 영화를 고르고</p>
+        <p>
+          <Point>나만의 맞춤 OTT와 영화</Point>를
+        </p>
+        <p>추천 받아 보자</p>
       </Text>
       <Button onClick={goSurvey}>OTT 추천 받기</Button>
     </Part>
@@ -26,7 +28,7 @@ const Part = styled.section`
   display: flex;
 
   justify-content: center;
-  background-color: #0000008c;
+  background-color: #000000c0;
 
   &:before {
     content: "";
@@ -50,7 +52,6 @@ const Text = styled.h1`
   justify-content: center;
   padding: 50px;
   text-align: center;
-  color: #ffffff;
 `;
 const Button = styled.button`
   position: absolute;
@@ -67,5 +68,8 @@ const Button = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.color.coral};
   }
+`;
+const Point = styled.span`
+  color: ${({ theme }) => theme.color.coral};
 `;
 export default Section7;

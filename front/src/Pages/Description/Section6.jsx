@@ -4,7 +4,9 @@ const Section6 = props => (
   <Part>
     <Text>
       <p>다양해진 OTT 플랫폼 사이에서</p>
-      <p>나에게 딱 맞는 플랫폼은</p>
+      <p>
+        <Point>나에게 딱 맞는 플랫폼</Point>은
+      </p>
       <p>어떻게 찾을까?</p>
     </Text>
   </Part>
@@ -17,7 +19,7 @@ const Part = styled.section`
   display: flex;
 
   justify-content: center;
-  background-color: #0000008c;
+  background-color: #000000c0;
 
   &:before {
     content: "";
@@ -38,7 +40,8 @@ const Text = styled.h1`
   justify-content: center;
   padding: 50px;
   text-align: center;
-  color: #ffffff;
 `;
-
+const Point = styled.span`
+  color: ${({ theme }) => theme.color.coral};
+`;
 export default Section6;
