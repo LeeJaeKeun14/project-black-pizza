@@ -2,9 +2,11 @@ import pytest
 import requests
 import json
 import jsonpath
-from flask import Flask, session
-from models import User
-
+from main import create_app
+from db_connect import db
+from flask import session
+import config
+from sqlalchemy import create_engine, text
 
 base_url = "http://localhost:5000/api"
 
@@ -43,11 +45,11 @@ def test_contents_detail():
     path = f'/contents/detail/{id}'
 
     response_get = requests.get(base_url + path)
-    reponseJson_get = json.loads(response_get.text)
+    responseJson_get = json.loads(response_get.text)
 
     assert response_get.status_code == 200
-    assert type(jsonpath.jsonpath(reponseJson_get, "$.genre")[0]) == list
-    assert type(jsonpath.jsonpath(reponseJson_get, "$.actor")[0]) == list
+    assert type(jsonpath.jsonpath(responseJson_get, "$.genre")[0]) == list
+    assert type(jsonpath.jsonpath(responseJson_get, "$.actor")[0]) == list
 
 
 def test_contents_search():
@@ -56,71 +58,122 @@ def test_contents_search():
     path = f'/contents/search?q={query}&type={type_}'
 
     response_get = requests.get(base_url + path)
-    reponseJson_get = json.loads(response_get.text)
+    responseJson_get = json.loads(response_get.text)
 
     assert response_get.status_code == 200
-    assert type(jsonpath.jsonpath(reponseJson_get, "$.contents")[0]) == list
-    assert type(jsonpath.jsonpath(reponseJson_get, "$.q")[0]) == str
-    assert type(jsonpath.jsonpath(reponseJson_get, "$.type")[0]) == str
+    assert type(jsonpath.jsonpath(responseJson_get, "$.contents")[0]) == list
+    assert type(jsonpath.jsonpath(responseJson_get, "$.q")[0]) == str
+    assert type(jsonpath.jsonpath(responseJson_get, "$.type")[0]) == str
     assert type(jsonpath.jsonpath(
-        reponseJson_get, "$.contents..key")[0]) == int
+        responseJson_get, "$.contents..key")[0]) == int
     assert type(jsonpath.jsonpath(
-        reponseJson_get, "$.contents..info")[0]) == list
+        responseJson_get, "$.contents..info")[0]) == list
     assert type(jsonpath.jsonpath(
-        reponseJson_get, "$.contents..ott")[0]) == list
+        responseJson_get, "$.contents..ott")[0]) == list
 
 
-def test_user():
+# user test
+
+def db_file(db, filename):
+    sql_lines = []
+    with open(filename, 'r') as file_data:
+        # .sql를 주석을 제외하고 라인별로 분류
+        sql_lines = [line.strip('\n') for line in file_data if not line.startswith(
+            '--') and line.strip('\n')]
+
+        with db.connect() as conn:
+            sql_command = ''
+            for line in sql_lines:
+                sql_command += line
+                # ; 나오면 execute
+                if sql_command.endswith(';'):
+                    try:
+                        conn.execute(text(sql_command))
+                    except Exception as e:
+                        print('Fail DB Reset!!')
+                        print(e)
+                        return False
+                    finally:
+                        sql_command = ''
+    return True
+
+
+TEST_CONFIG = {
+    # 'DB_URL': 'mysql+pymysql://root:password@db_mysql/BlackPizza',
+    'DB_URL': config.TEST_DB_URL,
+}
+
+
+@pytest.fixture(scope='session')  # 테스트 실행시 한번만 실행
+def app():
+    app = create_app(TEST_CONFIG)
+    db.init_app(app)
+    return app
+
+
+@pytest.fixture(scope='session')
+def db_():
+    db = create_engine(TEST_CONFIG['DB_URL'], encoding='utf-8', max_overflow=0)
+    return db
+
+
+@pytest.fixture  # 매 테스트 실행 마다 실행
+def client(app, db_):
+    db_file(db_, 'test.sql')
+    client = app.test_client()
+    return client
+
+
+def test_user(client):
 
     name = 'tester'
     email = 'tester@tester.com'
 
-    # 회원가입
-    path = '/user/signup'
-    response_post = requests.post(url=base_url + path, json=json.loads(
-        f'{{"name": "{name}", "email": "{email}", "password": "test@1234", "password2" : "test@1234"}}'))
-    responseJson_post = json.loads(response_post.text)
+    # base_url = "localhost:5000/api"
+    base_url = "/api"
 
-    assert response_post.status_code == 200
-    assert jsonpath.jsonpath(responseJson_post, "$.result")[0] == 'success'
-    assert jsonpath.jsonpath(responseJson_post, "$.msg")[0] == '회원가입이 완료되었습니다.'
+    with client as c:
+        # 회원가입
+        path = '/user/signup'
+        response_post = c.post(
+            base_url + path, json={"name": f"{name}", "email": f"{email}", "password": "test@1234", "password2": "test@1234"})
+        responseJson_post = response_post.get_json()
+        assert response_post.status_code == 200
+        assert jsonpath.jsonpath(responseJson_post, "$.result")[0] == 'success'
+        assert jsonpath.jsonpath(responseJson_post, "$.msg")[
+            0] == '회원가입이 완료되었습니다.'
 
-    # 로그인
-    path = '/user/signin'
-    response_post = requests.post(url=base_url + path, json=json.loads(
-        f'{{"email": "{email}", "password": "test@1234"}}'))
-    responseJson_post = json.loads(response_post.text)
+        # 로그인
+        path = '/user/signin'
+        response_post = c.post(
+            base_url + path, json={"email": f"{email}", "password": "test@1234"})
+        responseJson_post = response_post.get_json()
 
-    assert response_post.status_code == 200
-    assert jsonpath.jsonpath(responseJson_post, "$.result")[0] == 'success'
-    assert jsonpath.jsonpath(responseJson_post, "$.msg")[0] == '로그인에 성공하였습니다.'
-    # assert jsonpath.jsonpath(responseJson_post, "$.payload")[0] == email
-    # assert jsonpath.jsonpath(responseJson_post, "$.session.email")[0] == email
+        assert response_post.status_code == 200
+        assert jsonpath.jsonpath(responseJson_post, "$.result")[0] == 'success'
+        assert jsonpath.jsonpath(responseJson_post, "$.msg")[
+            0] == '로그인에 성공하였습니다.'
+        assert 'Set-Cookie' in response_post.headers
+        assert 'session=' in response_post.headers['Set-Cookie']
+        assert session['email'] == email
 
-    # test db 삭제
-    path = '/user/delete'
-    response_post = requests.post(url=base_url + path, json=json.loads(
-        f'{{"email": "{email}"}}'))
-    responseJson_post = json.loads(response_post.text)
+        # 로그인 됐는지 확인
+        path = '/user/isSignin'
+        response_get = c.get(base_url + path)
+        responseJson_get = response_get.get_json()
+        assert response_get.status_code == 200
+        assert session['email'] == email
 
-    assert response_post.status_code == 200
-    assert jsonpath.jsonpath(responseJson_post, "$.result")[0] == 'success'
+        # 로그아웃
+        path = '/user/signout'
+        response_get = c.get(base_url + path)
+        responseJson_get = response_get.get_json()
+        assert response_get.status_code == 200
+        assert jsonpath.jsonpath(responseJson_get, "$.result")[0] == 'success'
 
-    # 로그인 됐는지 확인
-    path = '/user/isSignin'
-    response_get = requests.get(base_url + path)
-    responseJson_get = json.loads(response_get.text)
-    assert response_get.status_code == 200
-    # assert jsonpath.jsonpath(responseJson_get, "$.status")[0] == 404
-
-    # 로그아웃
-    path = '/user/signout'
-    response_get = requests.get(base_url + path)
-    responseJson_get = json.loads(response_get.text)
-    assert response_get.status_code == 200
-    # assert jsonpath.jsonpath(responseJson_get, "$.result")[0] == 'success'
-
-# 로그인 테스트를 했을때까지는 session에 값이 들어오는 것이 확인됨
-# 하지만 isSignin 혹은 logout response get을 하면 session['email']값이 추적이 안되는 것을 보아 session 유지에 문제가 있음
-# http test에서는 session 유지 잘 되었음 pytest 진행과정이 다른 느낌
-# test user를 db에 저장하지 않기 위한 delete 코드 삽입함
+        # test db 삭제
+        path = '/user/delete'
+        response_post = c.post(base_url + path, json={"email": f"{email}"})
+        responseJson_post = response_post.get_json()
+        assert response_post.status_code == 200
+        assert jsonpath.jsonpath(responseJson_post, "$.result")[0] == 'success'
