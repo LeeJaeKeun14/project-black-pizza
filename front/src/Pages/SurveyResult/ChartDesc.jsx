@@ -15,34 +15,43 @@ const ChartDesc = ({ ottData }) => {
     console.log(ott);
     console.log(total);
   }, [ott, total]);
-  if (ott.length === 0) return <Navigate to="/" />;
+  if (Object.values(ottData).length === 0) return <Navigate to="/" />;
   return (
     <ChartBlock>
       <ResultChart data={ottData} />
-      <Desc>
-        <Title>
-          회원님에게 <br />
-          추천하는 OTT 서비스는 <br />
-          <a href={ottURL[ott[0][0]]} target="_blank" rel="noreferrer">
-            {ott[0][0]}
-          </a>
-          입니다.
-        </Title>
-        <AllOtt>
-          {ott
-            .filter(e => e[1] !== 0)
-            .map((e, i) => (
-              <OttWrap key={i} size={ott.length - i}>
-                <Name>
-                  <a href={ottURL[e[0]]} target="_blank" rel="noreferrer">
-                    {e[0]}
-                  </a>
-                </Name>
-                <Percnet>{`${Math.ceil((e[1] / total) * 100)}%`}</Percnet>
-              </OttWrap>
-            ))}
-        </AllOtt>
-      </Desc>
+      {ott.length === 0 ? (
+        <div>loading</div>
+      ) : (
+        <Desc>
+          <Title>
+            회원님에게 <br />
+            추천하는 OTT 서비스는 <br />
+            <a
+              href={ott[0][0] && ottURL[ott[0][0]]}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {ott[0][0] && ott[0][0]}
+            </a>
+            입니다.
+          </Title>
+          <AllOtt>
+            {ott.length !== 0 &&
+              ott
+                .filter(e => e[1] !== 0)
+                .map((e, i) => (
+                  <OttWrap key={i} size={ott.length - i}>
+                    <Name>
+                      <a href={ottURL[e[0]]} target="_blank" rel="noreferrer">
+                        {e[0]}
+                      </a>
+                    </Name>
+                    <Percnet>{`${Math.ceil((e[1] / total) * 100)}%`}</Percnet>
+                  </OttWrap>
+                ))}
+          </AllOtt>
+        </Desc>
+      )}
     </ChartBlock>
   );
 };
