@@ -9,11 +9,13 @@ const List = props => {
   const { data, error, isLoading, fetchNextPage, isFetching } =
     useContentListQuery();
   const queryClient = useQueryClient();
+
   useEffect(() => {
     return () => {
       queryClient.resetQueries("contentList", { exact: true });
     };
   }, []);
+
   useEffect(() => {
     let observer;
     if (target) {
@@ -26,11 +28,12 @@ const List = props => {
   const observerOptions = { root: null, rootMargin: "0px", threshold: 1 };
   const observerCallback = async ([entries], observer) => {
     if (entries.isIntersecting) {
-      if (entries.boundingClientRect.y >= entries.rootBounds.height * 0.5) {
+      if (entries.boundingClientRect.y >= entries.rootBounds.height * 0.7) {
         fetchNextPage();
       }
     }
   };
+
   return isLoading ? (
     <p>loading</p>
   ) : error ? (
@@ -58,6 +61,7 @@ const List = props => {
     </>
   );
 };
+
 const ListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
