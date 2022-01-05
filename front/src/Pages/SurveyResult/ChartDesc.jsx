@@ -57,7 +57,7 @@ const ChartDesc = ({ ottData }) => {
 };
 const ChartBlock = styled.section`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 `;
 const Desc = styled.div`
   display: flex;
@@ -81,7 +81,7 @@ const OttWrap = styled.div`
   ${({ theme }) => theme.font.small}
   font-size:${props => {
     if (props.size < 3) {
-      return 3 * 0.5;
+      return 3 * 0.4;
     }
     return props.size * 0.4;
   }}rem;

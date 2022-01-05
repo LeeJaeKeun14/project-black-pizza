@@ -23,7 +23,7 @@ const ResultChart = ({ data }) => {
         var text = "추천 OTT",
           textX = Math.round((width - ctx.measureText(text).width) / 2),
           textY = height / 2;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "#ccc";
         ctx.fillText(text, textX, textY);
         ctx.save();
       },
@@ -65,8 +65,8 @@ const ResultChart = ({ data }) => {
         style={{
           // position: "relative",
           margin: "auto",
-          // width: "500",
-          // height: "500",
+          width: "300px",
+          height: "300px",
         }}
         width={500}
         height={500}
