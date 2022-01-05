@@ -21,3 +21,11 @@ export const contentGenreCategory = [
   '서부']
 
 export const contentYearCategory = [1900, 1980, 1990, 2000, 2010, 2020]
+
+export const ottURL = {
+  'wavve': 'https://www.wavve.com',
+  'Naver Store': 'https://www.naver.com/',
+  'Netflix': 'https://www.netflix.com/kr/',
+  'Disney Plus': 'https://www.disneyplus.com/ko-kr',
+  'Watcha': 'https://watcha.com'
+}

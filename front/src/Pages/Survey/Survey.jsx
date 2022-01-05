@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
-import { loginState, ratingStateResult } from "../../store/atoms";
+import { loginState, ratingState, ratingStateResult } from "../../store/atoms";
 import Category from "./Category";
 import List from "./List";
 import { userSelectedGenres, userSelectedYears } from "../../store/atoms";
@@ -13,23 +13,31 @@ const Survey = props => {
   const navigator = useNavigate();
   const [selectAllCategory, setSelectAllCategory] = useState(false);
   const ratingArr = useRecoilValue(ratingStateResult);
+  const setRatingState = useSetRecoilState(ratingState);
   const isLogin = useRecoilValue(loginState);
   const userGenres = useRecoilValue(userSelectedGenres);
   const userYears = useRecoilValue(userSelectedYears);
+
   useEffect(() => {
     if (!isLogin) {
       navigator("/");
       alert("로그인이 필요합니다.");
     }
   }, [isLogin, navigator]);
+
+  useEffect(() => {
+    setRatingState({});
+  }, []);
+
   const requestResult = () => {
     console.log(ratingArr);
-    if (ratingArr.length > 5) {
+    if (ratingArr.length >= 5) {
       navigator("/result");
     } else {
       alert("5개 이상의 콘텐츠를 평가하거나 찜해주세요");
     }
   };
+
   const gotoRating = () => {
     if (userGenres.length === 0 || userYears.length === 0) {
       alert("장르와 연도를 모두 선택해주세요");
@@ -44,7 +52,7 @@ const Survey = props => {
         <div>
           <div>
             <Button isDisabled={ratingArr.length < 5} onClick={requestResult}>
-              추천영화 확인하기
+              추천 확인하기
             </Button>
             <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
           </div>

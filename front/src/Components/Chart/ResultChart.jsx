@@ -5,8 +5,8 @@ import styled from "styled-components";
 const ResultChart = ({ data }) => {
   const options = {
     responsive: false,
-    plugin: {
-      legend: {},
+    plugins: {
+      legend: { display: false },
     },
   };
   const plugins = [
@@ -41,13 +41,14 @@ const ResultChart = ({ data }) => {
             .filter(e => e !== 0)
             .sort((a, b) => b - a),
           backgroundColor: [
-            "#726A95",
-            "#709FB0",
-            "#A0C1B8",
+            "#b84f55",
+            "#ffeea1",
+            "#fbefb5",
             "#F4EBC1",
-            "#FFF9F9",
+            "#f9f2d1",
+            "#ffff30",
           ],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+          hoverBackgroundColor: ["#d7acaf"],
           borderColor: "none",
           cutout: "70%",
           weight: 10,
