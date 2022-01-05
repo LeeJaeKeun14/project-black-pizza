@@ -7,7 +7,7 @@ import { USERINFINITEQUERY } from '../reactQuery/reactQuery';
 import { loginState, userSelectedYears, userSelectedGenres } from '../store/atoms';
 
 export const useContentListQuery = () => {
-
+  const isLogin = useRecoilValue(loginState)
   const userGenres = useRecoilValue(userSelectedGenres);
   const userYears = useRecoilValue(userSelectedYears);
 
@@ -21,9 +21,10 @@ export const useContentListQuery = () => {
     isFetching,
     isFetchingNextPage,
     status,
-  } = USERINFINITEQUERY(["contentList", params], () => fetchContentSurveyList(params),
+  } = USERINFINITEQUERY(["contentList", params], fetchContentSurveyList,
     {
-      getNextPageParam: (lastPage, pages) => lastPage.nextpage
+      getNextPageParam: (lastPage, pages) => lastPage.nextpage,
+      enable: !!isLogin
     });
   return { data, error, isLoading, fetchNextPage, isFetching, hasNextPage };
 };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const fetchContentSurveyList = async ({ pageParam = 1, userGenres, userYears }) => {
-  const data = { genres: userGenres, years: userYears, page: pageParam }
+export const fetchContentSurveyList = async ({ queryKey, pageParam = 1 }) => {
+  const data = { genres: queryKey[1].userGenres, years: queryKey[1].userYears, page: pageParam }
   console.log(pageParam)
   try {
     const res = await axios
@@ -27,22 +27,12 @@ export const fetchfavoriteList = async () => {
     console.log(error)
   }
 };
-// export const useFavoriteList = () => { return useQuery("favoriteList", fetchfavoriteList) };
+
 
 export const fetchContentDetail = async id => {
   const { data } = await axios(`/api/contents/detail/${id}`);
   return data;
 };
-// export const useContentDetail = (contentId) => {
-//   return useQuery(
-//     ["contentDetail", contentId],
-//     () => fetchContentDetail(contentId),
-//     {
-//       enabled: !!contentId,
-//       // keepPreviousData: true,
-//     }
-//   )
-// };
 
 
 export const fetchSearchItem = async (searchWord, searchType) => {
@@ -50,12 +40,4 @@ export const fetchSearchItem = async (searchWord, searchType) => {
     .get(`/api/contents/search?q=${searchWord}&type=${searchType}`)
   return data;
 };
-// export const useSearchResult = (searchWord, searchType) => {
-//   return useQuery(
-//     ["search", searchWord, searchType],
-//     () => fetchSearchItem(searchWord, searchType),
-//     {
-//       enabled: false,
-//     }
-//   )
-// };
+
