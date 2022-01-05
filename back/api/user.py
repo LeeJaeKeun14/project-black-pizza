@@ -99,7 +99,7 @@ def isLogin():
     if session.get('email'):
         email = session['email']
         value = {"status": 200, "result": "success",
-                 "payload": email, "session": session}
+                 "payload": email}
     else:
         value = {"status": 404, "result": "fail"}
     return jsonify(value)

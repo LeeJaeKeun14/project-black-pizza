@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, Blueprint, request, session
 from numpy.random.mtrand import randint
+from sqlalchemy.sql.expression import update
 
 from models import User, Contents, Genre, Actor, Buy, Streaming, Rent, User_Taste, Genre_Matrix
 from db_connect import db
@@ -49,26 +50,33 @@ def list():
 @contents.route('/recommend', methods=['GET', 'POST'])
 def recommend():
     if request.method == 'POST':
-        params = request.get_json()
-        user_pick_list = params['data']
+        user_pick_list = request.get_json()
         user_pick_id = [i['contents_id'] for i in user_pick_list]
-        # user_scores = [i['score'] for i in user_pick_list]
         if session.get('email'):
             user_email = session['email']
             user_id = User.query.filter(User.email == user_email).first().id
+            past_user_pick = db.session.query(User_Taste.contents_id).filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id.in_(user_pick_id))).all()
+            past_user_pick_list = [i.contents_id for i in past_user_pick]
+
             for taste in user_pick_list:
-                new_taste = User_Taste(
-                    user_id=user_id,
-                    contents_id=taste['contents_id'],
-                    score=taste['score'] if 'score' in taste else None,
-                    is_picked=taste['is_picked'] if 'is_picked' in taste else False
-                )
-                db.session.add(new_taste)
+                if taste['contents_id'] in past_user_pick_list:
+                    the_taste = User_Taste.query.filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id == taste['contents_id'])).first()
+                    if 'score' in taste:
+                        the_taste.score = taste['score']
+                    if 'is_picked' in taste:
+                        the_taste.is_picked = taste['is_picked']
+                else:
+                    new_taste = User_Taste(
+                        user_id=user_id,
+                        contents_id=taste['contents_id'],
+                        score=taste['score'] if 'score' in taste else None,
+                        is_picked=taste['is_picked'] if 'is_picked' in taste else False
+                    )
+                    db.session.add(new_taste)
             db.session.commit()
 
     else:
         user_pick_id = [100, 200, 300, 400, 500, 600, 700, 800, 900]
-        user_scores = [randint(1, 10) for _ in range(10)]
     con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
     user_pick = [i.title for i in con_list]
 
@@ -195,23 +203,45 @@ def test():
     return jsonify(res)
 
 
-@contents.route('/userpick', methods=['GET'])
+@contents.route('/userpick', methods=['GET', 'POST'])
 def userpick():
     if session.get('email'):
-        user_email = session['email']
-        user_id = User.query.filter(User.email == user_email).first().id
-        user_pick = []
-        user_taste = db.session.query(User_Taste).filter(
-            and_(User_Taste.user_id == user_id, User_Taste.is_picked == True)).subquery()
-        contents = db.session.query(Contents.id, Contents.title, Contents.image).join(
-            user_taste, user_taste.c.contents_id == Contents.id).all()
+        if request.method == 'GET':
+            user_email = session['email']
+            user_id = User.query.filter(User.email == user_email).first().id
+            user_pick = []
+            user_taste = db.session.query(User_Taste).filter(
+                and_(User_Taste.user_id == user_id, User_Taste.is_picked == True)).subquery()
+            contents = db.session.query(Contents.id, Contents.title, Contents.image).join(
+                user_taste, user_taste.c.contents_id == Contents.id).all()
 
-        for content in contents:
-            print(content)
-            movie_dict = {}
-            movie_dict['key'] = content.id
-            movie_dict['info'] = [content.title, content.image]
-            user_pick.append(movie_dict)
+            for content in contents:
+                print(content)
+                movie_dict = {}
+                movie_dict['key'] = content.id
+                movie_dict['info'] = [content.title, content.image]
+                user_pick.append(movie_dict)
+        else:
+            user_pick_list = request.get_json()
+            user_pick_id = [i['contents_id'] for i in user_pick_list]
+            user_email = session['email']
+            user_id = User.query.filter(User.email == user_email).first().id
+            past_user_pick = db.session.query(User_Taste.contents_id).filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id.in_(user_pick_id))).all()
+            past_user_pick_list = [i.contents_id for i in past_user_pick]
+            for taste in user_pick_list:
+                if taste['contents_id'] in past_user_pick_list:
+                    the_taste = User_Taste.query.filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id == taste['contents_id'])).first()
+                    if 'is_picked' in taste:
+                        the_taste.is_picked = taste['is_picked']
+                else:
+                    new_taste = User_Taste(
+                        user_id=user_id,
+                        contents_id=taste['contents_id'],
+                        is_picked=taste['is_picked'] if 'is_picked' in taste else False
+                    )
+                    db.session.add(new_taste)
+            db.session.commit()
+            return jsonify({"status": 200, "result": 'success'})
     else:
         return jsonify({"status": 404, "result": 'fail', "message": "로그인된 유저가 아닙니다."})
 
