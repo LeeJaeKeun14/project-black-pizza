@@ -27,7 +27,7 @@ const Part = styled.section`
     top: 0;
     height: 100%;
     width: 100%;
-    background: url(/images/description/1.jpg) no-repeat;
+    background: url(/images/description/배경사진_ott플랫폼.jfif) no-repeat;
     background-size: cover;
     z-index: -1;
   }
