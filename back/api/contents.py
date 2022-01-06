@@ -137,6 +137,16 @@ def detail(id):
         content_detail['director'] = content.director
         content_detail['synopsis'] = content.synopsis
 
+        content_detail['is_picked'] = False
+        if session.get('email'):
+            user_email = session['email']
+            user_id = User.query.filter(User.email == user_email).first().id
+            is_picked = User_Taste.query.filter(
+                (User_Taste.user_id == user_id) & (User_Taste.contents_id == id)).first()
+            print(user_id, is_picked)
+            if is_picked is not None:
+                content_detail['is_picked'] = True
+
     return jsonify(content_detail)
 
 
