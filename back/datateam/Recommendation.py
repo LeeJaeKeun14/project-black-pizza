@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
-import time
+import random as rd
 
-def recommendations(user_pick, contents_all, genre_matrix, top_n = 20):
+def recommendations(user_pick, contents_all, genre_matrix):
     df = pd.DataFrame(contents_all, columns = ["id", "제목", "평점", "평가수"])
 
     C = df["평점"].mean()
@@ -13,18 +13,41 @@ def recommendations(user_pick, contents_all, genre_matrix, top_n = 20):
         return ((v/(v+m)) * R) + ((m/(m+v)) * C)
     
     df["가중치평점"] = df.apply(weighted_vote_average, axis=1)
-    
-    # title_list = ["나 홀로 집에", "해리 포터와 마법사의 돌", "쇼생크 탈출"]
 
     indexes = []
-    for title in user_pick:
-        indexes.append(df[df.제목 == title].index[0])
+    for pick in user_pick:
+        indexes.append(df[df.id == pick].index[0])
+        
+    similar_indexes = np.array(genre_matrix)
+    # 각 영화별 10개 추천
+    first_recommends = []
+    for index in indexes:
+        first_recommends += list(similar_indexes[index,1:10])
     
-    similar_indexes = np.array(genre_matrix)[indexes, :]
-    similar_indexes = similar_indexes.reshape(-1)
-    similar_indexes = set(similar_indexes)
+    similar_indexes = similar_indexes[indexes,10:]
+    similar_indexes_ls = list(similar_indexes.reshape(-1))
+    similar_indexes = set(similar_indexes_ls)  # 중복된 영화들을 제거/ 가중치 부여 # ["마블", "마블", "대부", "배트맨"]
+    
     similar_indexes = np.array(list(similar_indexes))
     for i in indexes:
         similar_indexes = similar_indexes[similar_indexes != i]  # 타이틀 기준 제거
+    
+    counter = {}
+    for index in similar_indexes:
+        counter[index] = similar_indexes_ls.count(index)
+    
+    result = df.iloc[similar_indexes]
+    for k, v in counter.items():
+        if v > 1:
+            print(k, v)
+            result["가중치평점"][k] += v*2
+    
+    second_recommends = list(result.sort_values("가중치평점", ascending=False)[:6].index)
+    third_recommends = list(result.sort_values("가중치평점", ascending=False)[6:].index)
+    
+    total = []
+    total += rd.choices(first_recommends, k=9)
+    total += second_recommends
+    total += rd.choices(third_recommends, k=5)
 
-    return df.iloc[similar_indexes].sort_values("가중치평점", ascending=False)[:top_n]
+    return list(df.iloc[total]["id"])
