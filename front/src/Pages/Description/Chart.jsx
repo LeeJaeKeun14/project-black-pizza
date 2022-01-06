@@ -7,7 +7,6 @@ const Chart = ({ inputData, type }) => {
     labels: inputData.yearMonth,
     datasets: [
       {
-        label: "국내 영화관 충 관객수",
         data: inputData.count,
         fill: false,
         borderColor: type === "movie" ? "#4f60b8" : "#b84f55",

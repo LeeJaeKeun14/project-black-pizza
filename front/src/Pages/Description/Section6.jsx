@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { media } from "../../styles/theme";
 const Section6 = props => (
   <Part>
     <Text>
@@ -32,7 +33,7 @@ const Part = styled.section`
     z-index: -1;
   }
 `;
-const Text = styled.h1`
+const Text = styled.h2`
   font-size: 6rem;
   font-weight: 600;
   display: flex;
@@ -40,6 +41,9 @@ const Text = styled.h1`
   justify-content: center;
   padding: 50px;
   text-align: center;
+  ${media.tablet} {
+    font-size: 3rem;
+  }
 `;
 const Point = styled.span`
   color: ${({ theme }) => theme.color.coral};

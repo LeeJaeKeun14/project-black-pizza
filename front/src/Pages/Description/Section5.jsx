@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { media } from "../../styles/theme";
 import { movie, netflix } from "../../utils/chartData";
 import Chart from "./Chart";
 
@@ -43,6 +44,10 @@ const Part = styled.section`
     background-size: cover;
     z-index: -1;
   }
+  ${media.tablet} {
+    flex-direction: column;
+    margin: 0 auto;
+  }
 `;
 const ChartWrap = styled.div`
   width: 50%;
@@ -51,18 +56,32 @@ const ChartWrap = styled.div`
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
+  ${media.tablet} {
+    margin: 0 auto;
+    width: 100%;
+  }
+  ${media.mobile} {
+    width: 100%;
+    padding: 10px;
+  }
 `;
-const Title = styled.h1`
+const Title = styled.h2`
   ${({ theme }) => theme.font.large}
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 50px;
   text-align: center;
+  ${media.tablet} {
+    font-size: 1rem;
+  }
 `;
 const Sub = styled.p`
   ${({ theme }) => theme.font.medium}
   text-align: end;
+  ${media.tablet} {
+    font-size: 1rem;
+  }
 `;
 const Point1 = styled.span`
   color: ${({ theme }) => theme.color.coral};

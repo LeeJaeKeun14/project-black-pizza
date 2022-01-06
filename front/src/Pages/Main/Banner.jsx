@@ -36,7 +36,7 @@ const BannerBlock = styled.div`
   right: 0;
 `;
 const Image = styled.img`
-  width: 60%;
+  width: 70%;
   ${media.tablet} {
     width: 100%;
   }
