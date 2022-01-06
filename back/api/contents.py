@@ -12,17 +12,13 @@ from sqlalchemy.sql.elements import and_
 contents = Blueprint('contents', __name__, url_prefix='/api/contents')
 
 
-@contents.route('/list', methods=['GET', 'POST'])
+@contents.route('/list', methods=['POST'])
 def list():
     if request.method == "POST":
         params = request.get_json()
         genres = params['genres']
         years = sorted(params['years'], reverse=True)
         list_page = int(params['page'])
-
-        # genres = ['로맨스', '드라마', 'SF']
-        # years = sorted([1990, 2000], reverse=True)
-        # list_page = 1
 
         contents = []
         movie_list = {'page': list_page, 'list': []}
@@ -36,12 +32,7 @@ def list():
         for content in contents_res:
             movie_dict = {}
             movie_dict['key'] = content.id
-            # movie_dict['genre'] = []
-            # genres = Genre.query.filter(Genre.contents_id == content.id).all()
-            # for genre in genres:
-            #     movie_dict['genre'].append(genre.genre)
             movie_dict['info'] = [content.title, content.image]
-            # movie_dict['info'] = [content.title, content.image, content.open_year]
             movie_list['list'].append(movie_dict)
 
         return jsonify(movie_list)
@@ -55,12 +46,14 @@ def recommend():
         if session.get('email'):
             user_email = session['email']
             user_id = User.query.filter(User.email == user_email).first().id
-            past_user_pick = db.session.query(User_Taste.contents_id).filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id.in_(user_pick_id))).all()
+            past_user_pick = db.session.query(User_Taste.contents_id).filter(and_(
+                User_Taste.user_id == user_id, User_Taste.contents_id.in_(user_pick_id))).all()
             past_user_pick_list = [i.contents_id for i in past_user_pick]
 
             for taste in user_pick_list:
                 if taste['contents_id'] in past_user_pick_list:
-                    the_taste = User_Taste.query.filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id == taste['contents_id'])).first()
+                    the_taste = User_Taste.query.filter(and_(
+                        User_Taste.user_id == user_id, User_Taste.contents_id == taste['contents_id'])).first()
                     if 'score' in taste:
                         the_taste.score = taste['score']
                     if 'is_picked' in taste:
@@ -127,7 +120,6 @@ def recommend():
 @contents.route('/detail/<id>', methods=['GET'])
 def detail(id):
     if request.method == "GET":
-        # content = detail_temp_list[id]
         content_detail = {}
         content = Contents.query.filter(Contents.id == id).first()
         genres = Genre.query.filter(Genre.contents_id == id).all()
@@ -143,6 +135,7 @@ def detail(id):
         content_detail['open_year'] = content.open_year
         content_detail['runtime'] = content.runtime.strftime("%H:%M")
         content_detail['director'] = content.director
+        content_detail['synopsis'] = content.synopsis
 
     return jsonify(content_detail)
 
@@ -226,11 +219,13 @@ def userpick():
             user_pick_id = [i['contents_id'] for i in user_pick_list]
             user_email = session['email']
             user_id = User.query.filter(User.email == user_email).first().id
-            past_user_pick = db.session.query(User_Taste.contents_id).filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id.in_(user_pick_id))).all()
+            past_user_pick = db.session.query(User_Taste.contents_id).filter(and_(
+                User_Taste.user_id == user_id, User_Taste.contents_id.in_(user_pick_id))).all()
             past_user_pick_list = [i.contents_id for i in past_user_pick]
             for taste in user_pick_list:
                 if taste['contents_id'] in past_user_pick_list:
-                    the_taste = User_Taste.query.filter(and_(User_Taste.user_id == user_id, User_Taste.contents_id == taste['contents_id'])).first()
+                    the_taste = User_Taste.query.filter(and_(
+                        User_Taste.user_id == user_id, User_Taste.contents_id == taste['contents_id'])).first()
                     if 'is_picked' in taste:
                         the_taste.is_picked = taste['is_picked']
                 else:
