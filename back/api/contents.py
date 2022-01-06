@@ -144,7 +144,7 @@ def detail(id):
             is_picked = User_Taste.query.filter(
                 (User_Taste.user_id == user_id) & (User_Taste.contents_id == id)).first()
             if is_picked is not None:
-                content_detail['is_picked'] = True
+                content_detail['is_picked'] = is_picked.is_picked
 
     return jsonify(content_detail)
 
