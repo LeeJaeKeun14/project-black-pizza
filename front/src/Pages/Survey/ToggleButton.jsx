@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const ToggleButton = ({ onClickCategoty, text }) => {
+const ToggleButton = ({ onClickCategory, text, selectedCategory }) => {
   const [isToggle, setIstoggle] = useState(false);
+
   useEffect(() => {
-    console.log(isToggle);
-  }, [isToggle]);
+    if (selectedCategory.includes(text)) setIstoggle(true);
+    else setIstoggle(false);
+  }, [isToggle, selectedCategory, text]);
   const onClickHandler = () => {
-    onClickCategoty(text);
+    onClickCategory(text);
     setIstoggle(!isToggle);
   };
   return (
@@ -22,9 +24,18 @@ const Button = styled.button`
   height: 100px;
   margin: 10px;
   box-sizing: border-box;
-  background-color: ${props => (props.isToggle ? "skyblue" : "coral")};
-  // & + & {
-  //   margin-right: 10px;
-  // }
+  border: none;
+  border-radius: 10px;
+  color: ${({ theme }) => theme.color.font};
+  background-color: ${props =>
+    props.isToggle
+      ? ({ theme }) => theme.color.coral
+      : ({ theme }) => theme.color.background2};
+  &:hover {
+    background-color: ${props =>
+      props.isToggle
+        ? ({ theme }) => theme.color.coral
+        : ({ theme }) => theme.color.background3};
+  }
 `;
 export default ToggleButton;

@@ -5,8 +5,8 @@ import styled from "styled-components";
 const ResultChart = ({ data }) => {
   const options = {
     responsive: false,
-    plugin: {
-      legend: {},
+    plugins: {
+      legend: { display: false },
     },
   };
   const plugins = [
@@ -23,7 +23,7 @@ const ResultChart = ({ data }) => {
         var text = "추천 OTT",
           textX = Math.round((width - ctx.measureText(text).width) / 2),
           textY = height / 2;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "#ccc";
         ctx.fillText(text, textX, textY);
         ctx.save();
       },
@@ -41,13 +41,14 @@ const ResultChart = ({ data }) => {
             .filter(e => e !== 0)
             .sort((a, b) => b - a),
           backgroundColor: [
-            "#726A95",
-            "#709FB0",
-            "#A0C1B8",
+            "#b84f55",
+            "#ffeea1",
+            "#fbefb5",
             "#F4EBC1",
-            "#FFF9F9",
+            "#f9f2d1",
+            "#ffff30",
           ],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+          hoverBackgroundColor: ["#d7acaf"],
           borderColor: "none",
           cutout: "70%",
           weight: 10,
@@ -57,9 +58,6 @@ const ResultChart = ({ data }) => {
     };
     return temp;
   }, [data]);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <ChartBlock>
       <Doughnut
@@ -67,8 +65,8 @@ const ResultChart = ({ data }) => {
         style={{
           // position: "relative",
           margin: "auto",
-          // width: "500",
-          // height: "500",
+          width: "300px",
+          height: "300px",
         }}
         width={500}
         height={500}

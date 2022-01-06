@@ -1,36 +1,28 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { signUp } from "../../api/user";
 import Input from "../../Components/Input/Input";
 import { useInput } from "../../hooks/useInput";
 
 const SignupForm = props => {
+  const navigator = useNavigate();
   const name = useInput("");
   const email = useInput("");
   const password = useInput("");
   const password2 = useInput("");
-  const navigator = useNavigate();
-  const [message, setMseeage] = useState("");
-  const reqeustPost = async body => {
-    console.log(body);
-    try {
-      const { data } = await axios.post("/api/user/signup", body);
-      console.log(data);
 
-      if (data.status === 200) {
+  const [message, setMseeage] = useState("");
+
+  const reqeustPost = async signUpInfo => {
+    await signUp(signUpInfo).then(res => {
+      if (res.status === 200) {
         navigator("/login");
-        alert(data.msg);
+        alert(res.msg);
       } else {
-        // data.msg && alert(data.msg);
-        data.msg && setMseeage(data.msg);
+        res.msg && setMseeage(res.msg);
       }
-      return data;
-    } catch (error) {
-      console.log(error);
-      error.response.data && alert(error.response.data);
-      throw Error(error.response.data || error.message);
-    }
+    });
   };
 
   const registeUser = e => {
@@ -43,6 +35,7 @@ const SignupForm = props => {
     };
     reqeustPost(data);
   };
+
   return (
     <InputForm>
       <Title>회원가입</Title>

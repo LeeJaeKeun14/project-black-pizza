@@ -18,13 +18,12 @@ Content-Type: application/json
   {"contents_id": 9000, "is_picked": true}
 ]
 
-
 ### list api
 POST http://localhost:5000/api/contents/list
 Content-Type: application/json
 
 {
-  "genres": ["로맨스","드라마","SF"], 
+  "genres": ["액션", "로맨스", "범죄", "판타지"], 
   "years": [1990, 2000, 2010, 2020],
   "page": 1
 }

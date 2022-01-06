@@ -27,7 +27,7 @@ const OttBlock = styled.div`
 const Quality = styled.span`
   margin-left: 5px;
   background-color: ${({ theme }) => theme.color.font};
-  color: ${({ theme }) => theme.color.point};
+  color: ${({ theme }) => theme.color.background3};
   border-radius: 5px;
   padding: 0 5px;
 `;

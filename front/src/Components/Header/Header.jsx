@@ -1,28 +1,28 @@
-import axios from "axios";
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { logout } from "../../api/user";
 import { loginState } from "../../store/atoms";
 
 const Header = props => {
   const { pathname } = useLocation();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
-
-  const logout = () => {
-    axios.get("api/user/signout").then(res => {
-      if (res.data.status === 200) {
+  const navigator = useNavigate();
+  const handleLogout = async () => {
+    await logout().then(res => {
+      if (res.status === 200) {
         setIsLogin(false);
+        navigator("/");
       }
     });
   };
   return (
     <HeaderWrap>
-      <Title>
-        <Link to="/">Black Pizza 🍕</Link>
-      </Title>
+      <StyledLink to="/">
+        <Title>Black Pizza 🍕 </Title>
+      </StyledLink>
 
       {isLogin === true ? (
         <Nav>
@@ -30,14 +30,17 @@ const Header = props => {
             location={(pathname === "/survey").toString()}
             to="/survey"
           >
-            영화 찾으러 가기
+            추천받기
           </StyledLink>
-          <Button onClick={logout}>로그아웃</Button>
+          {pathname === "/mypage" ? (
+            <Button onClick={handleLogout}>로그아웃</Button>
+          ) : (
+            <StyledLink to="/mypage">마이페이지</StyledLink>
+          )}
         </Nav>
       ) : (
         <Nav>
           <StyledLink to="/signup">가입하기</StyledLink>
-
           <StyledLink to="/login">로그인</StyledLink>
         </Nav>
       )}
@@ -50,18 +53,17 @@ const HeaderWrap = styled.header`
   justify-content: space-between;
   padding: 1rem 1.5rem;
   box-sizing: border-box;
+  align-items: center;
 `;
 
 const Title = styled.h1`
-  > a {
-    ${({ theme }) => theme.font.large}
-    color: ${({ theme }) => theme.color.font};
-    text-decoration: none;
-  }
+  ${({ theme }) => theme.font.large}
+  color: ${({ theme }) => theme.color.font};
+  text-decoration: none;
 `;
 const Nav = styled.nav`
   display: flex;
-  align-items: center;
+  align-items: baseline;
 `;
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.color.font};

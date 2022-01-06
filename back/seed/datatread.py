@@ -1,5 +1,6 @@
 import pandas as pd
 from parse import compile
+from crowling import img_set
 
 #데이터 pandas로 불러오기
 df = pd.read_csv('./seed/total_data.csv')
@@ -40,7 +41,8 @@ def seed_maker():
         content["runtime"] = line['재생 시간'] if pd.notnull(['재생 시간']) else None
         content["director"] = line['감독'] if pd.notnull(line['감독']) else None
         content["synopsis"] = line['시놉시스'] if pd.notnull(line['시놉시스']) else None
-        content["image"] = line['이미지'] if pd.notnull(line['이미지']) else None
+        # content["image"] = line['이미지'] if pd.notnull(line['이미지']) else None
+        content["image"] = f"/files/{contents_id}.jpg" if contents_id in img_set else (line['이미지'] if pd.notnull(line['이미지']) else None)
         content["isMovie"] = True if line['종류'] == '영화' else False
         contents.append(content)
         

@@ -7,7 +7,7 @@ import SurveyResult from './Pages/SurveyResult/SurveyResult';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import Detail from './Pages/Detail/Detail';
-import { QueryClient, QueryClientProvider, useQueries, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import UserForm from './Components/UserForm/UserForm';
 
 import Test from "./Pages/Main/Test";
@@ -18,6 +18,10 @@ import { useSetRecoilState } from 'recoil';
 import { loginState } from './store/atoms';
 import SignupForm from './Pages/Signup/SignupForm';
 import LoginForm from './Pages/Login/LoginForm';
+import { ReactQueryDevtools } from 'react-query/devtools'
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
+import MyPage from './Pages/MyPage/MyPage';
+import Description from './Pages/Description/Description';
 
 
 function App() {
@@ -40,17 +44,20 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <div className="App">
             <Routes>
               <Route path="/" element={<Main />} />
-              <Route path="/survey" element={<Survey />} />
+              <Route path="/survey" element={<PrivateRoute redirectTo="/login"><Survey /></PrivateRoute>} />
               <Route path="/result" element={<SurveyResult />} />
               <Route path="/detail/:id" element={<Detail />} />
 
               <Route path="/signup" element={<UserForm  ><SignupForm /></UserForm>} />
               <Route path="/login" element={<UserForm ><LoginForm /></UserForm>} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/description" element={<Description />} />
               <Route path="/test" element={<Test />} />
 
             </Routes>
