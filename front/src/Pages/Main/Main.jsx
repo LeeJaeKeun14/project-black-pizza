@@ -47,7 +47,7 @@ const Main = props => {
             contentDetail.isLoading ? (
               <div>loading...</div>
             ) : (
-              <ContentDetail data={contentDetail.data} />
+              <ContentDetail data={contentDetail.data} id={viewContent} />
             )
           ) : (
             <Banner />

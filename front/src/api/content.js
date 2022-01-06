@@ -30,7 +30,7 @@ export const fetchfavoriteList = async () => {
 
 
 export const fetchContentDetail = async id => {
-  const { data } = await axios(`/api/contents/detail/${id}`);
+  const { data } = await axios.get(`/api/contents/detail/${id}`);
   return data;
 };
 

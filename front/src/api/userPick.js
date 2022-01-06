@@ -8,5 +8,15 @@ export const fetchUserPick = async () => {
     console.log(error)
   }
 };
+export const postUserPick = async (contentId) => {
+  const postInput = [{ contents_id: contentId, is_picked: true }]
 
-// export const useUserPick = () => { return useQuery("userPick", fetchUserPick) };
+  try {
+    const { data } = await axios.post("/api/contents/userpick", postInput)
+    console.log(data)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+

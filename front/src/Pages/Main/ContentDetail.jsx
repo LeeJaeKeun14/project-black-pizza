@@ -1,19 +1,45 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useMemo } from "react";
+import { useMutation } from "react-query";
 import styled from "styled-components";
+import { useUserPickPost } from "../../hooks/userPick";
 
-const ContentDetail = ({ data }) => {
+const ContentDetail = ({ data, id }) => {
+  const userPickPost = useMutation(contentId => {
+    const postInput = [{ contents_id: contentId, is_picked: true }];
+    return axios.post("/api/contents/userpick", postInput);
+  });
+  useEffect(() => {
+    console.log(data);
+    console.log(id);
+  }, [data, id]);
+  useEffect(() => {
+    if (userPickPost.isSuccess) {
+      alert("찜한 콘텐츠에 추가되었습니다.");
+    }
+  }, [userPickPost.isSuccess]);
   const runingtime = useMemo(() => {
     return data.runtime
       .split(":")
       .map((e, i) => (i === 0 ? `${parseInt(e)}시간` : `${parseInt(e)}분`))
       .join(" ");
   }, [data.runtime]);
+  const postUserPick = () => {
+    console.log("click");
+    // userPickPost.refetch()
+    userPickPost.mutate(id);
+  };
   return (
     <ContentDetailBlock>
       <TitleWrap>
         <Title>{data.title}</Title>
-        <Button>찜하기</Button>
+        {/* {userPickPost.isSuccess ? (
+          <Button onClick={postUserPick}>찜 취소</Button>
+        ) : ( */}
+        <Button onClick={postUserPick}>찜하기</Button>
+        {/* )} */}
       </TitleWrap>
 
       <Wrap>
