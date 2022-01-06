@@ -18,13 +18,15 @@ const Header = props => {
       }
     });
   };
+
   return (
-    <HeaderWrap>
+    <HeaderWrap location={pathname}>
       <StyledLink to="/">
         <Title>Black Pizza 🍕 </Title>
       </StyledLink>
       {isLogin === true ? (
         <Nav>
+          <StyledLink to="/description">서비스 소개</StyledLink>
           <StyledLink to="/survey">
             {pathname === "/survey" ? null : " 추천받기"}
           </StyledLink>
@@ -36,6 +38,7 @@ const Header = props => {
         </Nav>
       ) : (
         <Nav>
+          <StyledLink to="/description">서비스 소개</StyledLink>
           <StyledLink to="/signup">가입하기</StyledLink>
           <StyledLink to="/login">로그인</StyledLink>
         </Nav>
@@ -50,6 +53,9 @@ const HeaderWrap = styled.header`
   padding: 1rem 1.5rem;
   box-sizing: border-box;
   align-items: center;
+  position: ${props => (props.location === "/" ? "fixed" : "static")};
+  z-index: 100;
+  background-color: ${({ theme }) => theme.color.background};
 `;
 
 const Title = styled.h1`
