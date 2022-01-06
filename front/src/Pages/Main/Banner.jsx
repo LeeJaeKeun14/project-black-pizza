@@ -5,7 +5,7 @@ import { media, theme } from "../../styles/theme";
 
 const Banner = props => {
   const navigator = useNavigate();
-  const onClickHandler = () => {
+  const goSurveyPage = () => {
     navigator("/survey");
   };
   return (
@@ -19,7 +19,7 @@ const Banner = props => {
           <Hightlight>나에게 딱 맞는 플랫폼</Hightlight>은 어떻게 찾을까?
         </Title>
 
-        <Button onClick={onClickHandler}>
+        <Button onClick={goSurveyPage}>
           나만의 맞춤 콘텐츠와 OTT 추천 받으러 가기
         </Button>
       </TextBlock>
@@ -34,10 +34,9 @@ const BannerBlock = styled.div`
   height: 100%;
   position: relative;
   right: 0;
-  // top: 40%;
 `;
 const Image = styled.img`
-  width: 60%;
+  width: 70%;
   ${media.tablet} {
     width: 100%;
   }
@@ -56,7 +55,6 @@ const Blar = styled.div`
 `;
 const TextBlock = styled.div`
   position: absolute;
-  /* left: 0; */
   right: 0;
   top: 40%;
   width: 50%;

@@ -1,10 +1,10 @@
-import { fetchfavoriteList, fetchContentDetail, fetchSearchItem } from '../api/content';
-import { USEQUERY } from '../reactQuery/reactQuery';
+import { fetchFavoriteList, fetchContentDetail, fetchSearchItem } from '../api/content';
+import { USE_QUERY } from '../reactQuery/reactQuery';
 
-export const useFavoriteList = () => { return USEQUERY('favoriteList', fetchfavoriteList) };
+export const useFavoriteList = () => { return USE_QUERY('favoriteList', fetchFavoriteList) };
 
 export const useContentDetail = (contentId) => {
-  return USEQUERY(
+  return USE_QUERY(
     ["contentDetail", contentId],
     () => fetchContentDetail(contentId),
     {
@@ -14,7 +14,7 @@ export const useContentDetail = (contentId) => {
 };
 
 export const useSearchResult = (searchWord, searchType) => {
-  return USEQUERY(
+  return USE_QUERY(
     ["search", searchWord, searchType],
     () => fetchSearchItem(searchWord, searchType),
     {

@@ -18,19 +18,17 @@ const Header = props => {
       }
     });
   };
+
   return (
-    <HeaderWrap>
+    <HeaderWrap location={pathname}>
       <StyledLink to="/">
         <Title>Black Pizza 🍕 </Title>
       </StyledLink>
-
       {isLogin === true ? (
         <Nav>
-          <StyledLink
-            location={(pathname === "/survey").toString()}
-            to="/survey"
-          >
-            추천받기
+          <StyledLink to="/description">서비스 소개</StyledLink>
+          <StyledLink to="/survey">
+            {pathname === "/survey" ? null : " 추천받기"}
           </StyledLink>
           {pathname === "/mypage" ? (
             <Button onClick={handleLogout}>로그아웃</Button>
@@ -40,6 +38,7 @@ const Header = props => {
         </Nav>
       ) : (
         <Nav>
+          <StyledLink to="/description">서비스 소개</StyledLink>
           <StyledLink to="/signup">가입하기</StyledLink>
           <StyledLink to="/login">로그인</StyledLink>
         </Nav>
@@ -54,6 +53,9 @@ const HeaderWrap = styled.header`
   padding: 1rem 1.5rem;
   box-sizing: border-box;
   align-items: center;
+  position: ${props => (props.location === "/" ? "fixed" : "static")};
+  z-index: 100;
+  background-color: ${({ theme }) => theme.color.background};
 `;
 
 const Title = styled.h1`
@@ -70,7 +72,6 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   ${({ theme }) => theme.font.small}
   padding: 0 6px;
-  display: ${props => (props.location === "true" ? "none" : "block")};
 `;
 const Button = styled.button`
   color: ${({ theme }) => theme.color.font};

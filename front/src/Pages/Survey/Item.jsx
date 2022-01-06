@@ -19,7 +19,6 @@ const Item = memo(
       if (rate === isStarRated) setIsStarRated(0);
     };
     const onClickUserPick = () => {
-      // console.log(data.key);
       const id = data.key;
       setIsUserPick(cur => (cur === 1 ? 0 : 1));
       setRating(cur => {
@@ -29,7 +28,6 @@ const Item = memo(
         } else {
           newObj[id] = { contents_id: id, score: 0, is_picked: true };
         }
-        console.log(newObj);
         return newObj;
       });
     };
@@ -39,7 +37,7 @@ const Item = memo(
           onMouseEnter={() => setDisplay(1)}
           onMouseLeave={() => setDisplay(0)}
         >
-          <Image src={imgURL} alt="poster" />
+          <Image src={imgURL} alt="poster" loading="lazy" />
           <InfoWrap
             isDisplay={display}
             isStarRated={isStarRated}

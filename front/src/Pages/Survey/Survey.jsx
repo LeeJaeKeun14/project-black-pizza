@@ -17,6 +17,7 @@ const Survey = props => {
   const isLogin = useRecoilValue(loginState);
   const userGenres = useRecoilValue(userSelectedGenres);
   const userYears = useRecoilValue(userSelectedYears);
+  const SELECT_COUNT = 5;
 
   useEffect(() => {
     if (!isLogin) {
@@ -30,11 +31,10 @@ const Survey = props => {
   }, []);
 
   const requestResult = () => {
-    console.log(ratingArr);
-    if (ratingArr.length >= 5) {
+    if (ratingArr.length >= SELECT_COUNT) {
       navigator("/result");
     } else {
-      alert("5개 이상의 콘텐츠를 평가하거나 찜해주세요");
+      alert(`${SELECT_COUNT}개 이상의 콘텐츠를 평가하거나 찜해주세요`);
     }
   };
 
@@ -51,13 +51,18 @@ const Survey = props => {
       {selectAllCategory ? (
         <div>
           <div>
-            <Button isDisabled={ratingArr.length < 5} onClick={requestResult}>
+            <Button
+              isDisabled={ratingArr.length < SELECT_COUNT}
+              onClick={requestResult}
+            >
               추천 확인하기
             </Button>
             <ProgressBar selectedCount={ratingArr.length} totalCount={5} />
           </div>
           <Content>
-            <Question>5개 이상의 콘텐츠를 평가하거나 찜해주세요</Question>
+            <Question>
+              {SELECT_COUNT}개 이상의 콘텐츠를 평가하거나 찜해주세요
+            </Question>
             <List />
           </Content>
         </div>

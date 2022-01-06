@@ -33,12 +33,9 @@ const List = props => {
       }
     }
   };
-
-  return isLoading ? (
-    <p>loading</p>
-  ) : error ? (
-    <p>Error: {error.message}</p>
-  ) : (
+  if (isLoading) return <p>loading...</p>;
+  if (error) return <p>Error:{error.message}</p>;
+  return (
     <>
       <ListWrap>
         {data ? (

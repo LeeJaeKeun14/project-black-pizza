@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 import { userSelectedGenres, userSelectedYears } from "../../store/atoms";
@@ -9,22 +9,18 @@ const Category = props => {
   const [userGenres, setUserGenres] = useRecoilState(userSelectedGenres);
   const [userYears, setUserYears] = useRecoilState(userSelectedYears);
   const [goNext, setGoNext] = useState(false);
-  const selectedCount = useMemo(() => {
-    if (userGenres.length === 0 && userYears.length === 0) return 0;
-    else if (userGenres.length === 0 || userYears.length === 0) return 1;
-    else return 2;
-  }, [userGenres, userYears]);
-
-  useEffect(() => {
-    console.log(userGenres);
-    console.log(userYears);
-  }, [userGenres, userYears]);
 
   useEffect(() => {
     setUserGenres([]);
     setUserYears([]);
   }, [setUserGenres, setUserYears]);
-  const [currentStep, setCurrentStep] = useState(1);
+
+  const selectedCount = useMemo(() => {
+    if ([userGenres, userYears].every(e => e.length === 0)) return 0;
+    else if ([userGenres, userYears].some(e => e.length === 0)) return 1;
+    else return 2;
+  }, [userGenres, userYears]);
+
   const onClickGenre = genre => {
     setUserGenres(cur => {
       if (cur.includes(genre)) return [...cur.filter(e => e !== genre)];
@@ -37,10 +33,6 @@ const Category = props => {
       else return [...cur, year];
     });
   };
-  const renderList = useMemo(() => {
-    if (currentStep === 1) return contentGenreCategory;
-    else return contentYearCategory;
-  }, [currentStep]);
 
   return (
     <div>
@@ -80,7 +72,6 @@ const Category = props => {
         isDisplay={goNext}
         onClick={() => {
           setGoNext(true);
-          setCurrentStep(2);
         }}
       >
         다음 질문

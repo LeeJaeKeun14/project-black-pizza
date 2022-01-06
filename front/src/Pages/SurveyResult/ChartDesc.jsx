@@ -11,10 +11,6 @@ const ChartDesc = ({ ottData }) => {
     setOtt(Object.entries(ottData).sort((a, b) => b[1] - a[1]));
     setTotal(Object.values(ottData).reduce((acc, e) => (acc += e), 0));
   }, [ottData]);
-  useEffect(() => {
-    console.log(ott);
-    console.log(total);
-  }, [ott, total]);
   if (Object.values(ottData).length === 0) return <Navigate to="/" />;
   return (
     <ChartBlock>

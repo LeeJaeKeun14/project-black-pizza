@@ -20,18 +20,13 @@ const Item = memo(({ id, data }) => {
         onMouseEnter={() => setDisplay(1)}
         onMouseLeave={() => setDisplay(0)}
       >
-        <Image src={imgURL} alt="poster" />
+        <Image src={imgURL} alt="poster" loading="lazy" />
         <Button display={display} onClick={goDetail}>
           {`${title} 상세보기`}
         </Button>
       </ImageWrap>
       <Rip></Rip>
       <AllPrice>
-        {/* {["buy", "rent", "streaming"].map((e, i) => {
-          return (
-            saleType[e] && <PurchaseType key={i} saleType={saleType} type={e} />
-          );
-        })} */}
         {Object.entries(saleType).map(
           ([key, value], i) =>
             value.length !== 0 && (
