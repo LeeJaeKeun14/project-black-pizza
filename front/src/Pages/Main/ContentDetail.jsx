@@ -2,15 +2,18 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useMemo } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { useContentDetail } from "../../hooks/useContent";
-import { useUserPickPost } from "../../hooks/userPick";
+import { useUserPickPost } from "../../hooks/useUserPick";
+import { loginState } from "../../store/atoms";
 
 const ContentDetail = ({ data, id }) => {
   const contentDetail = useContentDetail(id);
-  const [isPicked, setIsPicked] = useState(contentDetail.data.is_picked);
-
   const userPickPost = useUserPickPost();
+  const [isPicked, setIsPicked] = useState(contentDetail.data.is_picked);
+  const isLogin = useRecoilValue(loginState);
+
   useEffect(() => {
     if (userPickPost.isSuccess) {
       setIsPicked(cur => !cur);
@@ -29,7 +32,11 @@ const ContentDetail = ({ data, id }) => {
   }, [data.runtime]);
 
   const postUserPick = () => {
-    userPickPost.mutate([{ contents_id: id, is_picked: true }]);
+    if (!isLogin) {
+      alert("로그인시 이용가능 합니다.");
+    } else {
+      userPickPost.mutate([{ contents_id: id, is_picked: true }]);
+    }
   };
 
   const cancelUserPick = () => {
@@ -39,10 +46,16 @@ const ContentDetail = ({ data, id }) => {
     <ContentDetailBlock>
       <TitleWrap>
         <Title>{data.title}</Title>
-        {isPicked ? (
-          <Button onClick={cancelUserPick} isPicked={isPicked}>
-            찜 취소
-          </Button>
+        {isLogin ? (
+          isPicked ? (
+            <Button onClick={cancelUserPick} isPicked={isPicked}>
+              찜 취소
+            </Button>
+          ) : (
+            <Button onClick={postUserPick} isPicked={isPicked}>
+              찜하기
+            </Button>
+          )
         ) : (
           <Button onClick={postUserPick} isPicked={isPicked}>
             찜하기
