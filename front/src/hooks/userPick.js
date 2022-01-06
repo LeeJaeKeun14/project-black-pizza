@@ -1,10 +1,10 @@
 import { useMutation } from 'react-query';
 import { fetchUserPick, postUserPick } from '../api/userPick';
-import { USEQUERY } from '../reactQuery/reactQuery';
+import { USE_QUERY } from '../reactQuery/reactQuery';
 
-export const useUserPick = () => { return USEQUERY("userPick", fetchUserPick) };
+export const useUserPick = () => { return USE_QUERY("userPick", fetchUserPick) };
 
-export const useUserPickPost = (contentId) => {
+export const useUserPickPost = () => {
 
-  return useMutation(contentId => postUserPick(contentId))
+  return useMutation((input) => postUserPick(input))
 };

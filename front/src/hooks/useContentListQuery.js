@@ -1,9 +1,6 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-// import { useInfiniteQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { fetchContentSurveyList } from '../api/content';
-import { USERINFINITEQUERY } from '../reactQuery/reactQuery';
+import { USE_INFINITE_QUERY } from '../reactQuery/reactQuery';
 import { loginState, userSelectedYears, userSelectedGenres } from '../store/atoms';
 
 export const useContentListQuery = () => {
@@ -19,11 +16,9 @@ export const useContentListQuery = () => {
     fetchNextPage,
     hasNextPage,
     isFetching,
-    isFetchingNextPage,
-    status,
-  } = USERINFINITEQUERY(["contentList", params], fetchContentSurveyList,
+  } = USE_INFINITE_QUERY(["contentList", params], fetchContentSurveyList,
     {
-      getNextPageParam: (lastPage, pages) => lastPage.nextpage,
+      getNextPageParam: (lastPage, pages) => lastPage.nextPage,
       enable: !!isLogin
     });
   return { data, error, isLoading, fetchNextPage, isFetching, hasNextPage };

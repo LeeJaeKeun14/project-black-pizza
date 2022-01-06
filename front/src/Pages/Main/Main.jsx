@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import {
@@ -109,7 +108,6 @@ const Main = props => {
 const MainBlock = styled.div`
   height: 100%;
   margin: 0 auto;
-  //
   position: relative;
   ${media.tablet} {
     max-width: 1024px;
@@ -117,15 +115,6 @@ const MainBlock = styled.div`
 `;
 const BodyWrap = styled.div`
   height: 100%;
-  // margin-top: -80px;
-  // transform: translate(0, -80px);
-`;
-const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.color.font};
-  text-decoration: none;
-  ${({ theme }) => theme.font.small};
-  // padding: 0 6px;
-  // display: ${props => (props.location === "true" ? "none" : "block")};
 `;
 const DetailBlock = styled.section`
   height: 50%;
@@ -140,13 +129,10 @@ const DetailBlock = styled.section`
 const ContentListBlock = styled.section`
   height: 50%;
   width: 100%;
-  // overflow: scroll;
-  // padding-top: 50px;
   box-sizing: border-box;
 `;
 const ListTitle = styled.h2`
   padding-top: 50px;
-  // padding-left: 4%;
   width: 80%;
   margin: 0 auto;
   ${({ theme }) => theme.font.medium};
@@ -154,8 +140,6 @@ const ListTitle = styled.h2`
 const Wrap = styled.div`
   position: relative;
   white-space: nowrap;
-  // padding-right: 4%;
-  // padding-left: 4%;
   overflow-x: visible;
   overflow: scroll;
   width: 80%;
@@ -164,7 +148,6 @@ const Wrap = styled.div`
 const List = styled.ul`
   position: relative;
   vertical-align: middle;
-  // padding-top: 50px;
   padding:20px 0;
 }
 `;

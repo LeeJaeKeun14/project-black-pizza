@@ -1,23 +1,16 @@
-import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useMemo } from "react";
-import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
-import { useTheme } from "styled-components";
 import { useContentDetail } from "../../hooks/useContent";
 import { useUserPickPost } from "../../hooks/userPick";
 
 const ContentDetail = ({ data, id }) => {
-  const queryClient = useQueryClient();
-  const [isPicked, setIsPicked] = useState(null);
   const contentDetail = useContentDetail(id);
-  const userPickPost = useMutation(input => {
-    // const postInput = [{ contents_id: contentId, is_picked: true }];
-    return axios.post("/api/contents/userpick", input);
-  });
+  const [isPicked, setIsPicked] = useState(contentDetail.data.is_picked);
 
+  const userPickPost = useUserPickPost();
   useEffect(() => {
     if (userPickPost.isSuccess) {
       setIsPicked(cur => !cur);
@@ -25,22 +18,10 @@ const ContentDetail = ({ data, id }) => {
   }, [userPickPost.isSuccess]);
 
   useEffect(() => {
-    return () => {
-      console.log("out");
-      // queryClient.removeQueries(["contentList", id], { exact: true });
-    };
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`/api/contents/detail/${id}`)
-      .then(res => console.log(res.data.is_picked));
-
-    console.log(id, contentDetail.data.is_picked);
     setIsPicked(contentDetail.data.is_picked);
-  }, [contentDetail.data.is_picked, id]);
+  }, [contentDetail.data.is_picked]);
 
-  const runingtime = useMemo(() => {
+  const runningTime = useMemo(() => {
     return data.runtime
       .split(":")
       .map((e, i) => (i === 0 ? `${parseInt(e)}시간` : `${parseInt(e)}분`))
@@ -48,8 +29,6 @@ const ContentDetail = ({ data, id }) => {
   }, [data.runtime]);
 
   const postUserPick = () => {
-    console.log("click");
-    // userPickPost.refetch()
     userPickPost.mutate([{ contents_id: id, is_picked: true }]);
   };
 
@@ -80,7 +59,7 @@ const ContentDetail = ({ data, id }) => {
         </div>
       </Wrap>
       <div>
-        <span>{runingtime}</span>
+        <span>{runningTime}</span>
       </div>
       <div>
         <SpanTitle>감독 </SpanTitle>
@@ -119,7 +98,7 @@ const Button = styled.button`
   margin-left: 10px;
   &:hover {
     background-color: ${({ theme }) => theme.color.coral};
-    border-color: ${({ theme }) => theme.color.coral};
+    border-color: runningTime ${({ theme }) => theme.color.coral};
   }
 `;
 const Wrap = styled.div`

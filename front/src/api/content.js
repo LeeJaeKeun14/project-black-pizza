@@ -6,11 +6,10 @@ export const fetchContentSurveyList = async ({ queryKey, pageParam = 1 }) => {
   try {
     const res = await axios
       .post("/api/contents/list", data)
-      .then(res => res.data.list)
-    console.log(res)
+    console.log(res.data.list)
     return {
-      result: res,
-      nextpage: pageParam + 1,
+      result: res.data.list,
+      nextPage: pageParam + 1,
     };
   } catch (error) {
     console.log(error)
@@ -19,7 +18,7 @@ export const fetchContentSurveyList = async ({ queryKey, pageParam = 1 }) => {
 
 };
 
-export const fetchfavoriteList = async () => {
+export const fetchFavoriteList = async () => {
   try {
     const { data } = await axios.get("/api/contents/favorite");
     return data;
