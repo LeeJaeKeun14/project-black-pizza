@@ -2,11 +2,9 @@ import axios from 'axios';
 
 export const fetchContentSurveyList = async ({ queryKey, pageParam = 1 }) => {
   const data = { genres: queryKey[1].userGenres, years: queryKey[1].userYears, page: pageParam }
-  console.log(pageParam)
   try {
     const res = await axios
       .post("/api/contents/list", data)
-    console.log(res.data.list)
     return {
       result: res.data.list,
       nextPage: pageParam + 1,

@@ -1,86 +1,85 @@
-import React, { memo, useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 import styled from "styled-components";
 
-const Tap = memo(
-  ({
-    setSearchWord,
-    setSearchType,
-    onSearch,
-    setHoveringContent,
-    setSelectContent,
-    setViewContent,
-  }) => {
-    const inputRef = useRef("");
-    const [isDisplay, setIsDisplay] = useState(false);
-    const [isDisplaySearchType, setIsDIsplaySearchType] = useState(false);
-    const [selectedType, setSeletedType] = useState("title");
-    const setMainPage = () => {
-      setSearchWord("");
-      setHoveringContent(null);
-      setSelectContent(null);
-      setViewContent(null);
-      inputRef.current.value = "";
-    };
-    const onClickSearchButton = () => {
-      onSearch();
-    };
-    const handleChangeWord = useCallback(
-      e => {
-        setSearchWord(e.target.value);
-      },
-      [setSearchWord]
-    );
-    const handleSearchTypeToggle = () => {
-      setIsDIsplaySearchType(cur => !cur);
-    };
-    const handlerSearchType = e => {
-      const type = e.target.dataset.type;
+const Tap = ({
+  setSearchWord,
+  setSearchType,
+  onSearch,
+  setHoveringContent,
+  setSelectContent,
+  setViewContent,
+}) => {
+  const inputRef = useRef("");
+  const [isDisplay, setIsDisplay] = useState(false);
+  const [isDisplaySearchType, setIsDIsplaySearchType] = useState(false);
+  const [selectedType, setSeletedType] = useState("title");
+  const setMainPage = () => {
+    setSearchWord("");
+    setHoveringContent(null);
+    setSelectContent(null);
+    setViewContent(null);
+    inputRef.current.value = "";
+  };
+  const onClickSearchButton = () => {
+    onSearch();
+  };
+  const handleChangeWord = useCallback(
+    e => {
+      setSearchWord(e.target.value);
+    },
+    [setSearchWord]
+  );
+  const handleSearchTypeToggle = () => {
+    setIsDIsplaySearchType(cur => !cur);
+  };
+  const handlerSearchType = e => {
+    const type = e.target.dataset.type;
 
-      setSearchType(type);
-      setSeletedType(type);
-    };
-    return (
-      <TapBlock>
-        <Button onClick={setMainPage}>홈</Button>
-        <Button onClick={() => setIsDisplay(cur => !cur)}>검색</Button>
-        <SearchBarBlock isDisplay={isDisplay}>
-          <InputBlock>
-            <SearchTypeToggle onClick={handleSearchTypeToggle}>
-              ▼
-            </SearchTypeToggle>
-            <SearchTypeCarousel isDisplaySearchType={isDisplaySearchType}>
-              <CarouselItem
-                onClick={handlerSearchType}
-                selectedType={selectedType}
-                data-type={"title"}
-              >
-                제목
-              </CarouselItem>
-              <CarouselItem
-                onClick={handlerSearchType}
-                selectedType={selectedType}
-                data-type={"director"}
-              >
-                감독
-              </CarouselItem>
-              <CarouselItem
-                onClick={handlerSearchType}
-                selectedType={selectedType}
-                data-type={"actor"}
-              >
-                배우
-              </CarouselItem>
-            </SearchTypeCarousel>
-            <Input ref={inputRef} type="text" onChange={handleChangeWord} />
-          </InputBlock>
+    setSearchType(type);
+    setSeletedType(type);
+  };
 
-          <Button onClick={onClickSearchButton}>찾기</Button>
-        </SearchBarBlock>
-      </TapBlock>
-    );
-  }
-);
+  return (
+    <TapBlock>
+      <Button onClick={setMainPage}>홈</Button>
+      <Button onClick={() => setIsDisplay(cur => !cur)}>검색</Button>
+      <SearchBarBlock isDisplay={isDisplay}>
+        <InputBlock>
+          <SearchTypeToggle onClick={handleSearchTypeToggle}>
+            ▼
+          </SearchTypeToggle>
+          <SearchTypeCarousel isDisplaySearchType={isDisplaySearchType}>
+            <CarouselItem
+              onClick={handlerSearchType}
+              selectedType={selectedType}
+              data-type={"title"}
+            >
+              제목
+            </CarouselItem>
+            <CarouselItem
+              onClick={handlerSearchType}
+              selectedType={selectedType}
+              data-type={"director"}
+            >
+              감독
+            </CarouselItem>
+            <CarouselItem
+              onClick={handlerSearchType}
+              selectedType={selectedType}
+              data-type={"actor"}
+            >
+              배우
+            </CarouselItem>
+          </SearchTypeCarousel>
+          <Input ref={inputRef} type="text" onChange={handleChangeWord} />
+        </InputBlock>
+
+        <Button onClick={onClickSearchButton}>찾기</Button>
+      </SearchBarBlock>
+    </TapBlock>
+  );
+};
 
 const TapBlock = styled.div`
   position: absolute;

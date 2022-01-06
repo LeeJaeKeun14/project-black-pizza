@@ -11,11 +11,6 @@ const Category = props => {
   const [goNext, setGoNext] = useState(false);
 
   useEffect(() => {
-    console.log(userGenres);
-    console.log(userYears);
-  }, [userGenres, userYears]);
-
-  useEffect(() => {
     setUserGenres([]);
     setUserYears([]);
   }, [setUserGenres, setUserYears]);

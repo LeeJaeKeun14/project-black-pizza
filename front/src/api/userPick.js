@@ -9,11 +9,8 @@ export const fetchUserPick = async () => {
   }
 };
 export const postUserPick = async (postInput) => {
-  // const postInput = [{ contents_id: contentId, is_picked: true }]
-
   try {
     const { data } = await axios.post("/api/contents/userpick", postInput)
-    console.log(data)
     return data
   } catch (error) {
     console.log(error)

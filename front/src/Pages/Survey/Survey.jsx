@@ -31,7 +31,6 @@ const Survey = props => {
   }, []);
 
   const requestResult = () => {
-    console.log(ratingArr);
     if (ratingArr.length >= SELECT_COUNT) {
       navigator("/result");
     } else {

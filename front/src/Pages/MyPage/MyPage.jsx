@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
-import { useUserPick } from "../../hooks/userPick";
+import { useUserPick } from "../../hooks/useUserPick";
 import ContentItem from "./ContentItem";
 
 const MyPage = props => {
   const userPick = useUserPick();
-
   return (
     <MyPageBlock>
       <Header />
