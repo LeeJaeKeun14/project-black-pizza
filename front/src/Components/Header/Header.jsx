@@ -23,14 +23,10 @@ const Header = props => {
       <StyledLink to="/">
         <Title>Black Pizza 🍕 </Title>
       </StyledLink>
-
       {isLogin === true ? (
         <Nav>
-          <StyledLink
-            location={(pathname === "/survey").toString()}
-            to="/survey"
-          >
-            추천받기
+          <StyledLink to="/survey">
+            {pathname === "/survey" ? null : " 추천받기"}
           </StyledLink>
           {pathname === "/mypage" ? (
             <Button onClick={handleLogout}>로그아웃</Button>
@@ -70,7 +66,6 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   ${({ theme }) => theme.font.small}
   padding: 0 6px;
-  display: ${props => (props.location === "true" ? "none" : "block")};
 `;
 const Button = styled.button`
   color: ${({ theme }) => theme.color.font};

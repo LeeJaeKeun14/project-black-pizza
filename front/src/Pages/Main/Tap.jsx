@@ -33,7 +33,7 @@ const Tap = memo(
       [setSearchWord]
     );
     const handleSearchTypeToggle = () => {
-      setIsDIsplaySearchType(!isDisplaySearchType);
+      setIsDIsplaySearchType(cur => !cur);
     };
     const handlerSearchType = e => {
       const type = e.target.dataset.type;
@@ -44,7 +44,7 @@ const Tap = memo(
     return (
       <TapBlock>
         <Button onClick={setMainPage}>홈</Button>
-        <Button onClick={() => setIsDisplay(!isDisplay)}>검색</Button>
+        <Button onClick={() => setIsDisplay(cur => !cur)}>검색</Button>
         <SearchBarBlock isDisplay={isDisplay}>
           <InputBlock>
             <SearchTypeToggle onClick={handleSearchTypeToggle}>
