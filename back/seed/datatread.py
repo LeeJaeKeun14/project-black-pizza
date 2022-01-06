@@ -122,7 +122,7 @@ def matrix_maker():
 
     for i, line in df2.iterrows():
         row = {}
-        for j in range(1, 21):
+        for j in range(1, 61):
             key = f"top{j}"
             row[key] = int(line[j])
         matrix.append(row)
