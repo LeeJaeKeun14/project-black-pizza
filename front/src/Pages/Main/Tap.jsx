@@ -23,7 +23,6 @@ const Tap = memo(
       inputRef.current.value = "";
     };
     const onClickSearchButton = () => {
-      // setSearchWord(inputRef.current.value);
       onSearch();
     };
     const handleChangeWord = useCallback(
@@ -116,8 +115,6 @@ const Input = styled.input`
   border-radius: 15px;
   outline: none;
   background: none;
-
-  // background-color: ${({ theme }) => theme.color.background3};
   color: ${({ theme }) => theme.color.font};
 `;
 const SearchTypeToggle = styled.button`

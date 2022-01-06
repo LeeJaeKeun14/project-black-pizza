@@ -1,45 +1,74 @@
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
+import { useState } from "react";
 import { useMemo } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
+import { useTheme } from "styled-components";
+import { useContentDetail } from "../../hooks/useContent";
 import { useUserPickPost } from "../../hooks/userPick";
 
 const ContentDetail = ({ data, id }) => {
-  const userPickPost = useMutation(contentId => {
-    const postInput = [{ contents_id: contentId, is_picked: true }];
-    return axios.post("/api/contents/userpick", postInput);
+  const queryClient = useQueryClient();
+  const [isPicked, setIsPicked] = useState(null);
+  const contentDetail = useContentDetail(id);
+  const userPickPost = useMutation(input => {
+    // const postInput = [{ contents_id: contentId, is_picked: true }];
+    return axios.post("/api/contents/userpick", input);
   });
-  useEffect(() => {
-    console.log(data);
-    console.log(id);
-  }, [data, id]);
+
   useEffect(() => {
     if (userPickPost.isSuccess) {
-      alert("찜한 콘텐츠에 추가되었습니다.");
+      setIsPicked(cur => !cur);
     }
   }, [userPickPost.isSuccess]);
+
+  useEffect(() => {
+    return () => {
+      console.log("out");
+      // queryClient.removeQueries(["contentList", id], { exact: true });
+    };
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`/api/contents/detail/${id}`)
+      .then(res => console.log(res.data.is_picked));
+
+    console.log(id, contentDetail.data.is_picked);
+    setIsPicked(contentDetail.data.is_picked);
+  }, [contentDetail.data.is_picked, id]);
+
   const runingtime = useMemo(() => {
     return data.runtime
       .split(":")
       .map((e, i) => (i === 0 ? `${parseInt(e)}시간` : `${parseInt(e)}분`))
       .join(" ");
   }, [data.runtime]);
+
   const postUserPick = () => {
     console.log("click");
     // userPickPost.refetch()
-    userPickPost.mutate(id);
+    userPickPost.mutate([{ contents_id: id, is_picked: true }]);
+  };
+
+  const cancelUserPick = () => {
+    userPickPost.mutate([{ contents_id: id, is_picked: false }]);
   };
   return (
     <ContentDetailBlock>
       <TitleWrap>
         <Title>{data.title}</Title>
-        {/* {userPickPost.isSuccess ? (
-          <Button onClick={postUserPick}>찜 취소</Button>
-        ) : ( */}
-        <Button onClick={postUserPick}>찜하기</Button>
-        {/* )} */}
+        {isPicked ? (
+          <Button onClick={cancelUserPick} isPicked={isPicked}>
+            찜 취소
+          </Button>
+        ) : (
+          <Button onClick={postUserPick} isPicked={isPicked}>
+            찜하기
+          </Button>
+        )}
       </TitleWrap>
 
       <Wrap>
@@ -80,8 +109,9 @@ const TitleWrap = styled.div`
   align-items: center;
 `;
 const Button = styled.button`
-  background: none;
-  border: 1px solid white;
+  background-color: ${props =>
+    props.isPicked ? ({ theme }) => theme.color.coral : "#ffffff00"};
+  border: ${props => (props.isPicked ? "none" : "1px solid white")};
   padding: 8px 16px;
   border-radius: 15px;
   cursor: pointer;
