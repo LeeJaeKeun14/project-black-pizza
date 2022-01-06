@@ -69,23 +69,26 @@ def recommend():
             db.session.commit()
 
     else:
-        user_pick_id = [100, 200, 300, 400, 500, 600, 700, 800, 900]
-    con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
-    user_pick = [i.title for i in con_list]
+        #user_pick_id = [100, 200, 300, 400, 500, 600, 700, 800, 900]
+        user_pick_id = [3939, 6256, 9002, 7788, 2003, 6700, 1785, 7756]
+    # con_list = Contents.query.filter(Contents.id.in_(user_pick_id))
+    # user_pick = [i.title for i in con_list]
 
     contents_all = db.session.query(
         Contents.id, Contents.title, Contents.score, Contents.rate_count).all()
-    genre_matrix = db.session.query(
-        Genre_Matrix.top1, Genre_Matrix.top2, Genre_Matrix.top3, Genre_Matrix.top4, Genre_Matrix.top5,
-        Genre_Matrix.top6, Genre_Matrix.top7, Genre_Matrix.top8, Genre_Matrix.top9, Genre_Matrix.top10,
-        Genre_Matrix.top11, Genre_Matrix.top12, Genre_Matrix.top13, Genre_Matrix.top14, Genre_Matrix.top15,
-        Genre_Matrix.top16, Genre_Matrix.top17, Genre_Matrix.top18, Genre_Matrix.top19, Genre_Matrix.top20
+    genre_matrix = db.session.query(Genre_Matrix.id,
+        Genre_Matrix.top1, Genre_Matrix.top2, Genre_Matrix.top3, Genre_Matrix.top4, Genre_Matrix.top5, Genre_Matrix.top6, Genre_Matrix.top7, Genre_Matrix.top8, Genre_Matrix.top9, Genre_Matrix.top10,
+        Genre_Matrix.top11, Genre_Matrix.top12, Genre_Matrix.top13, Genre_Matrix.top14, Genre_Matrix.top15, Genre_Matrix.top16, Genre_Matrix.top17, Genre_Matrix.top18, Genre_Matrix.top19, Genre_Matrix.top20,
+        Genre_Matrix.top21, Genre_Matrix.top22, Genre_Matrix.top23, Genre_Matrix.top24, Genre_Matrix.top25, Genre_Matrix.top26, Genre_Matrix.top27, Genre_Matrix.top28, Genre_Matrix.top29, Genre_Matrix.top30,
+        Genre_Matrix.top31, Genre_Matrix.top32, Genre_Matrix.top33, Genre_Matrix.top34, Genre_Matrix.top35, Genre_Matrix.top36, Genre_Matrix.top37, Genre_Matrix.top38, Genre_Matrix.top39, Genre_Matrix.top40,
+        Genre_Matrix.top41, Genre_Matrix.top42, Genre_Matrix.top43, Genre_Matrix.top44, Genre_Matrix.top45, Genre_Matrix.top46, Genre_Matrix.top47, Genre_Matrix.top48, Genre_Matrix.top49, Genre_Matrix.top50,
+        Genre_Matrix.top51, Genre_Matrix.top52, Genre_Matrix.top53, Genre_Matrix.top54, Genre_Matrix.top55, Genre_Matrix.top56, Genre_Matrix.top57, Genre_Matrix.top58, Genre_Matrix.top59, Genre_Matrix.top60
     ).all()
-    rcm_df = recommendations(user_pick, contents_all, genre_matrix)
+    rcm_df = recommendations(user_pick_id, contents_all, genre_matrix)
 
     # rcm -> response
-    rcm_title = [line['제목'] for i, line in rcm_df.iterrows()]
-    rcm_list = Contents.query.filter(Contents.title.in_(rcm_title))
+    # rcm_title = [line['제목'] for i, line in rcm_df.iterrows()]
+    rcm_list = Contents.query.filter(Contents.id.in_(rcm_df))
     res = []
     content = {}
     for i in rcm_list:
@@ -99,7 +102,7 @@ def recommend():
         ott_info['buy'] = [{'ott': i.ott, 'price': i.price,
                             'quality': i.quality} for i in buy_list]
         ott_info['rent'] = [{'ott': i.ott, 'price': i.price,
-                             'quality': i.quality} for i in rent_list]
+                            'quality': i.quality} for i in rent_list]
 
     ott_count = {}
     for value in content.values():
