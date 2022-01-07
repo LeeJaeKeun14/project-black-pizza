@@ -20,7 +20,25 @@ const Chart = ({ inputData, type }) => {
         display: false,
       },
     },
+    elements: {
+      point: {
+        // 그래프 꼭짓점 모양
+        pointStyle: "circle",
+        backgroundColor: type === "movie" ? "#4f60b8" : "#b84f55",
+        radius: 5,
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: `#ffffff` },
+      },
+
+      y: {
+        ticks: { color: `#ffffff` },
+      },
+    },
   };
+
   return (
     <ChartBlock>
       <Line data={data} options={options} />

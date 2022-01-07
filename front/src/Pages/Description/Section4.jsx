@@ -35,7 +35,7 @@ const Part = styled.section`
   }
 `;
 const Text = styled.h2`
-  font-size: 6rem;
+  font-size: 4rem;
   font-weight: 600;
   display: flex;
   flex-direction: column;
@@ -47,7 +47,7 @@ const Text = styled.h2`
   }
 `;
 const Sub = styled.p`
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 400;
   ${media.tablet} {
     font-size: 1rem;

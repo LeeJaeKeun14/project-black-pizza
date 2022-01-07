@@ -34,7 +34,7 @@ const Part = styled.section`
   }
 `;
 const Text = styled.h2`
-  font-size: 6rem;
+  font-size: 4rem;
   font-weight: 600;
   display: flex;
   flex-direction: column;

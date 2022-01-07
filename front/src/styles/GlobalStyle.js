@@ -1,8 +1,15 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import { media } from './theme';
 
 export const GlobalStyle = createGlobalStyle`
 	${reset}
+  html {
+    font-size:16px;
+    ${media.mobile}{
+      font-size: 8px;
+    }
+  }
 	body{
 		background: ${({ theme }) => theme.color.background};
     color: ${({ theme }) => theme.color.font};
