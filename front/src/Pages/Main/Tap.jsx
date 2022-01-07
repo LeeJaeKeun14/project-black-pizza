@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import styled from "styled-components";
 import { media } from "../../styles/theme";
@@ -14,7 +14,8 @@ const Tap = ({
   const inputRef = useRef("");
   const [isDisplay, setIsDisplay] = useState(false);
   const [isDisplaySearchType, setIsDIsplaySearchType] = useState(false);
-  const [selectedType, setSeletedType] = useState("title");
+  const [selectedType, setSelectedType] = useState("title");
+
   const setMainPage = () => {
     setSearchWord("");
     setHoveringContent(null);
@@ -25,12 +26,9 @@ const Tap = ({
   const onClickSearchButton = () => {
     onSearch();
   };
-  const handleChangeWord = useCallback(
-    e => {
-      setSearchWord(e.target.value);
-    },
-    [setSearchWord]
-  );
+  const handleChangeWord = e => {
+    setSearchWord(e.target.value);
+  };
   const handleSearchTypeToggle = () => {
     setIsDIsplaySearchType(cur => !cur);
   };
@@ -38,7 +36,7 @@ const Tap = ({
     const type = e.target.dataset.type;
 
     setSearchType(type);
-    setSeletedType(type);
+    setSelectedType(type);
   };
 
   return (

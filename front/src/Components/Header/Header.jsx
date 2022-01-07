@@ -5,8 +5,9 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { logout } from "../../api/user";
 import { loginState } from "../../store/atoms";
+import { memo } from "react";
 
-const Header = props => {
+const Header = memo(props => {
   const { pathname } = useLocation();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const navigator = useNavigate();
@@ -45,7 +46,7 @@ const Header = props => {
       )}
     </HeaderWrap>
   );
-};
+});
 const HeaderWrap = styled.header`
   width: 100%;
   display: flex;
