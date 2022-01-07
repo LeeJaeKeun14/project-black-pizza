@@ -26,3 +26,12 @@ export const logout = async () => {
     console.log(error)
   }
 }
+
+export const isLogin = async () => {
+  try {
+    const { data } = await axios.get("/api/user/isSignin")
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}

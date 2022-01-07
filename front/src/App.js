@@ -10,16 +10,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import UserForm from './Components/UserForm/UserForm';
 import Test from "./Pages/Main/Test";
 import { useEffect } from 'react';
-import axios from 'axios';
-import { useSetRecoilState } from 'recoil';
-import { loginState } from './store/atoms';
 import SignupForm from './Pages/Signup/SignupForm';
 import LoginForm from './Pages/Login/LoginForm';
 import { ReactQueryDevtools } from 'react-query/devtools'
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 import MyPage from './Pages/MyPage/MyPage';
 import Description from './Pages/Description/Description';
-
+import { useAuth } from './hooks/useAuth';
 
 function App() {
   const queryClient = new QueryClient({
@@ -29,17 +26,7 @@ function App() {
       },
     },
   })
-  const setIsLogin = useSetRecoilState(loginState);
-  const auth = async () => {
-    const res = await axios.get("/api/user/isSignin").then(res => res.data.status)
-    if (res === 200) {
-      setIsLogin(true)
-    }
-    else {
-      setIsLogin(false)
-    }
-  }
-
+  const auth = useAuth();
   useEffect(() => {
     auth()
   }, []);
