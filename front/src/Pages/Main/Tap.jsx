@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 
 import styled from "styled-components";
+import { media } from "../../styles/theme";
 
 const Tap = ({
   setSearchWord,
@@ -99,6 +100,13 @@ const Button = styled.button`
   &:hover {
     color: ${({ theme }) => theme.color.coral};
   }
+  ${media.tablet} {
+    background-color: ${({ theme }) => theme.color.font};
+    color: ${({ theme }) => theme.color.background};
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 5px;
+  }
 `;
 const SearchBarBlock = styled.div`
   display: ${props => (props.isDisplay ? "flex" : "none")};
@@ -115,6 +123,12 @@ const Input = styled.input`
   outline: none;
   background: none;
   color: ${({ theme }) => theme.color.font};
+  ${media.tablet} {
+    background-color: ${({ theme }) => theme.color.font};
+    color: ${({ theme }) => theme.color.background};
+    border-radius: 5px;
+    margin-right: 5px;
+  }
 `;
 const SearchTypeToggle = styled.button`
   position: absolute;
@@ -126,6 +140,9 @@ const SearchTypeToggle = styled.button`
   color: #eee;
   padding: 0;
   cursor: pointer;
+  ${media.tablet} {
+    color: ${({ theme }) => theme.color.background};
+  }
 `;
 const SearchTypeCarousel = styled.div`
   display: ${props => (props.isDisplaySearchType ? "block" : "none")};
