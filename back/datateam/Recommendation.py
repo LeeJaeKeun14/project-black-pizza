@@ -46,8 +46,8 @@ def recommendations(user_pick, contents_all, genre_matrix):
     third_recommends = list(result.sort_values("가중치평점", ascending=False)[6:].index)
     
     total = []
-    total += rd.choices(first_recommends, k=9)
+    total += np.random.choice(first_recommends, 9, replace=False)
     total += second_recommends
-    total += rd.choices(third_recommends, k=5)
+    total += np.random.choice(first_recommends, 5, replace=False)
 
     return list(df.iloc[total]["id"])
