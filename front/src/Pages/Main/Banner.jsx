@@ -11,12 +11,12 @@ const Banner = props => {
   return (
     <BannerBlock>
       <Image src="/images/banner2.png" alt="banner" />
-      <Blar />
+      <Blur />
       <TextBlock>
         <Title>
           다양해진 OTT 플랫폼 사이에서
           <br />
-          <Hightlight>나에게 딱 맞는 플랫폼</Hightlight>은 어떻게 찾을까?
+          <HightLight>나에게 딱 맞는 플랫폼</HightLight>은 어떻게 찾을까?
         </Title>
 
         <Button onClick={goSurveyPage}>
@@ -41,7 +41,7 @@ const Image = styled.img`
     width: 100%;
   }
 `;
-const Blar = styled.div`
+const Blur = styled.div`
   position: absolute;
   height: 100%;
   top: 0;
@@ -56,8 +56,11 @@ const Blar = styled.div`
 const TextBlock = styled.div`
   position: absolute;
   right: 0;
-  top: 40%;
+  top: 50%;
   width: 50%;
+  height: 50%;
+  overflow: scroll;
+  text-align: end;
   ${media.tablet} {
     position: absolute;
     top: 60%;
@@ -69,7 +72,7 @@ const TextBlock = styled.div`
   }
 `;
 const Title = styled.h2`
-  ${({ theme }) => theme.font.xlarge};
+  ${({ theme }) => theme.font.large};
   padding-bottom: 20px;
   ${media.tablet} {
     font-size: 2rem;
@@ -78,7 +81,7 @@ const Title = styled.h2`
     font-size: 1rem;
   }
 `;
-const Hightlight = styled.span`
+const HightLight = styled.span`
   color: ${theme.color.coral};
 `;
 const Button = styled.button`

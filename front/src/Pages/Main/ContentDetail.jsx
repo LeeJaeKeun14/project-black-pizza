@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { useContentDetail } from "../../hooks/useContent";
 import { useUserPickPost } from "../../hooks/useUserPick";
 import { loginState } from "../../store/atoms";
+import { media } from "../../styles/theme";
 
 const ContentDetail = ({ data, id }) => {
   const contentDetail = useContentDetail(id);
@@ -95,6 +96,12 @@ const ContentDetailBlock = styled.div`
   width: 40%;
   right: 10%;
   top: 50%;
+
+  ${media.mobile} {
+    left: 10%;
+    top: 50%;
+    width: 100%;
+  }
 `;
 const TitleWrap = styled.div`
   display: flex;
