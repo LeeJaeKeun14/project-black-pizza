@@ -1,26 +1,26 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
-import { useResult } from "../../hooks/useResult";
+import { recommendResult } from "../../store/atoms";
 import ChartDesc from "./ChartDesc";
 import Item from "./Item";
 
 const SurveyResult = props => {
-  const surveyResult = useResult();
-
+  const result = useRecoilValue(recommendResult);
   return (
     <SurveyResultBlock>
       <Header />
       <Title>추천 결과</Title>
-      {surveyResult.isLoading ? (
+      {result.length === 0 ? (
         <LoadingWrap>
           <img src="/images/pizzaLoading.gif" alt="loading" loading="lazy" />
         </LoadingWrap>
       ) : (
         <div>
-          <ChartDesc ottData={surveyResult.data[1]} />
+          <ChartDesc ottData={result[1]} />
           <Content>
-            {Object.entries(surveyResult.data[0]).map(([key, list], idx) => (
+            {Object.entries(result[0]).map(([key, list], idx) => (
               <Item key={idx} id={key} data={list} />
             ))}
           </Content>
@@ -29,6 +29,7 @@ const SurveyResult = props => {
     </SurveyResultBlock>
   );
 };
+
 const SurveyResultBlock = styled.div`
   margin: 0 auto;
   max-width: 1024px;

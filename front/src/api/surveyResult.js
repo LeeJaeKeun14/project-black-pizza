@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const featchSurveyResult = async (rating) => {
+export const fetchSurveyResult = async (rating) => {
   try {
     const { data } = await axios.post("/api/contents/recommend",
       rating,

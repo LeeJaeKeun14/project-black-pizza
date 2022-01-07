@@ -5,10 +5,16 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
-import { loginState, ratingState, ratingStateResult } from "../../store/atoms";
+import {
+  loginState,
+  ratingState,
+  ratingStateResult,
+  recommendResult,
+} from "../../store/atoms";
 import Category from "./Category";
 import List from "./List";
 import { userSelectedGenres, userSelectedYears } from "../../store/atoms";
+import { useResultPost } from "../../hooks/useResult";
 const Survey = props => {
   const navigator = useNavigate();
   const [selectAllCategory, setSelectAllCategory] = useState(false);
@@ -18,7 +24,8 @@ const Survey = props => {
   const userGenres = useRecoilValue(userSelectedGenres);
   const userYears = useRecoilValue(userSelectedYears);
   const SELECT_COUNT = 5;
-
+  const surveyResult = useResultPost();
+  const setRecommendResult = useSetRecoilState(recommendResult);
   useEffect(() => {
     if (!isLogin) {
       navigator("/");
@@ -28,10 +35,12 @@ const Survey = props => {
 
   useEffect(() => {
     setRatingState({});
+    setRecommendResult([]);
   }, []);
 
   const requestResult = () => {
     if (ratingArr.length >= SELECT_COUNT) {
+      surveyResult.mutate(ratingArr);
       navigator("/result");
     } else {
       alert(`${SELECT_COUNT}개 이상의 콘텐츠를 평가하거나 찜해주세요`);

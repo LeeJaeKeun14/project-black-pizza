@@ -28,6 +28,11 @@ export const ratingStateResult = selector({
   }
 })
 
+export const recommendResult = atom({
+  key: 'recommendResult',
+  default: []
+})
+
 export const loginState = atom({
   key: 'loginState',
   default: null
