@@ -22,7 +22,13 @@ import Description from './Pages/Description/Description';
 
 
 function App() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
   const setIsLogin = useSetRecoilState(loginState);
   const auth = async () => {
     const res = await axios.get("/api/user/isSignin").then(res => res.data.status)
