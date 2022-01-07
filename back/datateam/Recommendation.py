@@ -32,6 +32,9 @@ def recommendations(user_pick, contents_all, genre_matrix):
     for i in indexes:
         similar_indexes = similar_indexes[similar_indexes != i]  # 타이틀 기준 제거
     
+    for i in first_recommends:
+        similar_indexes = similar_indexes[similar_indexes != i]  # 첫번쨰 추천된 영화 기준 제거
+        
     counter = {}
     for index in similar_indexes:
         counter[index] = similar_indexes_ls.count(index)
@@ -46,8 +49,8 @@ def recommendations(user_pick, contents_all, genre_matrix):
     third_recommends = list(result.sort_values("가중치평점", ascending=False)[6:].index)
     
     total = []
-    total += rd.choices(first_recommends, k=9)
+    total += rd.sample(first_recommends, k=9)
     total += second_recommends
-    total += rd.choices(third_recommends, k=5)
+    total += rd.sample(third_recommends, k=5)
 
     return list(df.iloc[total]["id"])
