@@ -35,7 +35,7 @@ const Category = props => {
   };
 
   return (
-    <div>
+    <CategoryBlock>
       <ProgressBar selectedCount={selectedCount} totalCount={2} />
 
       {goNext ? (
@@ -76,9 +76,12 @@ const Category = props => {
       >
         다음 질문
       </Button>
-    </div>
+    </CategoryBlock>
   );
 };
+const CategoryBlock = styled.div`
+  padding-bottom: 30px;
+`;
 const GenreWrap = styled.div`
   text-align: center;
 `;
