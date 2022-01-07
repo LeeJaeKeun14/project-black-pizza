@@ -28,6 +28,7 @@ const ContentItemBlock = styled.div`
   position: relative;
   padding: 10px;
   box-sizing: border-box;
+
   width: ${100 / 4}%;
   ${media.tablet} {
     width: ${100 / 3}%;
@@ -48,10 +49,12 @@ const Button = styled.button`
   width: 100%;
   height: 50%;
   visibility:${props => (props.isHover ? "visible" : "hidden")} ;
+  
 }
 `;
 const Image = styled.img`
   width: 100%;
   display: block;
+  border-radius: 10px;
 `;
 export default ContentItem;
