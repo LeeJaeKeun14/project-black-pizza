@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Header from "../../Components/Header/Header";
 import { useContentDetail } from "../../hooks/useContent";
 import { useUserPickPost } from "../../hooks/useUserPick";
+import { media } from "../../styles/theme";
 
 const Detail = props => {
   const { id } = useParams();
@@ -110,9 +111,16 @@ const Info = styled.div`
   div + div {
     margin-top: 10px;
   }
+  ${media[768]} {
+    flex-direction: column;
+  }
 `;
 const InfoTextPart = styled.div`
   padding-left: 50px;
+  ${media[768]} {
+    padding-left: 0;
+    padding-top: 30px;
+  }
 `;
 const Title = styled.h2`
   ${({ theme }) => theme.font.large}

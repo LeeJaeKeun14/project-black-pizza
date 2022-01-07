@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import styled from "styled-components";
 import ResultChart from "../../Components/Chart/ResultChart";
+import { media } from "../../styles/theme";
 import { ottURL } from "../../utils/utils";
 
 const ChartDesc = ({ ottData }) => {
@@ -54,11 +55,17 @@ const ChartDesc = ({ ottData }) => {
 const ChartBlock = styled.section`
   display: flex;
   justify-content: space-evenly;
+  ${media.mobile} {
+    flex-direction: column;
+  }
 `;
 const Desc = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  ${media.mobile} {
+    padding-top: 50px;
+  }
 `;
 const Title = styled.h3`
   ${({ theme }) => theme.font.large};
@@ -69,9 +76,15 @@ const Title = styled.h3`
     cursor: pointer;
     text-decoration: none;
   }
+  ${media.mobile} {
+    text-align: center;
+  }
 `;
 const AllOtt = styled.div`
   text-align: start;
+  ${media.mobile} {
+    text-align: center;
+  }
 `;
 const OttWrap = styled.div`
   ${({ theme }) => theme.font.small}

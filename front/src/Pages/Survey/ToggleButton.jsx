@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { media } from "../../styles/theme";
 
 const ToggleButton = ({ onClickCategory, text, selectedCategory }) => {
   const [isToggle, setIstoggle] = useState(false);
@@ -36,6 +37,9 @@ const Button = styled.button`
       props.isToggle
         ? ({ theme }) => theme.color.coral
         : ({ theme }) => theme.color.background3};
+  }
+  ${media.mobile} {
+    width: 33%;
   }
 `;
 export default ToggleButton;
