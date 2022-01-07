@@ -10,20 +10,29 @@ const ContentItem = ({
   hoveringContent,
   selectContent,
   ranking = 0,
-}) => (
-  <ImageBlock
-    hovering={hoveringContent === data.key || selectContent === data.key}
-  >
-    {ranking !== 0 && <Rank>{ranking}</Rank>}
-    <Image
-      src={data.info[1]}
-      alt="poster"
-      onClick={() => onSelectItem(data.key)}
-      onMouseEnter={() => onMouseEnter(data.key)}
-      onMouseLeave={() => onMouseLeave()}
-    />
-  </ImageBlock>
-);
+}) => {
+  return (
+    <ImageBlock
+      hovering={hoveringContent === data.key || selectContent === data.key}
+    >
+      {ranking !== 0 && <Rank>{ranking}</Rank>}
+      <Image
+        src={data.info[1]}
+        alt="poster"
+        onClick={() => onSelectItem(data.key)}
+        onMouseEnter={() => onMouseEnter(data.key)}
+        onMouseLeave={() => onMouseLeave()}
+      />
+      {data.ott && (
+        <OttWrap>
+          {data.ott.map(e => (
+            <OttSpan>{e}</OttSpan>
+          ))}
+        </OttWrap>
+      )}
+    </ImageBlock>
+  );
+};
 
 const ImageBlock = styled.li`
   border-radius: 10px;
@@ -74,5 +83,21 @@ const Image = styled.img`
   width: 100%;
   border-radius: 10px;
   display: block;
+`;
+const OttWrap = styled.div`
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+`;
+const OttSpan = styled.span`
+  & + & {
+    margin-left: 5px;
+  }
+  font-size: 16px;
+  text-align: center;
+  border-radius: 4px;
+  opacity: 1;
+  padding: 2px 5px;
+  background-color: ${({ theme }) => theme.color.coral}; ;
 `;
 export default ContentItem;
