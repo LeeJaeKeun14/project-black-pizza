@@ -28,7 +28,7 @@ const List = props => {
   const observerOptions = { root: null, rootMargin: "0px", threshold: 1 };
   const observerCallback = async ([entries], observer) => {
     if (entries.isIntersecting) {
-      if (entries.boundingClientRect.y >= entries.rootBounds.height * 0.7) {
+      if (entries.boundingClientRect.y >= entries.rootBounds.height * 0.5) {
         fetchNextPage();
       }
     }

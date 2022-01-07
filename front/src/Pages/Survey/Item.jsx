@@ -1,59 +1,60 @@
-import React, { forwardRef, useState } from "react";
-import { memo } from "react";
+import React, { forwardRef, lazy, useState } from "react";
+import { Suspense } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import StarRating from "../../Components/StarRating/StarRating";
 import { ratingState } from "../../store/atoms";
 import { media } from "../../styles/theme";
+const LazyImage = lazy(() => import("./LazyImage"));
 
-const Item = memo(
-  forwardRef(({ data }, ref) => {
-    const [title, imgURL] = data.info;
-    const [display, setDisplay] = useState(0);
-    const [isStarRated, setIsStarRated] = useState(0);
-    const [isUserpick, setIsUserPick] = useState(0);
-    const setRating = useSetRecoilState(ratingState);
+const Item = forwardRef(({ data }, ref) => {
+  const [title, imgURL] = data.info;
+  const [display, setDisplay] = useState(0);
+  const [isStarRated, setIsStarRated] = useState(0);
+  const [isUserPick, setIsUserPick] = useState(0);
+  const setRating = useSetRecoilState(ratingState);
 
-    const isRating = (id, rate) => {
-      if (rate) setIsStarRated(rate);
-      if (rate === isStarRated) setIsStarRated(0);
-    };
-    const onClickUserPick = () => {
-      const id = data.key;
-      setIsUserPick(cur => (cur === 1 ? 0 : 1));
-      setRating(cur => {
-        const newObj = { ...cur };
-        if (id in newObj) {
-          newObj[id] = { ...newObj[id], is_picked: !newObj[id].is_picked };
-        } else {
-          newObj[id] = { contents_id: id, score: 0, is_picked: true };
-        }
-        return newObj;
-      });
-    };
-    return (
-      <ItemWrap ref={ref}>
-        <ImageWrap
-          onMouseEnter={() => setDisplay(1)}
-          onMouseLeave={() => setDisplay(0)}
+  const isRating = (id, rate) => {
+    if (rate) setIsStarRated(rate);
+    if (rate === isStarRated) setIsStarRated(0);
+  };
+  const onClickUserPick = () => {
+    const id = data.key;
+    setIsUserPick(cur => (cur === 1 ? 0 : 1));
+    setRating(cur => {
+      const newObj = { ...cur };
+      if (id in newObj) {
+        newObj[id] = { ...newObj[id], is_picked: !newObj[id].is_picked };
+      } else {
+        newObj[id] = { contents_id: id, score: 0, is_picked: true };
+      }
+      return newObj;
+    });
+  };
+  return (
+    <ItemWrap ref={ref}>
+      <ImageWrap
+        onMouseEnter={() => setDisplay(1)}
+        onMouseLeave={() => setDisplay(0)}
+      >
+        <Suspense fallback={<ImagePlaceholder>...loading</ImagePlaceholder>}>
+          <LazyImage src={imgURL} name={"poster"} />
+        </Suspense>
+        <InfoWrap
+          isDisplay={display}
+          isStarRated={isStarRated}
+          isUserPick={isUserPick}
         >
-          <Image src={imgURL} alt="poster" loading="lazy" />
-          <InfoWrap
-            isDisplay={display}
-            isStarRated={isStarRated}
-            isUserpick={isUserpick}
-          >
-            <StarRating id={parseInt(data.key)} isRating={isRating} />
-            <Title isUserpick={isUserpick}>{title}</Title>
-            <UserPickButton isUserpick={isUserpick} onClick={onClickUserPick}>
-              찜하기
-            </UserPickButton>
-          </InfoWrap>
-        </ImageWrap>
-      </ItemWrap>
-    );
-  })
-);
+          <StarRating id={parseInt(data.key)} isRating={isRating} />
+          <Title isUserPick={isUserPick}>{title}</Title>
+          <UserPickButton isUserPick={isUserPick} onClick={onClickUserPick}>
+            찜하기
+          </UserPickButton>
+        </InfoWrap>
+      </ImageWrap>
+    </ItemWrap>
+  );
+});
 const ItemWrap = styled.li`
   padding: 10px;
   box-sizing: border-box;
@@ -69,9 +70,9 @@ const ItemWrap = styled.li`
 const ImageWrap = styled.div`
   position: relative;
 `;
-const Image = styled.img`
+const ImagePlaceholder = styled.div`
   width: 100%;
-  display: block;
+  height: 300px;
 `;
 const InfoWrap = styled.div`
   position: absolute;
@@ -83,7 +84,7 @@ const InfoWrap = styled.div`
   background: linear-gradient(#00000010, #000000);
   padding-top: 20px;
   visibility: ${props => {
-    if (props.isStarRated || props.isUserpick) {
+    if (props.isStarRated || props.isUserPick) {
       return "visible";
     } else {
       if (props.isDisplay) return "visible";
@@ -94,18 +95,15 @@ const InfoWrap = styled.div`
 const Title = styled.div`
   text-align: center;
   border-bottom: ${props =>
-    props.isUserpick ? "none" : "1px solid #cccccc80"};
+    props.isUserPick ? "none" : "1px solid #cccccc80"};
   margin: 0 20px;
 `;
 const UserPickButton = styled.button`
   padding: 10px 0;
-  background: ${props => (props.isUserpick ? "#cccccc80" : "none")};
+  background: ${props => (props.isUserPick ? "#cccccc80" : "none")};
   border: none;
 
   cursor: pointer;
   color: ${({ theme }) => theme.color.font};
-  &:hover {
-    // background-color: ${({ theme }) => theme.color.coral};
-  }
 `;
 export default Item;
