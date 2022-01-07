@@ -26,6 +26,7 @@ const Chart = ({ inputData, type }) => {
         pointStyle: "circle",
         backgroundColor: type === "movie" ? "#4f60b8" : "#b84f55",
         radius: 5,
+        hoverRadius: 10,
       },
     },
     scales: {
