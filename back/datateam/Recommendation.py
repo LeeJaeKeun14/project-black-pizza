@@ -32,6 +32,9 @@ def recommendations(user_pick, contents_all, genre_matrix):
     for i in indexes:
         similar_indexes = similar_indexes[similar_indexes != i]  # 타이틀 기준 제거
     
+    for i in first_recommends:
+        similar_indexes = similar_indexes[similar_indexes != i]  # 첫번쨰 추천된 영화 기준 제거
+        
     counter = {}
     for index in similar_indexes:
         counter[index] = similar_indexes_ls.count(index)
