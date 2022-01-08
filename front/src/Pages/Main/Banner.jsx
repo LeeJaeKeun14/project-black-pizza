@@ -64,10 +64,12 @@ const TextBlock = styled.div`
   overflow: scroll;
   text-align: end;
   ${media.tablet} {
-    position: absolute;
     top: 60%;
     width: auto;
     left: 0;
+  }
+  ${media.tablet} {
+    top: 40%;
   }
   ${media.mobile} {
     top: 60%;
