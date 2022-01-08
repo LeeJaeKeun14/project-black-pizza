@@ -23,7 +23,10 @@ const Header = memo(props => {
   return (
     <HeaderWrap location={pathname}>
       <StyledLink to="/">
-        <Title>BLACK PIZZA 🍕 </Title>
+        <Title>
+          <Image src="/images/logo.png" alt="logo" />
+          <div>BLACK PIZZA</div>
+        </Title>
       </StyledLink>
       {isLogin === true ? (
         <Nav>
@@ -63,6 +66,12 @@ const Title = styled.h1`
   ${({ theme }) => theme.font.large}
   color: ${({ theme }) => theme.color.font};
   text-decoration: none;
+  align-items: center;
+  display: flex;
+`;
+const Image = styled.img`
+  width: 60px;
+  height: 60px;
 `;
 const Nav = styled.nav`
   display: flex;
