@@ -27,14 +27,23 @@ export const fetchFavoriteList = async () => {
 
 
 export const fetchContentDetail = async id => {
-  const { data } = await axios.get(`/api/contents/detail/${id}`);
-  return data;
+  try {
+    const { data } = await axios.get(`/api/contents/detail/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 
 export const fetchSearchItem = async (searchWord, searchType) => {
-  const { data } = await axios
-    .get(`/api/contents/search?q=${searchWord}&type=${searchType}`)
-  return data;
+  try {
+    const { data } = await axios
+      .get(`/api/contents/search?q=${searchWord}&type=${searchType}`)
+    return data;
+  }
+  catch (error) {
+    console.log(error)
+  }
 };
 
