@@ -140,8 +140,7 @@ const ListTitle = styled.h2`
 const Wrap = styled.div`
   position: relative;
   white-space: nowrap;
-  overflow-x: visible;
-  overflow: scroll;
+  overflow-x: scroll;
   width: 80%;
   margin: 0 auto;
 `;

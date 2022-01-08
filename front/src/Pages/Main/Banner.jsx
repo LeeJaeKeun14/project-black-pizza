@@ -58,10 +58,8 @@ const TextBlock = styled.div`
   position: absolute;
   right: 0;
   top: 50%;
-
   width: 100%;
   height: fit-content;
-  overflow: scroll;
   text-align: end;
   ${media.tablet} {
     top: 60%;

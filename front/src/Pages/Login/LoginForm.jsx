@@ -1,7 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { logIn } from "../../api/user";
 import Input from "../../Components/Input/Input";
@@ -18,7 +17,7 @@ const LoginForm = props => {
   const location = useLocation();
   const { from, message } = location.state || { from: "/", message: "" };
 
-  const requestlogin = async loginInfo => {
+  const requestLogin = async loginInfo => {
     await logIn(loginInfo).then(res => {
       if (res.status === 200) {
         setIsLogin(true);
@@ -32,7 +31,7 @@ const LoginForm = props => {
   const sendLoginInfo = e => {
     e.preventDefault();
     const data = { email: email.value, password: password.value };
-    requestlogin(data);
+    requestLogin(data);
   };
   return (
     <InputForm>
