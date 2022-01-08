@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import styled from "styled-components";
-import ResultChart from "../../Components/Chart/ResultChart";
+import ResultChart from "./ResultChart";
 import { media } from "../../styles/theme";
 import { chartColor } from "../../utils/chartData";
 import { ottURL } from "../../utils/utils";
