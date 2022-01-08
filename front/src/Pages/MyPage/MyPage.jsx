@@ -29,17 +29,20 @@ const MyPage = props => {
       <Header />
 
       <Title>찜한 콘텐츠</Title>
-      <Button onClick={getRecommend}>찜한 목록으로 추천받기</Button>
+
       {userPick.isLoading ? (
         <div>loading...</div>
       ) : userPick.data.length === 0 ? (
         <div>찜한 목록이 없습니다.</div>
       ) : (
-        <List>
-          {userPick.data.map((e, i) => (
-            <ContentItem key={i} data={e} />
-          ))}
-        </List>
+        <div>
+          <Button onClick={getRecommend}>찜한 목록으로 추천받기</Button>
+          <List>
+            {userPick.data.map((e, i) => (
+              <ContentItem key={i} data={e} />
+            ))}
+          </List>
+        </div>
       )}
     </MyPageBlock>
   );
@@ -51,6 +54,7 @@ const MyPageBlock = styled.div`
 `;
 const Title = styled.div`
   text-align: center;
+  padding-bottom: 30px;
 `;
 const List = styled.ul`
   padding: 50px;
