@@ -22,23 +22,21 @@ services:
       - db_mysql
     build: 
       context: ./back
-      dockerfile: dockerfile.dev
+      dockerfile: dockerfile.prod
     ports: 
       - "5000:5000"
     volumes:
       - ./back:/app
     environment:
-      FLASK_ENV: development
+      FLASK_ENV: production
   front:
     build: 
       context: ./front
-      dockerfile: dockerfile.dev
+      dockerfile: dockerfile.prod
     ports:
       - "80:80"
-    volumes:
-      - ./front:/usr/src/app
     depends_on:
-      - back
+      - thumbnail
   thumbnail:
     build: ./thumbnail
     volumes:
@@ -48,4 +46,4 @@ services:
     environment:
       - NGINX_PORT=8000
     depends_on:
-      - front
+      - back
