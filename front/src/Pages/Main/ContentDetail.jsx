@@ -15,11 +15,6 @@ const ContentDetail = ({ id }) => {
   const [isPicked, setIsPicked] = useState(false);
   const isLogin = useRecoilValue(loginState);
   useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
-  useEffect(() => {
     if (userPickPost.isSuccess) {
       setIsPicked(cur => !cur);
     }
