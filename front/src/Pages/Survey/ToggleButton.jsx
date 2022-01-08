@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { media } from "../../styles/theme";
 
 const ToggleButton = ({ onClickCategory, text, selectedCategory }) => {
-  const [isToggle, setIstoggle] = useState(false);
+  const [isToggle, setIsToggle] = useState(false);
 
   useEffect(() => {
-    if (selectedCategory.includes(text)) setIstoggle(true);
-    else setIstoggle(false);
+    if (selectedCategory.includes(text)) setIsToggle(true);
+    else setIsToggle(false);
   }, [isToggle, selectedCategory, text]);
   const onClickHandler = () => {
     onClickCategory(text);
-    setIstoggle(!isToggle);
+    setIsToggle(cur => !cur);
   };
   return (
     <Button onClick={onClickHandler} isToggle={isToggle}>
