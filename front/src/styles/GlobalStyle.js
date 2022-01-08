@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size:16px;
     ${media.mobile}{
-      font-size: 8px;
+      font-size: 10px;
     }
   }
 	body{

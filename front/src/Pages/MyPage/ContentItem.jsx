@@ -16,16 +16,17 @@ const ContentItem = ({ data }) => {
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <Image src={info[1]} alt="poster" />
-      <Button
-        onClick={goContentDetail}
-        isHover={isHover}
-      >{`${info[0]} 상세보기`}</Button>
+      <ContentWrap>
+        <Image src={info[1]} alt="poster" />
+        <Button
+          onClick={goContentDetail}
+          isHover={isHover}
+        >{`${info[0]} 상세보기`}</Button>
+      </ContentWrap>
     </ContentItemBlock>
   );
 };
 const ContentItemBlock = styled.div`
-  position: relative;
   padding: 10px;
   box-sizing: border-box;
 
@@ -37,6 +38,9 @@ const ContentItemBlock = styled.div`
     width: ${100 / 2}%;
   }
 `;
+const ContentWrap = styled.div`
+  position: relative;
+`;
 const Button = styled.button`
   position: absolute;
   right: 0;
@@ -47,7 +51,7 @@ const Button = styled.button`
   color: white;
   border: none;
   width: 100%;
-  height: 50%;
+  height: 100%;
   visibility:${props => (props.isHover ? "visible" : "hidden")} ;
   
 }

@@ -76,7 +76,7 @@ const Button = styled.button`
   color: white;
   border: none;
   width: 100%;
-  height: 50%;
+  height: 100%;
   visibility:${props => (props.display ? "visible" : "hidden")} ;
 }
 `;
