@@ -8,6 +8,7 @@ const Banner = props => {
   const goSurveyPage = () => {
     navigator("/survey");
   };
+
   return (
     <BannerBlock>
       <Image src="/images/banner2.png" alt="banner" />

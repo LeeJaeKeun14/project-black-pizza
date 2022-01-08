@@ -8,7 +8,6 @@ import { theme } from './styles/theme';
 import Detail from './Pages/Detail/Detail';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import UserForm from './Components/UserForm/UserForm';
-import Test from "./Pages/Main/Test";
 import { useEffect } from 'react';
 import SignupForm from './Pages/Signup/SignupForm';
 import LoginForm from './Pages/Login/LoginForm';
@@ -44,7 +43,6 @@ function App() {
             <Route path="/login" element={<UserForm ><LoginForm /></UserForm>} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/description" element={<Description />} />
-            <Route path="/test" element={<Test />} />
           </Routes>
         </div>
       </ThemeProvider>

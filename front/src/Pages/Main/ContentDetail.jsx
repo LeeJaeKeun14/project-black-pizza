@@ -43,6 +43,7 @@ const ContentDetail = ({ data, id }) => {
   const cancelUserPick = () => {
     userPickPost.mutate([{ contents_id: id, is_picked: false }]);
   };
+
   return (
     <ContentDetailBlock>
       <TitleWrap>

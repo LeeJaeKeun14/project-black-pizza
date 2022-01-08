@@ -5,12 +5,12 @@ import { media } from "../../styles/theme";
 
 const ContentItem = ({ data }) => {
   const navigator = useNavigate();
-
   const { info, key } = data;
   const [isHover, setIsHover] = useState(false);
   const goContentDetail = () => {
     navigator(`/detail/${key}`);
   };
+
   return (
     <ContentItemBlock
       onMouseEnter={() => setIsHover(true)}
@@ -26,6 +26,7 @@ const ContentItem = ({ data }) => {
     </ContentItemBlock>
   );
 };
+
 const ContentItemBlock = styled.div`
   padding: 10px;
   box-sizing: border-box;
