@@ -25,8 +25,8 @@ const ContentItem = ({
       />
       {data.ott && (
         <OttWrap>
-          {data.ott.map(e => (
-            <OttSpan>{e}</OttSpan>
+          {data.ott.map((e, i) => (
+            <OttSpan key={i}>{e}</OttSpan>
           ))}
         </OttWrap>
       )}
