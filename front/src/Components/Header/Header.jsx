@@ -54,7 +54,7 @@ const HeaderWrap = styled.header`
   padding: 1rem 1.5rem;
   box-sizing: border-box;
   align-items: center;
-  position: ${props => (props.location === "/" ? "fixed" : "static")};
+  // position: ${props => (props.location === "/" ? "fixed" : "static")};
   z-index: 100;
   background-color: ${({ theme }) => theme.color.background};
 `;

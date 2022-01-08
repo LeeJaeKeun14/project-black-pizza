@@ -135,6 +135,15 @@ const Wrap = styled.div`
   overflow-x: scroll;
   width: 80%;
   margin: 0 auto;
+  &::-webkit-scrollbar {
+    height: 10px;
+    background: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.color.background3};
+    opacity: 0.4;
+    border-radius: 30px;
+  }
 `;
 const List = styled.ul`
   position: relative;
