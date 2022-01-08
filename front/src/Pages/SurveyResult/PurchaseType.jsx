@@ -4,10 +4,18 @@ import Ott from "./Ott";
 
 const PurchaseType = ({ type }) => {
   const [saleType, priceByCompany] = type;
-
+  const renderSaleType = type => {
+    if (type === "buy") {
+      return "구매";
+    } else if (type === "rent") {
+      return "대여";
+    } else {
+      return "스트리밍";
+    }
+  };
   return (
     <PurchaseTypeBlock>
-      <PurchaseTitle>{saleType}</PurchaseTitle>
+      <PurchaseTitle>{renderSaleType(saleType)}</PurchaseTitle>
       <OttWrap>
         {priceByCompany.map((e, idx) => (
           <Ott key={idx} data={e} />
