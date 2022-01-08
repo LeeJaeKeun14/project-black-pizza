@@ -54,7 +54,7 @@ const List = props => {
           <div>empty</div>
         )}
       </ListWrap>
-      <div>{isFetching ? <p>loading</p> : null}</div>
+      <div>{isFetching ? <p>loading...</p> : null}</div>
     </>
   );
 };

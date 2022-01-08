@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
+import { media } from "../../styles/theme";
 const ResultChart = ({ data }) => {
   const options = {
-    responsive: false,
     plugins: {
       legend: { display: false },
     },
@@ -49,6 +49,7 @@ const ResultChart = ({ data }) => {
             "#ffff30",
           ],
           hoverBackgroundColor: ["#d7acaf"],
+          hoverBorderWidth: 8,
           borderColor: "none",
           cutout: "70%",
           weight: 10,
@@ -60,23 +61,24 @@ const ResultChart = ({ data }) => {
   }, [data]);
   return (
     <ChartBlock>
-      <Doughnut
-        data={chartData}
-        style={{
-          // position: "relative",
-          margin: "auto",
-          width: "300px",
-          height: "300px",
-        }}
-        width={500}
-        height={500}
-        options={options}
-        plugins={plugins}
-      />
+      <Doughnut data={chartData} options={options} plugins={plugins} />
     </ChartBlock>
   );
 };
 const ChartBlock = styled.div`
-  position: relative;
+  // position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  ${media.tablet} {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+  }
+  ${media.mobile} {
+    width: 200px;
+    height: 200px;
+  }
 `;
 export default ResultChart;

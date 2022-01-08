@@ -57,6 +57,10 @@ const ChartDesc = ({ ottData }) => {
 const ChartBlock = styled.section`
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
+  ${media.tablet} {
+    padding: 0 50px;
+  }
   ${media.mobile} {
     flex-direction: column;
   }
