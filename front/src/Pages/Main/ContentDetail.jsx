@@ -9,10 +9,10 @@ import { useUserPickPost } from "../../hooks/useUserPick";
 import { loginState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 
-const ContentDetail = ({ data, id }) => {
-  const contentDetail = useContentDetail(id);
+const ContentDetail = ({ id }) => {
+  const { data, isLoading } = useContentDetail(id);
   const userPickPost = useUserPickPost();
-  const [isPicked, setIsPicked] = useState(contentDetail.data.is_picked);
+  const [isPicked, setIsPicked] = useState(false);
   const isLogin = useRecoilValue(loginState);
 
   useEffect(() => {
@@ -22,15 +22,19 @@ const ContentDetail = ({ data, id }) => {
   }, [userPickPost.isSuccess]);
 
   useEffect(() => {
-    setIsPicked(contentDetail.data.is_picked);
-  }, [contentDetail.data.is_picked]);
+    if (data) {
+      setIsPicked(data.is_picked);
+    }
+  }, [data]);
 
   const runningTime = useMemo(() => {
-    return data.runtime
-      .split(":")
-      .map((e, i) => (i === 0 ? `${parseInt(e)}시간` : `${parseInt(e)}분`))
-      .join(" ");
-  }, [data.runtime]);
+    if (data) {
+      return data.runtime
+        .split(":")
+        .map((e, i) => (i === 0 ? `${parseInt(e)}시간` : `${parseInt(e)}분`))
+        .join(" ");
+    }
+  }, [data]);
 
   const postUserPick = () => {
     if (!isLogin) {
@@ -44,6 +48,7 @@ const ContentDetail = ({ data, id }) => {
     userPickPost.mutate([{ contents_id: id, is_picked: false }]);
   };
 
+  if (isLoading) return <div>loading...</div>;
   return (
     <ContentDetailBlock>
       <TitleWrap>
