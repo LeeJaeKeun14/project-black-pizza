@@ -14,7 +14,11 @@ const ContentDetail = ({ id }) => {
   const userPickPost = useUserPickPost();
   const [isPicked, setIsPicked] = useState(false);
   const isLogin = useRecoilValue(loginState);
-
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
   useEffect(() => {
     if (userPickPost.isSuccess) {
       setIsPicked(cur => !cur);
@@ -51,64 +55,79 @@ const ContentDetail = ({ id }) => {
   if (isLoading) return <div>loading...</div>;
   return (
     <ContentDetailBlock>
-      <TitleWrap>
-        <Title>{data.title}</Title>
-        {isLogin ? (
-          isPicked ? (
-            <Button onClick={cancelUserPick} isPicked={isPicked}>
-              찜 취소
-            </Button>
+      <ImageWrap>
+        <Image src={data.image} alt="poster" loading="lazy" />
+      </ImageWrap>
+      <InfoWrap>
+        <TitleWrap>
+          <Title>{data.title}</Title>
+          {isLogin ? (
+            isPicked ? (
+              <Button onClick={cancelUserPick} isPicked={isPicked}>
+                찜 취소
+              </Button>
+            ) : (
+              <Button onClick={postUserPick} isPicked={isPicked}>
+                찜하기
+              </Button>
+            )
           ) : (
             <Button onClick={postUserPick} isPicked={isPicked}>
               찜하기
             </Button>
-          )
-        ) : (
-          <Button onClick={postUserPick} isPicked={isPicked}>
-            찜하기
-          </Button>
-        )}
-      </TitleWrap>
+          )}
+        </TitleWrap>
 
-      <Wrap>
-        <Year>{data.open_year}</Year>
+        <Wrap>
+          <Year>{data.open_year}</Year>
+          <div>
+            {data.genre.map((e, i) => (
+              <GenreTag key={i}>{e.trim()}</GenreTag>
+            ))}
+          </div>
+        </Wrap>
         <div>
-          {data.genre.map((e, i) => (
-            <GenreTag key={i}>{e.trim()}</GenreTag>
+          <span>{runningTime}</span>
+        </div>
+        <div>
+          <SpanTitle>감독 </SpanTitle>
+          <span>{data.director}</span>
+        </div>
+        <div>
+          <SpanTitle>배우 </SpanTitle>
+          {data.actor.map((e, i) => (
+            <span key={i}>
+              {i === data.actor.length - 1 ? `${e}` : `${e} ・`}
+            </span>
           ))}
         </div>
-      </Wrap>
-      <div>
-        <span>{runningTime}</span>
-      </div>
-      <div>
-        <SpanTitle>감독 </SpanTitle>
-        <span>{data.director}</span>
-      </div>
-      <div>
-        <SpanTitle>배우 </SpanTitle>
-        {data.actor.map((e, i) => (
-          <span key={i}>
-            {i === data.actor.length - 1 ? `${e}` : `${e} ・`}
-          </span>
-        ))}
-      </div>
+      </InfoWrap>
     </ContentDetailBlock>
   );
 };
 
 const ContentDetailBlock = styled.div`
-  position: absolute;
-  // width: 40%;
-  right: 10%;
-  top: 50%;
-
-  ${media.tablet} {
-    padding: 10px;
-    left: 10%;
-    top: 40%;
-    // width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 80%;
+  justify-content: space-around;
+  margin: 0 auto;
+`;
+const ImageWrap = styled.div`
+  height: 80%;
+  ${media.mobile} {
+    display: none;
   }
+`;
+const Image = styled.img`
+  display: block;
+  height: 100%;
+  border-radius: 15px;
+`;
+const InfoWrap = styled.div`
+  padding: 0 10px;
 `;
 const TitleWrap = styled.div`
   display: flex;
