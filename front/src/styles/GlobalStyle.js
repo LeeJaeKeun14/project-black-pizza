@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     ${media.mobile}{
       font-size: 10px;
     }
+    font-family: Noto Sans KR, Apple SD Gothic Neo, sans-serif;
   }
 	body{
 		background: ${({ theme }) => theme.color.background};
