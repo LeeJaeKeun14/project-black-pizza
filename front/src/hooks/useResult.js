@@ -1,7 +1,6 @@
-import { useMutation } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { fetchSurveyResult } from '../api/surveyResult';
-import { USE_QUERY } from '../reactQuery/reactQuery';
+import { USE_MUTATION, USE_QUERY } from '../reactQuery/reactQuery';
 import { ratingStateResult, recommendResult } from '../store/atoms';
 
 export const useResult = () => {
@@ -13,7 +12,7 @@ export const useResult = () => {
 
 export const useResultPost = () => {
   const setRecommendResult = useSetRecoilState(recommendResult);
-  return useMutation((input) => fetchSurveyResult(input), {
+  return USE_MUTATION((input) => fetchSurveyResult(input), {
     onSuccess: (data) => {
       setRecommendResult(data)
     }
