@@ -88,16 +88,16 @@ const OttWrap = styled.div`
   position: absolute;
   bottom: 6px;
   left: 6px;
+  display: flex;
+  flex-wrap: wrap-reverse;
 `;
 const OttSpan = styled.span`
-  & + & {
-    margin-left: 5px;
-  }
   font-size: 16px;
   text-align: center;
   border-radius: 4px;
   opacity: 1;
   padding: 2px 5px;
-  background-color: ${({ theme }) => theme.color.coral}; ;
+  background-color: ${({ theme }) => theme.color.coral};
+  margin: 0 5px 5px 0;
 `;
 export default ContentItem;
