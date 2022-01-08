@@ -1,21 +1,18 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router";
-// import { useLocation } from "react-router";
+import React from "react";
+import { Navigate } from "react-router";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
+import { loginState } from "../../store/atoms";
+import { media } from "../../styles/theme";
 
 const UserForm = ({ children }) => {
-  const { pathname } = useLocation();
-
+  const isLogin = useRecoilValue(loginState);
+  if (isLogin) return <Navigate to="/" />;
   return (
     <SignUpBlock>
       <Header />
       <SignUpWrap>
-        {/* {pathname === "/login" ? (
-          <Title>블랙피자 로그인</Title>
-        ) : (
-          <Title>블랙피자 회원가입</Title>
-        )} */}
         <Title>블랙피자</Title>
         <Part>{children}</Part>
       </SignUpWrap>
@@ -46,5 +43,8 @@ const Title = styled.h2`
   display: flex;
   justify-content: center;
   ${({ theme }) => theme.font.large}
+  ${media.tablet} {
+    display: none;
+  }
 `;
 export default UserForm;

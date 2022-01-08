@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { signUp } from "../../api/user";
 import Input from "../../Components/Input/Input";
 import { useInput } from "../../hooks/useInput";
+import { media } from "../../styles/theme";
 
 const SignupForm = props => {
   const navigator = useNavigate();
@@ -78,6 +79,10 @@ const InputForm = styled.form`
   width: 300px;
   background-color: ${({ theme }) => theme.color.background2};
   border-radius: 25px;
+  ${media.mobile} {
+    width: 100%;
+    margin: 0 20px;
+  }
 `;
 const Title = styled.h1`
   ${({ theme }) => theme.font.small};
