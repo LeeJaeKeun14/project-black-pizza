@@ -40,3 +40,11 @@ export const increase = {
   yearMonth: Object.keys(increaseData).map(e => e.split('_').map((item, i) => i === 0 ? item + '년 ' : item + '월').join('')),
   count: Object.values(increaseData).map(e => e / 190332 * 100)
 }
+export const chartColor = [
+  "#b84f55",
+  "#ffeea1",
+  "#fbefb5",
+  "#F4EBC1",
+  "#f9f2d1",
+  "#ffff30"
+]

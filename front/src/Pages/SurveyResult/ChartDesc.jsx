@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 import styled from "styled-components";
 import ResultChart from "../../Components/Chart/ResultChart";
 import { media } from "../../styles/theme";
+import { chartColor } from "../../utils/chartData";
 import { ottURL } from "../../utils/utils";
 
 const ChartDesc = ({ ottData }) => {
@@ -38,7 +39,7 @@ const ChartDesc = ({ ottData }) => {
                 .filter(e => e[1] !== 0)
                 .map((e, i) => (
                   <OttWrap key={i} size={ott.length - i}>
-                    <Name>
+                    <Name numbering={i}>
                       <a href={ottURL[e[0]]} target="_blank" rel="noreferrer">
                         {e[0]}
                       </a>
@@ -105,7 +106,7 @@ const Name = styled.span`
   font-weight: bold;
   margin-right: 10px;
   > a {
-    color: #f4ebc1;
+    color: ${props => chartColor[props.numbering]};
     cursor: pointer;
     text-decoration: none;
   }

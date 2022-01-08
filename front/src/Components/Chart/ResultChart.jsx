@@ -3,6 +3,7 @@ import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import { media } from "../../styles/theme";
+import { chartColor } from "../../utils/chartData";
 const ResultChart = ({ data }) => {
   const options = {
     plugins: {
@@ -40,14 +41,7 @@ const ResultChart = ({ data }) => {
           data: Object.values(data)
             .filter(e => e !== 0)
             .sort((a, b) => b - a),
-          backgroundColor: [
-            "#b84f55",
-            "#ffeea1",
-            "#fbefb5",
-            "#F4EBC1",
-            "#f9f2d1",
-            "#ffff30",
-          ],
+          backgroundColor: chartColor,
           hoverBackgroundColor: ["#d7acaf"],
           hoverBorderWidth: 8,
           borderColor: "none",
