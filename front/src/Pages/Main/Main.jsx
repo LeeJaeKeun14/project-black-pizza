@@ -119,12 +119,13 @@ const DetailBlock = styled.section`
   overflow: hidden;
 `;
 const ContentListBlock = styled.section`
-  height: 50%;
+  // height: 50%;
   width: 100%;
   box-sizing: border-box;
+  padding: 50px 0;
 `;
 const ListTitle = styled.h2`
-  padding-top: 50px;
+  // padding-top: 50px;
   width: 80%;
   margin: 0 auto;
   ${({ theme }) => theme.font.medium};
