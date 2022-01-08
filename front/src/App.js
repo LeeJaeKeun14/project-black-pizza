@@ -12,7 +12,6 @@ import Test from "./Pages/Main/Test";
 import { useEffect } from 'react';
 import SignupForm from './Pages/Signup/SignupForm';
 import LoginForm from './Pages/Login/LoginForm';
-import { ReactQueryDevtools } from 'react-query/devtools'
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 import MyPage from './Pages/MyPage/MyPage';
 import Description from './Pages/Description/Description';
@@ -33,7 +32,6 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <div className="App">
