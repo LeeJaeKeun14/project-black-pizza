@@ -1,8 +1,8 @@
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
 import Ott from "./Ott";
 
-const PurchaseType = memo(({ type }) => {
+const PurchaseType = ({ type }) => {
   const [saleType, priceByCompany] = type;
 
   return (
@@ -15,7 +15,7 @@ const PurchaseType = memo(({ type }) => {
       </OttWrap>
     </PurchaseTypeBlock>
   );
-});
+};
 const PurchaseTypeBlock = styled.div`
   & + & {
     padding-top: 10px;

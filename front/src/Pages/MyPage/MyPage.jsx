@@ -18,15 +18,8 @@ const MyPage = props => {
       return { contents_id: e.key, score: 0, is_picked: true };
     });
   };
-  useEffect(() => {
-    console.log(userPick);
-    if (userPick.data) {
-      formatForRecommend();
-    }
-  }, [userPick.data]);
 
   const getRecommend = () => {
-    console.log(formatForRecommend());
     setRecommendResult([]);
     surveyResult.mutate(formatForRecommend());
     navigator("/result");

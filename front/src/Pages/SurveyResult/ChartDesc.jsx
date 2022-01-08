@@ -43,7 +43,9 @@ const ChartDesc = ({ ottData }) => {
                         {e[0]}
                       </a>
                     </Name>
-                    <Percnet>{`${Math.ceil((e[1] / total) * 100)}%`}</Percnet>
+                    <Percentage>{`${Math.ceil(
+                      (e[1] / total) * 100
+                    )}%`}</Percentage>
                   </OttWrap>
                 ))}
           </AllOtt>
@@ -104,7 +106,7 @@ const Name = styled.span`
     text-decoration: none;
   }
 `;
-const Percnet = styled.span`
+const Percentage = styled.span`
   ${({ theme }) => theme.font.xsmall}
 `;
 
