@@ -93,14 +93,15 @@ const ContentDetail = ({ data, id }) => {
 
 const ContentDetailBlock = styled.div`
   position: absolute;
-  width: 40%;
+  // width: 40%;
   right: 10%;
   top: 50%;
 
-  ${media.mobile} {
+  ${media.tablet} {
+    padding: 10px;
     left: 10%;
-    top: 50%;
-    width: 100%;
+    top: 40%;
+    // width: 100%;
   }
 `;
 const TitleWrap = styled.div`
@@ -111,7 +112,7 @@ const Button = styled.button`
   background-color: ${props =>
     props.isPicked ? ({ theme }) => theme.color.coral : "#ffffff00"};
   border: ${props => (props.isPicked ? "none" : "1px solid white")};
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   border-radius: 15px;
   cursor: pointer;
   color: ${({ theme }) => theme.color.font};
@@ -133,7 +134,7 @@ const Year = styled.div`
 `;
 const GenreTag = styled.span`
   background-color: ${({ theme }) => theme.color.coral};
-  padding: 2px 5px;
+  padding: 0.25rem 0.5rem;
   border-radius: 6px;
   & + & {
     margin-left: 5px;
