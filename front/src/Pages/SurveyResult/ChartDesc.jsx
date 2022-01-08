@@ -17,7 +17,7 @@ const ChartDesc = ({ ottData }) => {
     <ChartBlock>
       <ResultChart data={ottData} />
       {ott.length === 0 ? (
-        <div>loading</div>
+        <div>loading...</div>
       ) : (
         <Desc>
           <Title>

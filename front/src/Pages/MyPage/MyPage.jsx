@@ -31,9 +31,9 @@ const MyPage = props => {
       <Title>찜한 콘텐츠</Title>
 
       {userPick.isLoading ? (
-        <div>loading...</div>
+        <Alert>loading...</Alert>
       ) : userPick.data.length === 0 ? (
-        <div>찜한 목록이 없습니다.</div>
+        <Alert>찜한 목록이 없습니다.</Alert>
       ) : (
         <div>
           <Button onClick={getRecommend}>찜한 목록으로 추천받기</Button>
@@ -61,6 +61,9 @@ const List = styled.ul`
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
+`;
+const Alert = styled.div`
+  text-align: center;
 `;
 const Button = styled.button`
   margin: 0 auto;

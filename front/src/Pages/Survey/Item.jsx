@@ -37,7 +37,7 @@ const Item = forwardRef(({ data }, ref) => {
         onMouseEnter={() => setDisplay(1)}
         onMouseLeave={() => setDisplay(0)}
       >
-        <Suspense fallback={<ImagePlaceholder>...loading</ImagePlaceholder>}>
+        <Suspense fallback={<ImagePlaceholder>loading...</ImagePlaceholder>}>
           <LazyImage src={imgURL} name={"poster"} />
         </Suspense>
         <InfoWrap
