@@ -1,11 +1,7 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
-import {
-  useFavoriteList,
-  useContentDetail,
-  useSearchResult,
-} from "../../hooks/useContent";
+import { useFavoriteList, useSearchResult } from "../../hooks/useContent";
 import { media } from "../../styles/theme";
 import Banner from "./Banner";
 import ContentDetail from "./ContentDetail";
@@ -19,7 +15,6 @@ const Main = props => {
   const [hoveringContent, setHoveringContent] = useState(null);
   const [viewContent, setViewContent] = useState(null);
   const favoriteList = useFavoriteList();
-  const contentDetail = useContentDetail(viewContent);
   const searchResult = useSearchResult(searchWord, searchType);
 
   const onSearch = async () => {
@@ -36,21 +31,18 @@ const Main = props => {
   const onSelectItem = key => {
     setViewContent(key);
   };
-
+  const renderBannerSection = useMemo(() => {
+    if (!viewContent) {
+      return <Banner />;
+    }
+    return <ContentDetail id={viewContent} />;
+  }, [viewContent]);
   return (
     <MainBlock>
       <Header />
       <BodyWrap>
-        <DetailBlock contentToView={contentDetail.data}>
-          {contentDetail.data ? (
-            contentDetail.isLoading ? (
-              <div>loading...</div>
-            ) : (
-              <ContentDetail data={contentDetail.data} id={viewContent} />
-            )
-          ) : (
-            <Banner />
-          )}
+        <DetailBlock contentToView={viewContent}>
+          {renderBannerSection}
         </DetailBlock>
         <ContentListBlock>
           <ListTitle>{searchResult.data ? "검색결과" : "인기영화"}</ListTitle>
