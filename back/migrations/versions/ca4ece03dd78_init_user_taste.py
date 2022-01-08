@@ -40,27 +40,27 @@ def upgrade():
     op.bulk_insert(seed_users, [
         {
             'user_id': 1, 
-            'contents_id': 15000, 
+            'contents_id': 11036, 
             'score': 7.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 15500, 
-            'score': 7.5,
+            'contents_id': 11307, 
+            'score': 10,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 15600, 
-            'score': 7.5,
+            'contents_id': 11038, 
+            'score': 9.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 15700, 
+            'contents_id': 11041, 
             'score': None,
             'is_picked': True
         }, {
             'user_id': 1, 
-            'contents_id': 15800, 
+            'contents_id': 11047, 
             'score': None,
             'is_picked': True
         }, {
@@ -75,7 +75,7 @@ def upgrade():
             'is_picked': True
         }, {
             'user_id': 1, 
-            'contents_id': 13100, 
+            'contents_id': 11055, 
             'score': 8,
             'is_picked': False
         }, {
