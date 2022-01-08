@@ -40,92 +40,92 @@ def upgrade():
     op.bulk_insert(seed_users, [
         {
             'user_id': 1, 
-            'contents_id': 2, 
+            'contents_id': 15000, 
             'score': 7.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 3, 
+            'contents_id': 15500, 
             'score': 7.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 4, 
+            'contents_id': 15600, 
             'score': 7.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 5, 
+            'contents_id': 15700, 
             'score': None,
             'is_picked': True
         }, {
             'user_id': 1, 
-            'contents_id': 6, 
+            'contents_id': 15800, 
             'score': None,
             'is_picked': True
         }, {
             'user_id': 1, 
-            'contents_id': 7, 
+            'contents_id': 15900, 
             'score': None,
             'is_picked': True
         }, {
             'user_id': 1, 
-            'contents_id': 8, 
+            'contents_id': 13000, 
             'score': None,
             'is_picked': True
         }, {
             'user_id': 1, 
-            'contents_id': 2, 
+            'contents_id': 13100, 
             'score': 8,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 3, 
+            'contents_id': 13200, 
             'score': 2.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 4, 
+            'contents_id': 13300, 
             'score': 3.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 50, 
+            'contents_id': 13400, 
             'score': 4.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 60, 
+            'contents_id': 13500, 
             'score': 5.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 70, 
+            'contents_id': 13600, 
             'score': 6.6,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 80, 
+            'contents_id': 13700, 
             'score': 7.7,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 500, 
+            'contents_id': 13800, 
             'score': 5.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 600, 
+            'contents_id': 13900, 
             'score': 4.5,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 700, 
+            'contents_id': 12100, 
             'score': 3.6,
             'is_picked': False
         }, {
             'user_id': 1, 
-            'contents_id': 800, 
+            'contents_id': 13400, 
             'score': 2.7,
             'is_picked': False
         }
