@@ -23,7 +23,7 @@ const Header = memo(props => {
   return (
     <HeaderWrap location={pathname}>
       <StyledLink to="/">
-        <Title>Black Pizza 🍕 </Title>
+        <Title>BLACK PIZZA 🍕 </Title>
       </StyledLink>
       {isLogin === true ? (
         <Nav>
