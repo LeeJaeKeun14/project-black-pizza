@@ -24,8 +24,13 @@ export const ratingStateResult = selector({
   key: 'ratingStateResult',
   get: ({ get }) => {
     const rating = get(ratingState);
-    return Object.values(rating)
+    return Object.values(rating).filter(e => e.score !== 0 || e.is_picked)
   }
+})
+
+export const recommendResult = atom({
+  key: 'recommendResult',
+  default: []
 })
 
 export const loginState = atom({

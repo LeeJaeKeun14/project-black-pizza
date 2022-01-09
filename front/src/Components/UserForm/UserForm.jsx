@@ -1,21 +1,19 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router";
+import React from "react";
+import { Navigate } from "react-router";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Header from "../../Components/Header/Header";
-import LoginForm from "../../Pages/Login/LoginForm";
-import SignupForm from "../../Pages/Signup/SignupForm";
+import { loginState } from "../../store/atoms";
+import { media } from "../../styles/theme";
 
 const UserForm = ({ children }) => {
-  const { pathname } = useLocation();
-  // useEffect(() => {
-  //   console.log(children);
-  // }, [children]);
+  const isLogin = useRecoilValue(loginState);
+  if (isLogin) return <Navigate to="/" />;
   return (
     <SignUpBlock>
       <Header />
       <SignUpWrap>
-        <Part />
-        {/* <Part>{pathname === "/signup" ? <SignupForm /> : <LoginForm />}</Part> */}
+        <Title>블랙피자</Title>
         <Part>{children}</Part>
       </SignUpWrap>
     </SignUpBlock>
@@ -24,6 +22,7 @@ const UserForm = ({ children }) => {
 const SignUpBlock = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
+  max-width: 1024px;
 `;
 const SignUpWrap = styled.div`
   display: flex;
@@ -37,5 +36,15 @@ const Part = styled.div`
   text-align: center;
   display: flex;
   justify-content: center;
+`;
+const Title = styled.h2`
+  flex: 1 1 0%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  ${({ theme }) => theme.font.large}
+  ${media.tablet} {
+    display: none;
+  }
 `;
 export default UserForm;

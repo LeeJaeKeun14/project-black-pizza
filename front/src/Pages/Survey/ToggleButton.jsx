@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { media } from "../../styles/theme";
 
-const ToggleButton = ({ onClickCategoty, text }) => {
-  const [isToggle, setIstoggle] = useState(false);
+const ToggleButton = ({ onClickCategory, text, selectedCategory }) => {
+  const [isToggle, setIsToggle] = useState(false);
+
   useEffect(() => {
-    console.log(isToggle);
-  }, [isToggle]);
+    if (selectedCategory.includes(text)) setIsToggle(true);
+    else setIsToggle(false);
+  }, [isToggle, selectedCategory, text]);
   const onClickHandler = () => {
-    onClickCategoty(text);
-    setIstoggle(!isToggle);
+    onClickCategory(text);
+    setIsToggle(cur => !cur);
   };
   return (
     <Button onClick={onClickHandler} isToggle={isToggle}>
@@ -22,9 +25,21 @@ const Button = styled.button`
   height: 100px;
   margin: 10px;
   box-sizing: border-box;
-  background-color: ${props => (props.isToggle ? "skyblue" : "coral")};
-  // & + & {
-  //   margin-right: 10px;
-  // }
+  border: none;
+  border-radius: 10px;
+  color: ${({ theme }) => theme.color.font};
+  background-color: ${props =>
+    props.isToggle
+      ? ({ theme }) => theme.color.coral
+      : ({ theme }) => theme.color.background2};
+  &:hover {
+    background-color: ${props =>
+      props.isToggle
+        ? ({ theme }) => theme.color.coral
+        : ({ theme }) => theme.color.background3};
+  }
+  ${media.mobile} {
+    width: 33%;
+  }
 `;
 export default ToggleButton;

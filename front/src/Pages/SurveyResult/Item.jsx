@@ -20,18 +20,13 @@ const Item = memo(({ id, data }) => {
         onMouseEnter={() => setDisplay(1)}
         onMouseLeave={() => setDisplay(0)}
       >
-        <Image src={imgURL} alt="poster" />
+        <Image src={imgURL} alt="poster" loading="lazy" />
         <Button display={display} onClick={goDetail}>
           {`${title} 상세보기`}
         </Button>
       </ImageWrap>
-
+      <Rip></Rip>
       <AllPrice>
-        {/* {["buy", "rent", "streaming"].map((e, i) => {
-          return (
-            saleType[e] && <PurchaseType key={i} saleType={saleType} type={e} />
-          );
-        })} */}
         {Object.entries(saleType).map(
           ([key, value], i) =>
             value.length !== 0 && (
@@ -45,13 +40,31 @@ const Item = memo(({ id, data }) => {
 const ItemWrap = styled.div`
   padding: 10px;
   box-sizing: border-box;
+  height: fit-content;
+  border-radius: 10px;
   width: ${100 / 4}%;
   ${media.tablet} {
     width: ${100 / 3}%;
   }
-  ${media.mobile} {
+  ${media[768]} {
     width: ${100 / 2}%;
   }
+  ${media.mobile} {
+    width: ${100}%;
+  }
+`;
+const ImageWrap = styled.div`
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  border-radius:  10px 10px 0 0;
+  background-color: ${({ theme }) => theme.color.background3};
+  }
+`;
+const Image = styled.img`
+  width: 100%;
+  display: block;
+  border-radius: 10px 10px 0 0;
 `;
 const Button = styled.button`
   position: absolute;
@@ -63,25 +76,55 @@ const Button = styled.button`
   color: white;
   border: none;
   width: 100%;
-  height: 50%;
+  height: 100%;
   visibility:${props => (props.display ? "visible" : "hidden")} ;
 }
 `;
-const ImageWrap = styled.div`
+const Rip = styled.div`
+  height: 20px;
+
+  margin: 0 10px;
+  background-color: ${({ theme }) => theme.color.background3};
   position: relative;
-  cursor: pointer;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAACCAYAAAB7Xa1eAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAaSURBVBhXY5g7f97/2XPn/AcCBmSMQ+I/AwB2eyNBlrqzUQAAAABJRU5ErkJggg==);
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+  background-position: center;
+  &:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: 5px solid transparent;
+    border-top-color: ${({ theme }) => theme.color.background3};
+    border-right-color: ${({ theme }) => theme.color.background3};
+    border-radius: 100%;
+    left: -10px;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: 5px solid transparent;
+    border-top-color: ${({ theme }) => theme.color.background3};
+    border-right-color: ${({ theme }) => theme.color.background3};
+    border-radius: 100%;
+    -webkit-transform: translate(-50%, -50%) rotate(225deg);
+    transform: translate(-50%, -50%) rotate(225deg);
+    right: -40px;
   }
 `;
-const Image = styled.img`
-  width: 100%;
-  display: block;
-`;
-
 const AllPrice = memo(styled.div`
-  background-color: ${({ theme }) => theme.color.point};
-  border-radius: 5px;
+  background-color: ${({ theme }) => theme.color.background3};
+  border-radius: 0 0 10px 10px;
   padding: 10px;
-  margin-top: 10px;
 `);
 
 export default Item;

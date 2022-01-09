@@ -1,44 +1,45 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import ResultChart from "../../Components/Chart/ResultChart";
-
 import Header from "../../Components/Header/Header";
-import { ratingStateResult } from "../../store/atoms";
+import { recommendResult } from "../../store/atoms";
+import ChartDesc from "./ChartDesc";
 import Item from "./Item";
 
 const SurveyResult = props => {
-  const rating = useRecoilValue(ratingStateResult);
-  const [resultContent, setResultContent] = useState({});
-  const [resultOtt, setResultOtt] = useState({});
-  // const temp = [{ contents_id: 3836, is_picked: false, score: 3 }];
-
-  useEffect(() => {
-    // console.log(rating);
-    axios.post("/api/contents/recommend", { data: rating }).then(res => {
-      // console.log(res);
-      setResultContent(res.data[0]);
-      setResultOtt(res.data[1]);
-    });
-  }, [rating]);
-
+  const result = useRecoilValue(recommendResult);
   return (
-    <SurveyResultWrap>
+    <SurveyResultBlock>
       <Header />
-      <ResultChart data={resultOtt} />
-      <Content>
-        {Object.entries(resultContent).map(([key, list], idx) => (
-          <Item key={idx} id={key} data={list} />
-        ))}
-      </Content>
-    </SurveyResultWrap>
+      <Title>추천 결과</Title>
+      {result.length === 0 ? (
+        <LoadingWrap>
+          <img src="/images/pizzaLoading.gif" alt="loading" loading="lazy" />
+        </LoadingWrap>
+      ) : (
+        <div>
+          <ChartDesc ottData={result[1]} />
+          <Content>
+            {Object.entries(result[0]).map(([key, list], idx) => (
+              <Item key={idx} id={key} data={list} />
+            ))}
+          </Content>
+        </div>
+      )}
+    </SurveyResultBlock>
   );
 };
-const SurveyResultWrap = styled.div`
+
+const SurveyResultBlock = styled.div`
   margin: 0 auto;
   max-width: 1024px;
+`;
+const Title = styled.h2`
+  text-align: center;
+`;
+const LoadingWrap = styled.div`
+  text-align: center;
+  padding-top: 50px;
 `;
 const Content = styled.section`
   padding: 50px;

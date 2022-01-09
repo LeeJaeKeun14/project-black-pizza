@@ -1,74 +1,87 @@
-import axios from "axios";
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { logout } from "../../api/user";
 import { loginState } from "../../store/atoms";
+import { memo } from "react";
 
-const Header = props => {
+const Header = memo(props => {
   const { pathname } = useLocation();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
-
-  const logout = () => {
-    axios.get("api/user/signout").then(res => {
-      if (res.data.status === 200) {
+  const navigator = useNavigate();
+  const handleLogout = async () => {
+    await logout().then(res => {
+      if (res.status === 200) {
         setIsLogin(false);
+        navigator("/");
       }
     });
   };
-  return (
-    <HeaderWrap>
-      <Title>
-        <Link to="/">Black Pizza 🍕</Link>
-      </Title>
 
+  return (
+    <HeaderWrap location={pathname}>
+      <StyledLink to="/">
+        <Title>
+          <Image src="/images/logo.png" alt="logo" />
+          <div>BLACK PIZZA</div>
+        </Title>
+      </StyledLink>
       {isLogin === true ? (
         <Nav>
-          <StyledLink
-            location={(pathname === "/survey").toString()}
-            to="/survey"
-          >
-            영화 찾으러 가기
+          <StyledLink to="/description">서비스 소개</StyledLink>
+          <StyledLink to="/survey">
+            {pathname === "/survey" ? null : " 추천받기"}
           </StyledLink>
-          <Button onClick={logout}>로그아웃</Button>
+          {pathname === "/mypage" ? (
+            <Button onClick={handleLogout}>로그아웃</Button>
+          ) : (
+            <StyledLink to="/mypage">마이페이지</StyledLink>
+          )}
         </Nav>
       ) : (
         <Nav>
+          <StyledLink to="/description">서비스 소개</StyledLink>
           <StyledLink to="/signup">가입하기</StyledLink>
-
           <StyledLink to="/login">로그인</StyledLink>
         </Nav>
       )}
     </HeaderWrap>
   );
-};
+});
 const HeaderWrap = styled.header`
   width: 100%;
   display: flex;
   justify-content: space-between;
   padding: 1rem 1.5rem;
   box-sizing: border-box;
+  align-items: center;
+  // position: ${props => (props.location === "/" ? "fixed" : "static")};
+  z-index: 100;
+  background-color: ${({ theme }) => theme.color.background};
 `;
 
 const Title = styled.h1`
-  > a {
-    ${({ theme }) => theme.font.large}
-    color: ${({ theme }) => theme.color.font};
-    text-decoration: none;
-  }
+  ${({ theme }) => theme.font.large}
+  color: ${({ theme }) => theme.color.font};
+  text-decoration: none;
+  align-items: center;
+  display: flex;
+`;
+const Image = styled.img`
+  width: 60px;
+  height: 60px;
 `;
 const Nav = styled.nav`
   display: flex;
-  align-items: center;
+  align-items: baseline;
 `;
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.color.font};
   text-decoration: none;
   ${({ theme }) => theme.font.small}
   padding: 0 6px;
-  display: ${props => (props.location === "true" ? "none" : "block")};
 `;
 const Button = styled.button`
   color: ${({ theme }) => theme.color.font};

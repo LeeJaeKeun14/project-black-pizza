@@ -76,7 +76,8 @@ def signin():
             # session.clear()
             session['email'] = user.email
             message = '로그인에 성공하였습니다.'
-            value = {"status": 200, "result": "success", "msg": message}
+            value = {"status": 200, "result": "success",
+                     "msg": message}
         else:
             value = {"status": 404, "result": "fail", "msg": message}
 
@@ -98,7 +99,20 @@ def isLogin():
     if session.get('email'):
         email = session['email']
         value = {"status": 200, "result": "success",
-                 "payload": email, "session": session}
+                 "payload": email}
     else:
         value = {"status": 404, "result": "fail"}
     return jsonify(value)
+
+
+@user.route('/delete', methods=['POST'])
+def delete():
+    if request.method == 'POST':
+        params = request.get_json()
+        email = params['email']
+
+        User.query.filter(User.email == email).delete()
+        db.session.commit()
+
+        value = {"status": 200, "result": "success"}
+        return jsonify(value)

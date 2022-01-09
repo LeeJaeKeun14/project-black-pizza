@@ -1,50 +1,42 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { logIn } from "../../api/user";
 import Input from "../../Components/Input/Input";
 import { useInput } from "../../hooks/useInput";
 import { loginState } from "../../store/atoms";
+import { media } from "../../styles/theme";
 
 const LoginForm = props => {
   const navigator = useNavigate();
-
   const email = useInput("");
   const password = useInput("");
   const setIsLogin = useSetRecoilState(loginState);
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const location = useLocation();
+  const { from, message } = location.state || { from: "/", message: "" };
 
-  const requestlogin = async body => {
-    console.log(body);
-    try {
-      const { headers, data } = await axios.post("/api/user/signin", body);
-      console.log(data);
-      console.log(headers);
-
-      if (data.status === 200) {
+  const requestLogin = async loginInfo => {
+    await logIn(loginInfo).then(res => {
+      if (res.status === 200) {
         setIsLogin(true);
-        navigator("/");
+        navigator(from);
       } else {
-        // data.msg && alert(data.msg);
-        data.msg && setMessage(data.msg);
+        res.msg && setErrorMessage(res.msg);
       }
-      return data;
-    } catch (error) {
-      // error.response.data && alert(error.response.data);
-      // throw Error(error.response.data || error.message);
-    }
+    });
   };
+
   const sendLoginInfo = e => {
     e.preventDefault();
-    console.log(email.value);
-    console.log(password.value);
     const data = { email: email.value, password: password.value };
-    requestlogin(data);
+    requestLogin(data);
   };
   return (
     <InputForm>
-      <Title>login</Title>
+      <Title>로그인</Title>
+      <p>{message}</p>
       <Input
         inputId={"email"}
         inputType={"email"}
@@ -59,7 +51,7 @@ const LoginForm = props => {
         placeholder={"●●●●●●●●"}
         onChangeHandler={password.setValue}
       />
-      <Alert>{message}</Alert>
+      <Alert>{errorMessage}</Alert>
       <Button onClick={sendLoginInfo}>login</Button>
     </InputForm>
   );
@@ -70,6 +62,10 @@ const InputForm = styled.form`
   width: 300px;
   background-color: ${({ theme }) => theme.color.background2};
   border-radius: 25px;
+  ${media.mobile} {
+    width: 100%;
+    margin: 0 20px;
+  }
 `;
 const Title = styled.h1`
   ${({ theme }) => theme.font.small};
@@ -87,7 +83,7 @@ const Button = styled.button`
   padding: 4px 16px;
   border-radius: 10px;
   border: none;
-  margin-bottom: 30px 0;
+  margin-bottom: 30px;
   background-color: #ffffff;
   cursor: pointer;
   &:hover {

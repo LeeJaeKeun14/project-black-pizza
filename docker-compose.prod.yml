@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  db_mysql:
+    # MacOS m1칩 사용자는 아래 (platform: linux/x86_64) 주석을 풀고 실행해주세요 / 다른 분은 주석으로 해주시고 실행해주세요
+    # docker system prune --volumes : memory 오류가 날 경우 실행
+    # platform: linux/x86_64
+    volumes:
+      - ./db_mysql/data:/var/lib/mysql
+    build:
+      context: ./db_mysql
+      dockerfile: ./mysql.Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: BlackPizza
+    command:
+      - --character-set-server=utf8 
+      - --collation-server=utf8_unicode_ci
+    restart: always
+  back:
+    depends_on:
+      - db_mysql
+    build: 
+      context: ./back
+      dockerfile: dockerfile.prod
+    ports: 
+      - "5000:5000"
+    volumes:
+      - ./back:/app
+    environment:
+      FLASK_ENV: production
+  front:
+    build: 
+      context: ./front
+      dockerfile: dockerfile.prod
+    ports:
+      - "80:80"
+    depends_on:
+      - thumbnail
+  thumbnail:
+    build: ./thumbnail
+    volumes:
+      - ./thumbnail/images:/usr/share/nginx/html/files:ro
+    ports:
+      - "8000:8000"
+    environment:
+      - NGINX_PORT=8000
+    depends_on:
+      - back
