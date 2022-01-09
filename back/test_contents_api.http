@@ -1,0 +1,59 @@
+# Contents api
+### recommend api
+GET http://localhost:5000/api/contents/recommend
+
+### recommend api
+POST http://localhost:5000/api/contents/recommend
+Content-Type: application/json
+
+[
+  {"contents_id": 1000, "score": 5},
+  {"contents_id": 2000, "score": 7},
+  {"contents_id": 3000, "score": 9},
+  {"contents_id": 4000, "score": 3},
+  {"contents_id": 5000, "score": 1},
+  {"contents_id": 6000, "is_picked": true},
+  {"contents_id": 7000, "is_picked": true},
+  {"contents_id": 8000, "is_picked": true},
+  {"contents_id": 9000, "is_picked": true}
+]
+
+### list api
+POST http://localhost:5000/api/contents/list
+Content-Type: application/json
+
+{
+  "genres": ["액션", "로맨스", "범죄", "판타지"], 
+  "years": [1990, 2000, 2010, 2020],
+  "page": 1
+}
+
+
+### detail api
+GET http://localhost:5000/api/contents/detail/16000
+
+
+### search api (title)
+GET http://localhost:5000/api/contents/search?q=스파이더맨&type=title
+### search api (director)
+GET http://localhost:5000/api/contents/search?q=Bong&type=director
+### search api (actor)
+GET http://localhost:5000/api/contents/search?q=Holland&type=actor
+
+
+### userpick api
+GET http://localhost:5000/api/contents/userpick
+
+### userpick api(post)
+POST http://localhost:5000/api/contents/userpick
+Content-Type: application/json
+
+[
+  {"contents_id": 6000, "is_picked": true},
+  {"contents_id": 7000, "is_picked": true},
+  {"contents_id": 8000, "is_picked": true},
+  {"contents_id": 9000, "is_picked": true}
+]
+
+### favorite api
+GET http://localhost:5000/api/contents/favorite
