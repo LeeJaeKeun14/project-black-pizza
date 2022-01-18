@@ -1,11 +1,12 @@
+const movieCount = [11588401, 4942629, 307866, 146076, 220161, 2786453, 4691845, 7377554, 1359285, 3561425, 2868649, 612027, 139399, 680320]
 export const movie = {
   yearMonth: ['2020_1', '2020_2', '2020_3', '2020_4', '2020_5', '2020_6', '2020_7', '2020_8', '2020_9', '2020_10', '2020_11', '2020_12', '2021_1', '2021_2'].map(e => e.split('_').map((item, i) => i === 0 ? item + '년 ' : item + '월').join('')),
-  count: [11588401, 4942629, 307866, 146076, 220161, 2786453, 4691845, 7377554, 1359285, 3561425, 2868649, 612027, 139399, 680320].map(e => e / 41282090 * 100)
+  count: movieCount.map(e => ((e - Math.min(...movieCount)) / Math.max(...movieCount)) * 100)
 }
-
+const netflixCount = [4704524, 5012431, 5813026, 7109803, 7390568, 7040598, 7205743, 7816590, 7857064, 7898026, 7604538, 8840698, 9806897, 10013283];
 export const netflix = {
   yearMonth: ['2020_1', '2020_2', '2020_3', '2020_4', '2020_5', '2020_6', '2020_7', '2020_8', '2020_9', '2020_10', '2020_11', '2020_12', '2021_1', '2021_2'].map(e => e.split('_').map((item, i) => i === 0 ? item + '년 ' : item + '월').join('')),
-  count: [4704524, 5012431, 5813026, 7109803, 7390568, 7040598, 7205743, 7816590, 7857064, 7898026, 7604538, 8840698, 9806897, 10013283].map(e => e / 104113789 * 100)
+  count: netflixCount.map(e => ((e - Math.min(...netflixCount)) / Math.max(...netflixCount)) * 100)
 }
 
 const increaseData = {
@@ -38,7 +39,7 @@ const increaseData = {
 
 export const increase = {
   yearMonth: Object.keys(increaseData).map(e => e.split('_').map((item, i) => i === 0 ? item + '년 ' : item + '월').join('')),
-  count: Object.values(increaseData).map(e => e / 190332 * 100)
+  count: Object.values(increaseData).map(e => (e - Math.min(...Object.values(increaseData))) / Math.max(...Object.values(increaseData)) * 100)
 }
 export const chartColor = [
   "#b84f55",
