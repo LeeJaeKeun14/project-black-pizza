@@ -52,12 +52,14 @@ const Header = memo(props => {
 });
 const HeaderWrap = styled.header`
   width: 100%;
+  max-width: ${props => (props.location === "/" ? "" : "1024px")};
   display: flex;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  padding: 10px;
   box-sizing: border-box;
   align-items: center;
   // position: ${props => (props.location === "/" ? "fixed" : "static")};
+  position: fixed;
   z-index: 100;
   background-color: ${({ theme }) => theme.color.background};
 `;
