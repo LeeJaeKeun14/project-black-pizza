@@ -8,7 +8,6 @@ import ToggleButton from "./ToggleButton";
 const Category = ({ setSelectAllCategory }) => {
   const [userGenres, setUserGenres] = useRecoilState(userSelectedGenres);
   const [userYears, setUserYears] = useRecoilState(userSelectedYears);
-  // const [selectAllCategory, setSelectAllCategory] = useState(false);
   const [goNext, setGoNext] = useState(false);
 
   useEffect(() => {
@@ -27,7 +26,6 @@ const Category = ({ setSelectAllCategory }) => {
       alert("하나 이상의 장르를 선택해주세요");
     } else {
       setGoNext(true);
-      // setButtonState(1);
     }
   };
 
@@ -35,17 +33,17 @@ const Category = ({ setSelectAllCategory }) => {
     if (userGenres.length === 0 || userYears.length === 0) {
       alert("하나 이상의 연도를 모두 선택해주세요");
     } else {
-      // setSelectAllCategory(!selectAllCategory);
-      // setButtonState(2);
       setSelectAllCategory(cur => !cur);
     }
   };
+
   const onClickGenre = genre => {
     setUserGenres(cur => {
       if (cur.includes(genre)) return [...cur.filter(e => e !== genre)];
       else return [...cur, genre];
     });
   };
+
   const onClickYear = year => {
     setUserYears(cur => {
       if (cur.includes(year)) return [...cur.filter(e => e !== year)];
@@ -79,13 +77,6 @@ const Category = ({ setSelectAllCategory }) => {
 
       {goNext ? (
         <GenreWrap>
-          {/* <Button
-            isDisabled={userGenres.length === 0 || userYears.length === 0}
-            onClick={goRatingStep}
-          >
-            평가하기
-          </Button> */}
-          {/* <Question>어느 연도의 콘텐츠를 보고 싶은가요?</Question> */}
           <ButtonsWrap>
             {contentYearCategory.map((e, i) => (
               <ToggleButton
@@ -99,10 +90,6 @@ const Category = ({ setSelectAllCategory }) => {
         </GenreWrap>
       ) : (
         <GenreWrap>
-          {/* <Button isDisabled={userGenres.length === 0} onClick={goSelectYear}>
-            다음 질문
-          </Button> */}
-          {/* <Question>어떤 장르의 콘텐츠를 보고 싶은가요?</Question> */}
           <ButtonsWrap>
             {contentGenreCategory.map((e, i) => (
               <ToggleButton
@@ -115,15 +102,6 @@ const Category = ({ setSelectAllCategory }) => {
           </ButtonsWrap>
         </GenreWrap>
       )}
-      {/* <Button
-        disabled={userGenres.length === 0}
-        isDisplay={goNext}
-        onClick={() => {
-          setGoNext(true);
-        }}
-      >
-        다음 질문
-      </Button> */}
     </CategoryBlock>
   );
 };
