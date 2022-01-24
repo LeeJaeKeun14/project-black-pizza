@@ -59,8 +59,11 @@ const ItemWrap = styled.li`
   ${media.tablet} {
     width: ${100 / 3}%;
   }
-  ${media.mobile} {
+  ${media[768]} {
     width: ${100 / 2}%;
+  }
+  ${media.mobile} {
+    width: 100%;
   }
 `;
 const ImageWrap = styled.div`
@@ -68,7 +71,7 @@ const ImageWrap = styled.div`
 `;
 const Image = styled.img`
   width: 100%;
-  height: 300px;
+  // height: 300px;
   display: block;
   @-webkit-keyframes skeleton-gradient {
     0% {
