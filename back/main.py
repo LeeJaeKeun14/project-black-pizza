@@ -4,6 +4,7 @@ from models import User
 from db_connect import db
 from api.contents import contents
 from api.user import user
+from api.oauth import kakao
 # import timedelta
 
 
@@ -11,6 +12,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
     app.register_blueprint(contents)
     app.register_blueprint(user)
+    app.register_blueprint(kakao)
 
     if test_config:
         app.config['SQLALCHEMY_DATABASE_URI'] = test_config['DB_URL']
