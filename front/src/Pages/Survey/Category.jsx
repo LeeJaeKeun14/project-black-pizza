@@ -25,7 +25,7 @@ const Category = ({ setSelectAllCategory }) => {
     if (userGenres.length === 0) {
       alert("하나 이상의 장르를 선택해주세요");
     } else {
-      setGoNext(true);
+      setGoNext(cur => !cur);
     }
   };
 
