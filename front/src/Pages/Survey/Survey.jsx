@@ -15,6 +15,8 @@ import Category from "./Category";
 import List from "./List";
 import { userSelectedGenres, userSelectedYears } from "../../store/atoms";
 import { useResultPost } from "../../hooks/useResult";
+import { useMemo } from "react";
+import RatingContent from "./RatingContent";
 const Survey = props => {
   const navigator = useNavigate();
   const [selectAllCategory, setSelectAllCategory] = useState(false);
@@ -23,9 +25,12 @@ const Survey = props => {
   const isLogin = useRecoilValue(loginState);
   const userGenres = useRecoilValue(userSelectedGenres);
   const userYears = useRecoilValue(userSelectedYears);
+  const setRecommendResult = useSetRecoilState(recommendResult);
   const SELECT_COUNT = 5;
   const surveyResult = useResultPost();
-  const setRecommendResult = useSetRecoilState(recommendResult);
+
+  const [buttonState, setButtonState] = useState(0);
+  const [goNext, setGoNext] = useState(false);
   useEffect(() => {
     if (!isLogin) {
       navigator("/");
@@ -38,31 +43,79 @@ const Survey = props => {
     setRecommendResult([]);
   }, []);
 
-  const requestResult = () => {
-    if (ratingArr.length >= SELECT_COUNT) {
-      surveyResult.mutate(ratingArr);
-      navigator("/result");
+  const goSelectYear = () => {
+    if (userGenres.length === 0) {
+      alert("하나 이상의 장르를 선택해주세요");
     } else {
-      alert(`${SELECT_COUNT}개 이상의 콘텐츠를 평가하거나 찜해주세요`);
+      setGoNext(true);
+      setButtonState(1);
     }
   };
 
-  const gotoRating = () => {
+  const goRatingStep = () => {
     if (userGenres.length === 0 || userYears.length === 0) {
-      alert("장르와 연도를 모두 선택해주세요");
+      alert("하나 이상의 연도를 모두 선택해주세요");
     } else {
       setSelectAllCategory(!selectAllCategory);
+      setButtonState(2);
     }
   };
+
+  const goResultPage = () => {
+    if (ratingArr.length < SELECT_COUNT) {
+      alert(`${SELECT_COUNT}개 이상의 콘텐츠를 평가하거나 찜해주세요`);
+    } else {
+      surveyResult.mutate(ratingArr);
+      navigator("/result");
+    }
+  };
+
+  const renderButton = useMemo(() => {
+    if (buttonState === 0)
+      return (
+        <Button isDisabled={userGenres.length === 0} onClick={goSelectYear}>
+          다음 질문
+        </Button>
+      );
+    else if (buttonState === 1) {
+      return (
+        <Button
+          isDisabled={userGenres.length === 0 || userYears.length === 0}
+          onClick={goRatingStep}
+        >
+          평가하기
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          isDisabled={ratingArr.length < SELECT_COUNT}
+          onClick={goResultPage}
+        >
+          추천 확인하기
+        </Button>
+      );
+    }
+  }, [
+    buttonState,
+    goNext,
+    ratingArr.length,
+    userGenres.length,
+    userYears.length,
+  ]);
+  useEffect(() => {
+    console.log(selectAllCategory);
+  }, [selectAllCategory]);
   return (
     <SurveyWrap>
       <Header />
+      {/* {renderButton} */}
       {selectAllCategory ? (
-        <div>
-          <div>
+        <SurveyContent>
+          {/* <div>
             <Button
               isDisabled={ratingArr.length < SELECT_COUNT}
-              onClick={requestResult}
+              onClick={goResultPage}
             >
               추천 확인하기
             </Button>
@@ -73,18 +126,20 @@ const Survey = props => {
               {SELECT_COUNT}개 이상의 콘텐츠를 평가하거나 찜해주세요
             </Question>
             <List />
-          </Content>
-        </div>
+          </Content> */}
+          <RatingContent />
+        </SurveyContent>
       ) : (
-        <div>
-          <Button
+        <SurveyContent>
+          {/* <Button
             isDisabled={userGenres.length === 0 || userYears.length === 0}
-            onClick={gotoRating}
+            onClick={goRatingStep}
           >
             평가하기
-          </Button>
-          <Category />
-        </div>
+          </Button> */}
+          {/* <Category goNext={goNext} /> */}
+          <Category setSelectAllCategory={setSelectAllCategory} />
+        </SurveyContent>
       )}
     </SurveyWrap>
   );
@@ -92,6 +147,10 @@ const Survey = props => {
 const SurveyWrap = styled.div`
   margin: 0 auto;
   max-width: 1024px;
+`;
+const SurveyContent = styled.div`
+  padding-top: 80px;
+  height: 100%;
 `;
 const Button = styled.button`
   margin: 0 auto;
@@ -104,7 +163,7 @@ const Button = styled.button`
       : ({ theme }) => theme.color.coral};
   border: none;
   padding: 10px;
-
+  padding-top: 80px;
   cursor: pointer;
   border-radius: 10px;
   &:hover {
