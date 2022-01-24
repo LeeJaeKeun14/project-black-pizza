@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
@@ -9,7 +10,7 @@ import List from "./List";
 const RatingContent = props => {
   const ratingArr = useRecoilValue(ratingStateResult);
   const surveyResult = useResultPost();
-
+  const navigator = useNavigate();
   const SELECT_COUNT = 5;
 
   const goResultPage = () => {
@@ -20,6 +21,7 @@ const RatingContent = props => {
       navigator("/result");
     }
   };
+
   return (
     <RatingBlock>
       <SelectNav>
