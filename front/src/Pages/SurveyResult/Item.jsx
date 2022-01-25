@@ -42,16 +42,22 @@ const ItemWrap = styled.div`
   box-sizing: border-box;
   height: fit-content;
   border-radius: 10px;
+
   width: ${100 / 4}%;
   ${media.tablet} {
-    width: ${100 / 3}%;
+    // width: ${100 / 3}%;
+    width: 240px;
   }
-  ${media[768]} {
-    width: ${100 / 2}%;
-  }
-  ${media.mobile} {
-    width: ${100}%;
-  }
+  // ${media[768]} {
+  //   width: ${100 / 2}%;
+  //   max-width: 240px;
+  //   min-width: 240px;
+  // }
+  // ${media.mobile} {
+  //   width: ${100}%;
+  //   max-width: 240px;
+  //   min-width: 240px;
+  // }
 `;
 const ImageWrap = styled.div`
   position: relative;
@@ -63,8 +69,39 @@ const ImageWrap = styled.div`
 `;
 const Image = styled.img`
   width: 100%;
+  height: 300px;
   display: block;
   border-radius: 10px 10px 0 0;
+  margin: 0 auto;
+  @-webkit-keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+
+  @keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+  -webkit-animation: skeleton-gradient 1.8s infinite ease-in-out;
+  animation: skeleton-gradient 1.8s infinite ease-in-out;
 `;
 const Button = styled.button`
   position: absolute;
