@@ -57,21 +57,26 @@ const ItemWrap = styled.li`
 
   width: ${100 / 4}%;
   ${media.tablet} {
-    width: ${100 / 3}%;
+    // width: ${100 / 3}%;
+    width: 240px;
   }
-  ${media[768]} {
-    width: ${100 / 2}%;
-  }
-  ${media.mobile} {
-    width: 100%;
-  }
+  // ${media[768]} {
+  //   width: ${100 / 2}%;
+  //   max-width: 240px;
+  //   min-width: 240px;
+  // }
+  // ${media.mobile} {
+  //   width: 100%;
+  //   max-width: 240px;
+  //   min-width: 240px;
+  // }
 `;
 const ImageWrap = styled.div`
   position: relative;
 `;
 const Image = styled.img`
   width: 100%;
-  // height: 300px;
+  height: 300px;
   display: block;
   @-webkit-keyframes skeleton-gradient {
     0% {

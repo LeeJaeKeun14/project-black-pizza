@@ -63,5 +63,6 @@ const List = props => {
 const ListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 export default List;
