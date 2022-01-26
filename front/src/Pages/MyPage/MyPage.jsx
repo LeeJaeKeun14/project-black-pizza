@@ -27,23 +27,24 @@ const MyPage = props => {
   return (
     <MyPageBlock>
       <Header />
+      <ContentList>
+        <Title>찜한 콘텐츠</Title>
 
-      <Title>찜한 콘텐츠</Title>
-
-      {userPick.isLoading ? (
-        <Alert>loading...</Alert>
-      ) : userPick.data.length === 0 ? (
-        <Alert>찜한 목록이 없습니다.</Alert>
-      ) : (
-        <div>
-          <Button onClick={getRecommend}>찜한 목록으로 추천받기</Button>
-          <List>
-            {userPick.data.map((e, i) => (
-              <ContentItem key={i} data={e} />
-            ))}
-          </List>
-        </div>
-      )}
+        {userPick.isLoading ? (
+          <Alert>loading...</Alert>
+        ) : userPick.data.length === 0 ? (
+          <Alert>찜한 목록이 없습니다.</Alert>
+        ) : (
+          <div>
+            <Button onClick={getRecommend}>찜한 목록으로 추천받기</Button>
+            <List>
+              {userPick.data.map((e, i) => (
+                <ContentItem key={i} data={e} />
+              ))}
+            </List>
+          </div>
+        )}
+      </ContentList>
     </MyPageBlock>
   );
 };
@@ -51,6 +52,10 @@ const MyPage = props => {
 const MyPageBlock = styled.div`
   margin: 0 auto;
   max-width: 1024px;
+`;
+const ContentList = styled.div`
+  padding-top: 80px;
+  height: 100%;
 `;
 const Title = styled.div`
   text-align: center;
