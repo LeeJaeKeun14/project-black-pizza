@@ -8,7 +8,6 @@ const Tap = ({
   onSearch,
   setHoveringContent,
   setSelectContent,
-  setViewContent,
 }) => {
   const inputRef = useRef("");
   const [isDisplay, setIsDisplay] = useState(false);
@@ -19,7 +18,6 @@ const Tap = ({
     setSearchWord("");
     setHoveringContent(null);
     setSelectContent(null);
-    setViewContent(null);
     inputRef.current.value = "";
   };
   const onClickSearchButton = () => {

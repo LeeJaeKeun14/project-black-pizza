@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { memo } from "react";
-import { useMemo, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import DetailModal from "../../Components/DetailModal/DetailModal";
 import Header from "../../Components/Header/Header";
@@ -9,7 +8,6 @@ import { useFavoriteList, useSearchResult } from "../../hooks/useContent";
 import { detailModalState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 import Banner from "./Banner";
-import ContentDetail from "./ContentDetail";
 import ContentItem from "./ContentItem";
 import Tap from "./Tap";
 
@@ -18,13 +16,14 @@ const Main = props => {
   const [searchType, setSearchType] = useState("title");
   const [selectContent, setSelectContent] = useState(null);
   const [hoveringContent, setHoveringContent] = useState(null);
-  const [viewContent, setViewContent] = useState(null);
   const [detailState, setDetailModalState] = useRecoilState(detailModalState);
   const favoriteList = useFavoriteList();
   const searchResult = useSearchResult(searchWord, searchType);
+
   useEffect(() => {
     return setDetailModalState(null);
   }, []);
+
   const onSearch = async () => {
     searchResult.refetch();
   };
@@ -37,7 +36,6 @@ const Main = props => {
     setSelectContent(null);
   };
   const onSelectItem = key => {
-    setViewContent(key);
     setDetailModalState(key);
   };
 
@@ -95,7 +93,6 @@ const Main = props => {
           setSearchType={setSearchType}
           setSelectContent={setSelectContent}
           setHoveringContent={setHoveringContent}
-          setViewContent={setViewContent}
         />
       </BodyWrap>
       {detailState && <DetailModal id={detailState} />}
