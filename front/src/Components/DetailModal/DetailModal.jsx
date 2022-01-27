@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import Header from "../../Components/Header/Header";
 import { useContentDetail } from "../../hooks/useContent";
 import { useUserPickPost } from "../../hooks/useUserPick";
 import Portal from "../../Pages/Main/Portal";
@@ -10,7 +8,6 @@ import { detailModalState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 
 const DetailModal = ({ id }) => {
-  // const { id } = useParams();
   const setDetailModalState = useSetRecoilState(detailModalState);
   const { data, isLoading } = useContentDetail(parseInt(id));
   const [isPicked, setIsPicked] = useState(false);
@@ -106,16 +103,6 @@ const DetailModal = ({ id }) => {
   );
 };
 const DetailBlock = styled.div`
-  // margin: 0 auto;
-  // max-width: 1024px;
-  // // height: 100%;
-  // // height: fit-content;
-  // position: absolute;
-  // top: 50%;
-  // transform: translate(0, -50%);
-
-  // right: 0;
-  // left: 0;
   box-sizing: border-box;
   display: ${props => (props.visible ? "block" : "none")};
   position: fixed;
@@ -140,8 +127,6 @@ const ModalOverlay = styled.div`
   z-index: 999;
 `;
 const CloseButton = styled.button`
-  // position: absolute;
-  // right: 50px;
   background-color: ${({ theme }) => theme.color.background2};
   border: none;
   padding: 8px 16px;
@@ -164,6 +149,17 @@ const InfoBlock = styled.div`
   box-sizing: border-box;
   border-radius: 20px;
   box-shadow: 0 0 26px 0 ${({ theme }) => theme.color.background2};
+  ${media[1440]} {
+    width: 80%;
+  }
+  ${media.tablet} {
+    width: 100%;
+    border-radius: 0;
+  } ${media[768]} {
+    padding: 20px;
+    top: 0;
+    transform: translateY(0);
+  }
 }
 `;
 const DetailTitle = styled.h1`
@@ -180,6 +176,8 @@ const Info = styled.div`
   }
   ${media[768]} {
     flex-direction: column;
+    align-items: center;
+    padding: 0;
   }
 `;
 const InfoTextPart = styled.div`
@@ -187,7 +185,7 @@ const InfoTextPart = styled.div`
   text-align: start;
   ${media[768]} {
     padding-left: 0;
-    padding-top: 30px;
+    padding: 20px;
   }
 `;
 const Title = styled.h2`
@@ -214,6 +212,9 @@ const SpanTitle = styled.span`
 const SynopsisPart = styled.div`
   padding: 50px;
   text-align: start;
+  ${media[768]} {
+    padding: 20px;
+  }
 `;
 const SynopsisTitle = styled.div`
   font-weight: bold;
