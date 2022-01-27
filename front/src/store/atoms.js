@@ -37,3 +37,8 @@ export const loginState = atom({
   key: 'loginState',
   default: null
 })
+
+export const detailModalState = atom({
+  key: 'detailModalState',
+  default: null
+})

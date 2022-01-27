@@ -1,7 +1,12 @@
+import { useEffect } from "react";
+import { memo } from "react";
 import { useMemo, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import DetailModal from "../../Components/DetailModal/DetailModal";
 import Header from "../../Components/Header/Header";
 import { useFavoriteList, useSearchResult } from "../../hooks/useContent";
+import { detailModalState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 import Banner from "./Banner";
 import ContentDetail from "./ContentDetail";
@@ -14,9 +19,12 @@ const Main = props => {
   const [selectContent, setSelectContent] = useState(null);
   const [hoveringContent, setHoveringContent] = useState(null);
   const [viewContent, setViewContent] = useState(null);
+  const [detailState, setDetailModalState] = useRecoilState(detailModalState);
   const favoriteList = useFavoriteList();
   const searchResult = useSearchResult(searchWord, searchType);
-
+  useEffect(() => {
+    return setDetailModalState(null);
+  }, []);
   const onSearch = async () => {
     searchResult.refetch();
   };
@@ -30,19 +38,15 @@ const Main = props => {
   };
   const onSelectItem = key => {
     setViewContent(key);
+    setDetailModalState(key);
   };
-  const renderBannerSection = useMemo(() => {
-    if (!viewContent) {
-      return <Banner />;
-    }
-    return <ContentDetail id={viewContent} />;
-  }, [viewContent]);
+
   return (
     <MainBlock>
       <Header />
       <BodyWrap>
-        <DetailBlock contentToView={viewContent}>
-          {renderBannerSection}
+        <DetailBlock>
+          <Banner />
         </DetailBlock>
         <ContentListBlock>
           <ListTitle>{searchResult.data ? "검색결과" : "인기영화"}</ListTitle>
@@ -94,6 +98,7 @@ const Main = props => {
           setViewContent={setViewContent}
         />
       </BodyWrap>
+      {detailState && <DetailModal id={detailState} />}
     </MainBlock>
   );
 };
