@@ -1,9 +1,10 @@
 import React from "react";
+import { memo } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { media, theme } from "../../styles/theme";
 
-const Banner = props => {
+const Banner = memo(props => {
   const navigator = useNavigate();
   const goSurveyPage = () => {
     navigator("/survey");
@@ -26,7 +27,7 @@ const Banner = props => {
       </TextBlock>
     </BannerBlock>
   );
-};
+});
 
 export default Banner;
 const BannerBlock = styled.div`
