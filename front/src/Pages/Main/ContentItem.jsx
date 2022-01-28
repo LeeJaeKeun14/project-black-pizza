@@ -19,6 +19,7 @@ const ContentItem = ({
       <Image
         src={data.info[1]}
         alt="poster"
+        loading="lazy"
         onClick={() => onSelectItem(data.key)}
         onMouseEnter={() => onMouseEnter(data.key)}
         onMouseLeave={() => onMouseLeave()}

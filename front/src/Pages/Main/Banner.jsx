@@ -52,7 +52,9 @@ const Blur = styled.div`
   ${media.tablet} {
     background: linear-gradient(to top,${theme.color.background} 50%,rgba(255,255,255,0)); 
   }
-  
+  ${media.mobile} {
+    background: linear-gradient(to top,#0f102a 40%,rgba(255,255,255,0));
+  } 
 }
 `;
 const TextBlock = styled.div`
@@ -63,15 +65,10 @@ const TextBlock = styled.div`
   height: fit-content;
   text-align: end;
   ${media.tablet} {
-    top: 60%;
+    top: initial;
     width: auto;
     left: 0;
-  }
-  ${media.tablet} {
-    top: 40%;
-  }
-  ${media.mobile} {
-    top: 60%;
+    bottom: 10%;
   }
 `;
 const Title = styled.h2`

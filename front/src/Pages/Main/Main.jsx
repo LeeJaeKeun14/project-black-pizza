@@ -109,11 +109,11 @@ const MainBlock = styled.div`
 `;
 const BodyWrap = styled.div`
   height: 100%;
+  padding-top: 80px;
 `;
 const DetailBlock = styled.section`
   height: 50%;
   position: relative;
-
   background: ${props =>
     props.contentToView
       ? "linear-gradient(217deg, #e96d71, rgba(255, 0, 0, 0) 70.71%),linear-gradient(127deg, #ffd26f, rgba(0, 255, 0, 0) 70.71%),linear-gradient(336deg, rgb(54 119 255), rgba(0, 0, 255, 0) 70.71%)"
