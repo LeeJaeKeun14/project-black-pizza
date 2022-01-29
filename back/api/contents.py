@@ -77,13 +77,13 @@ def recommend():
     contents_all = db.session.query(
         Contents.id, Contents.title, Contents.score, Contents.rate_count).all()
     genre_matrix = db.session.query(Genre_Matrix.id,
-        Genre_Matrix.top1, Genre_Matrix.top2, Genre_Matrix.top3, Genre_Matrix.top4, Genre_Matrix.top5, Genre_Matrix.top6, Genre_Matrix.top7, Genre_Matrix.top8, Genre_Matrix.top9, Genre_Matrix.top10,
-        Genre_Matrix.top11, Genre_Matrix.top12, Genre_Matrix.top13, Genre_Matrix.top14, Genre_Matrix.top15, Genre_Matrix.top16, Genre_Matrix.top17, Genre_Matrix.top18, Genre_Matrix.top19, Genre_Matrix.top20,
-        Genre_Matrix.top21, Genre_Matrix.top22, Genre_Matrix.top23, Genre_Matrix.top24, Genre_Matrix.top25, Genre_Matrix.top26, Genre_Matrix.top27, Genre_Matrix.top28, Genre_Matrix.top29, Genre_Matrix.top30,
-        Genre_Matrix.top31, Genre_Matrix.top32, Genre_Matrix.top33, Genre_Matrix.top34, Genre_Matrix.top35, Genre_Matrix.top36, Genre_Matrix.top37, Genre_Matrix.top38, Genre_Matrix.top39, Genre_Matrix.top40,
-        Genre_Matrix.top41, Genre_Matrix.top42, Genre_Matrix.top43, Genre_Matrix.top44, Genre_Matrix.top45, Genre_Matrix.top46, Genre_Matrix.top47, Genre_Matrix.top48, Genre_Matrix.top49, Genre_Matrix.top50,
-        Genre_Matrix.top51, Genre_Matrix.top52, Genre_Matrix.top53, Genre_Matrix.top54, Genre_Matrix.top55, Genre_Matrix.top56, Genre_Matrix.top57, Genre_Matrix.top58, Genre_Matrix.top59, Genre_Matrix.top60
-    ).all()
+                                    Genre_Matrix.top1, Genre_Matrix.top2, Genre_Matrix.top3, Genre_Matrix.top4, Genre_Matrix.top5, Genre_Matrix.top6, Genre_Matrix.top7, Genre_Matrix.top8, Genre_Matrix.top9, Genre_Matrix.top10,
+                                    Genre_Matrix.top11, Genre_Matrix.top12, Genre_Matrix.top13, Genre_Matrix.top14, Genre_Matrix.top15, Genre_Matrix.top16, Genre_Matrix.top17, Genre_Matrix.top18, Genre_Matrix.top19, Genre_Matrix.top20,
+                                    Genre_Matrix.top21, Genre_Matrix.top22, Genre_Matrix.top23, Genre_Matrix.top24, Genre_Matrix.top25, Genre_Matrix.top26, Genre_Matrix.top27, Genre_Matrix.top28, Genre_Matrix.top29, Genre_Matrix.top30,
+                                    Genre_Matrix.top31, Genre_Matrix.top32, Genre_Matrix.top33, Genre_Matrix.top34, Genre_Matrix.top35, Genre_Matrix.top36, Genre_Matrix.top37, Genre_Matrix.top38, Genre_Matrix.top39, Genre_Matrix.top40,
+                                    Genre_Matrix.top41, Genre_Matrix.top42, Genre_Matrix.top43, Genre_Matrix.top44, Genre_Matrix.top45, Genre_Matrix.top46, Genre_Matrix.top47, Genre_Matrix.top48, Genre_Matrix.top49, Genre_Matrix.top50,
+                                    Genre_Matrix.top51, Genre_Matrix.top52, Genre_Matrix.top53, Genre_Matrix.top54, Genre_Matrix.top55, Genre_Matrix.top56, Genre_Matrix.top57, Genre_Matrix.top58, Genre_Matrix.top59, Genre_Matrix.top60
+                                    ).all()
     rcm_df = recommendations(user_pick_id, contents_all, genre_matrix)
 
     # rcm -> response
@@ -139,6 +139,11 @@ def detail(id):
         content_detail['runtime'] = content.runtime.strftime("%H:%M")
         content_detail['director'] = content.director
         content_detail['synopsis'] = content.synopsis
+
+        otts = Streaming.query.filter(Streaming.contents_id == id).all()
+        content_detail['ott'] = []
+        for ott in otts:
+            content_detail['ott'].append(ott.ott)
 
         content_detail['is_picked'] = False
         if session.get('email'):
