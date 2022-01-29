@@ -110,6 +110,7 @@ const MainBlock = styled.div`
 const BodyWrap = styled.div`
   height: 100%;
   padding-top: 80px;
+  box-sizing: border-box;
 `;
 const DetailBlock = styled.section`
   height: 50%;
