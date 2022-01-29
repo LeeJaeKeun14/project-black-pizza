@@ -1,10 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import DetailModal from "../../Components/DetailModal/DetailModal";
 import Header from "../../Components/Header/Header";
 import { useFavoriteList, useSearchResult } from "../../hooks/useContent";
+import { detailModalState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 import Banner from "./Banner";
-import ContentDetail from "./ContentDetail";
 import ContentItem from "./ContentItem";
 import Tap from "./Tap";
 
@@ -13,9 +16,13 @@ const Main = props => {
   const [searchType, setSearchType] = useState("title");
   const [selectContent, setSelectContent] = useState(null);
   const [hoveringContent, setHoveringContent] = useState(null);
-  const [viewContent, setViewContent] = useState(null);
+  const [detailState, setDetailModalState] = useRecoilState(detailModalState);
   const favoriteList = useFavoriteList();
   const searchResult = useSearchResult(searchWord, searchType);
+
+  useEffect(() => {
+    return setDetailModalState(null);
+  }, []);
 
   const onSearch = async () => {
     searchResult.refetch();
@@ -29,20 +36,15 @@ const Main = props => {
     setSelectContent(null);
   };
   const onSelectItem = key => {
-    setViewContent(key);
+    setDetailModalState(key);
   };
-  const renderBannerSection = useMemo(() => {
-    if (!viewContent) {
-      return <Banner />;
-    }
-    return <ContentDetail id={viewContent} />;
-  }, [viewContent]);
+
   return (
     <MainBlock>
       <Header />
       <BodyWrap>
-        <DetailBlock contentToView={viewContent}>
-          {renderBannerSection}
+        <DetailBlock>
+          <Banner />
         </DetailBlock>
         <ContentListBlock>
           <ListTitle>{searchResult.data ? "검색결과" : "인기영화"}</ListTitle>
@@ -91,9 +93,9 @@ const Main = props => {
           setSearchType={setSearchType}
           setSelectContent={setSelectContent}
           setHoveringContent={setHoveringContent}
-          setViewContent={setViewContent}
         />
       </BodyWrap>
+      {detailState && <DetailModal id={detailState} />}
     </MainBlock>
   );
 };
@@ -107,11 +109,12 @@ const MainBlock = styled.div`
 `;
 const BodyWrap = styled.div`
   height: 100%;
+  padding-top: 80px;
+  box-sizing: border-box;
 `;
 const DetailBlock = styled.section`
   height: 50%;
   position: relative;
-
   background: ${props =>
     props.contentToView
       ? "linear-gradient(217deg, #e96d71, rgba(255, 0, 0, 0) 70.71%),linear-gradient(127deg, #ffd26f, rgba(0, 255, 0, 0) 70.71%),linear-gradient(336deg, rgb(54 119 255), rgba(0, 0, 255, 0) 70.71%)"

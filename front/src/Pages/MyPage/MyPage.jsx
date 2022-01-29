@@ -7,6 +7,7 @@ import ContentItem from "./ContentItem";
 import { useResultPost } from "../../hooks/useResult";
 import { useSetRecoilState } from "recoil";
 import { recommendResult } from "../../store/atoms";
+import { media } from "../../styles/theme";
 const MyPage = props => {
   const navigator = useNavigate();
   const userPick = useUserPick();
@@ -27,23 +28,24 @@ const MyPage = props => {
   return (
     <MyPageBlock>
       <Header />
+      <ContentList>
+        <Title>찜한 콘텐츠</Title>
 
-      <Title>찜한 콘텐츠</Title>
-
-      {userPick.isLoading ? (
-        <Alert>loading...</Alert>
-      ) : userPick.data.length === 0 ? (
-        <Alert>찜한 목록이 없습니다.</Alert>
-      ) : (
-        <div>
-          <Button onClick={getRecommend}>찜한 목록으로 추천받기</Button>
-          <List>
-            {userPick.data.map((e, i) => (
-              <ContentItem key={i} data={e} />
-            ))}
-          </List>
-        </div>
-      )}
+        {userPick.isLoading ? (
+          <Alert>loading...</Alert>
+        ) : userPick.data.length === 0 ? (
+          <Alert>찜한 목록이 없습니다.</Alert>
+        ) : (
+          <div>
+            <Button onClick={getRecommend}>찜한 목록으로 추천받기</Button>
+            <List>
+              {userPick.data.map((e, i) => (
+                <ContentItem key={i} data={e} />
+              ))}
+            </List>
+          </div>
+        )}
+      </ContentList>
     </MyPageBlock>
   );
 };
@@ -52,15 +54,31 @@ const MyPageBlock = styled.div`
   margin: 0 auto;
   max-width: 1024px;
 `;
+const ContentList = styled.div`
+  padding-top: 80px;
+  height: 100%;
+`;
 const Title = styled.div`
   text-align: center;
   padding-bottom: 30px;
 `;
 const List = styled.ul`
   padding: 50px;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
+
+  // display: flex;
+  // flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  ${media.tablet} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  ${media[768]} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  ${media.mobile} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 const Alert = styled.div`
   text-align: center;

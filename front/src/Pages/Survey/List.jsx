@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useContentListQuery } from "../../hooks/useContentListQuery";
 import { useQueryClient } from "react-query";
 import Item from "./Item";
+import Loading from "../../Components/Loading/Loading";
 
 const List = props => {
   const [target, setTarget] = useState(null);
@@ -33,7 +34,7 @@ const List = props => {
       }
     }
   };
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p>Error:{error.message}</p>;
   return (
     <>
@@ -54,7 +55,7 @@ const List = props => {
           <div>empty</div>
         )}
       </ListWrap>
-      <div>{isFetching ? <p>loading...</p> : null}</div>
+      {isFetching ? <Loading /> : null}
     </>
   );
 };
@@ -62,5 +63,6 @@ const List = props => {
 const ListWrap = styled.ul`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 export default List;

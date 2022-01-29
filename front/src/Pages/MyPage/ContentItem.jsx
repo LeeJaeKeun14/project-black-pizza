@@ -15,13 +15,11 @@ const ContentItem = ({ data }) => {
     <ContentItemBlock
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
+      onClick={goContentDetail}
     >
       <ContentWrap>
-        <Image src={info[1]} alt="poster" />
-        <Button
-          onClick={goContentDetail}
-          isHover={isHover}
-        >{`${info[0]} 상세보기`}</Button>
+        <Image src={info[1]} alt="poster" loading="lazy" />
+        <Hovering isHover={isHover}>{`${info[0]} 상세보기`}</Hovering>
       </ContentWrap>
     </ContentItemBlock>
   );
@@ -30,19 +28,11 @@ const ContentItem = ({ data }) => {
 const ContentItemBlock = styled.div`
   padding: 10px;
   box-sizing: border-box;
-
-  width: ${100 / 4}%;
-  ${media.tablet} {
-    width: ${100 / 3}%;
-  }
-  ${media.mobile} {
-    width: ${100 / 2}%;
-  }
 `;
 const ContentWrap = styled.div`
   position: relative;
 `;
-const Button = styled.button`
+const Hovering = styled.div`
   position: absolute;
   right: 0;
   left: 0;
@@ -52,14 +42,50 @@ const Button = styled.button`
   color: white;
   border: none;
   width: 100%;
-  height: 100%;
+  height: 300px;
   visibility:${props => (props.isHover ? "visible" : "hidden")} ;
-  
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  // line-height: 300px;
 }
 `;
 const Image = styled.img`
-  width: 100%;
+  // width: 100%;
+  width: 211px;
+  height: 300px;
   display: block;
   border-radius: 10px;
+  margin: 0 auto;
+  @-webkit-keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+
+  @keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+  -webkit-animation: skeleton-gradient 1.8s infinite ease-in-out;
+  animation: skeleton-gradient 1.8s infinite ease-in-out;
 `;
 export default ContentItem;

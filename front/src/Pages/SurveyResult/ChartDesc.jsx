@@ -62,7 +62,7 @@ const ChartBlock = styled.section`
   ${media.tablet} {
     padding: 0 50px;
   }
-  ${media.mobile} {
+  ${media[768]} {
     flex-direction: column;
   }
 `;
@@ -70,8 +70,14 @@ const Desc = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  ${media.mobile} {
+  ${media[768]} {
     padding-top: 50px;
+    flex-direction: column-reverse;
+  }
+  ${media.mobile} {
+    width: 80%;
+    padding-top: 20px;
+    flex-direction: column-reverse;
   }
 `;
 const Title = styled.h3`
@@ -83,14 +89,11 @@ const Title = styled.h3`
     cursor: pointer;
     text-decoration: none;
   }
-  ${media.mobile} {
-    text-align: center;
-  }
 `;
 const AllOtt = styled.div`
   text-align: start;
   ${media.mobile} {
-    text-align: center;
+    // padding-bottom: 50px;
   }
 `;
 const OttWrap = styled.div`

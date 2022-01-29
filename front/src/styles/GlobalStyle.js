@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size:16px;
     ${media.mobile}{
-      font-size: 10px;
+      font-size: 14px;
     }
     font-family: Noto Sans KR, Apple SD Gothic Neo, sans-serif;
   }

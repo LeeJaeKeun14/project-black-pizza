@@ -20,7 +20,7 @@ export const contentGenreCategory = [
   'RealityTV',
   '서부']
 
-export const contentYearCategory = [1900, 1980, 1990, 2000, 2010, 2020]
+export const contentYearCategory = [2020, 2010, 2000, 1990, 1980, 1900]
 
 export const ottURL = {
   'wavve': 'https://www.wavve.com',

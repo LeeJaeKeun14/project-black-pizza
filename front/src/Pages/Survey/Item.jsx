@@ -1,11 +1,9 @@
-import React, { forwardRef, lazy, useState } from "react";
-import { Suspense } from "react";
+import React, { forwardRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import StarRating from "../../Components/StarRating/StarRating";
 import { ratingState } from "../../store/atoms";
 import { media } from "../../styles/theme";
-const LazyImage = lazy(() => import("./LazyImage"));
 
 const Item = forwardRef(({ data }, ref) => {
   const [title, imgURL] = data.info;
@@ -37,9 +35,7 @@ const Item = forwardRef(({ data }, ref) => {
         onMouseEnter={() => setDisplay(1)}
         onMouseLeave={() => setDisplay(0)}
       >
-        <Suspense fallback={<ImagePlaceholder>loading...</ImagePlaceholder>}>
-          <LazyImage src={imgURL} name={"poster"} />
-        </Suspense>
+        <Image src={imgURL} alt="poster" loading="lazy" />
         <InfoWrap
           isDisplay={display}
           isStarRated={isStarRated}
@@ -61,18 +57,56 @@ const ItemWrap = styled.li`
 
   width: ${100 / 4}%;
   ${media.tablet} {
-    width: ${100 / 3}%;
+    // width: ${100 / 3}%;
+    width: 240px;
   }
-  ${media.mobile} {
-    width: ${100 / 2}%;
-  }
+  // ${media[768]} {
+  //   width: ${100 / 2}%;
+  //   max-width: 240px;
+  //   min-width: 240px;
+  // }
+  // ${media.mobile} {
+  //   width: 100%;
+  //   max-width: 240px;
+  //   min-width: 240px;
+  // }
 `;
 const ImageWrap = styled.div`
   position: relative;
 `;
-const ImagePlaceholder = styled.div`
+const Image = styled.img`
   width: 100%;
   height: 300px;
+  display: block;
+  @-webkit-keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+
+  @keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+  -webkit-animation: skeleton-gradient 1.8s infinite ease-in-out;
+  animation: skeleton-gradient 1.8s infinite ease-in-out;
 `;
 const InfoWrap = styled.div`
   position: absolute;
