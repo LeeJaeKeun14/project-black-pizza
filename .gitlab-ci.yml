@@ -1,0 +1,11 @@
+stages:
+        - test
+
+lets_test:
+    stage: test
+    script:
+        - echo hello
+        - cd /home/gitlab-runner
+        - touch gen_empty_file
+    tags:
+        - blackpizza
