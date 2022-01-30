@@ -20,7 +20,10 @@ const Header = memo(props => {
 });
 const HeaderWrap = styled.header`
   width: 100%;
-  max-width: ${props => (props.location === "/" ? "" : "1024px")};
+  max-width: ${props =>
+    props.location === "/" || props.location === "/description"
+      ? ""
+      : "1024px"};
   display: flex;
   justify-content: space-between;
   padding: 10px;
