@@ -5,7 +5,7 @@ import jsonpath
 from main import create_app
 from db_connect import db
 from flask import session
-import config
+import test_config
 from sqlalchemy import create_engine, text
 
 base_url = "http://localhost:5000/api"
@@ -100,7 +100,7 @@ def db_file(db, filename):
 
 TEST_CONFIG = {
     # 'DB_URL': 'mysql+pymysql://root:password@db_mysql/BlackPizza',
-    'DB_URL': config.TEST_DB_URL,
+    'DB_URL': test_config.TEST_DB_URL,
 }
 
 
