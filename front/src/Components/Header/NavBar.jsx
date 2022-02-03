@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../store/atoms";
 import { logout } from "../../api/user";
@@ -8,6 +9,7 @@ import { useState } from "react";
 import { media } from "../../styles/theme";
 
 const NavBar = ({ pathname }) => {
+  const navigator = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [open, setOpen] = useState(false);
   const handleLogout = async () => {
