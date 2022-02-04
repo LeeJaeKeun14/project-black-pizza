@@ -4,7 +4,7 @@ import { media } from "../../styles/theme";
 
 const Section2 = props => (
   <Part>
-    <Text>
+    <Text data-aos="fade-up" data-aos-delay={1000}>
       <p>코로나 19 시대의</p>
       <p>장기화</p>
       <Sub>여전히 늘어나고 있는 확진자 수</Sub>

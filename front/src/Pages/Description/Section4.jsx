@@ -4,7 +4,7 @@ import { media } from "../../styles/theme";
 
 const Section4 = props => (
   <Part>
-    <Text>
+    <Text data-aos="fade-down" data-aos-duration={2000}>
       <p>언택트(Untact) 시대가 가져온</p>
       <p>미디어 콘텐츠</p>
       <p>이용 방식의 변화</p>

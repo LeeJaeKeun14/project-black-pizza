@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { media } from "../../styles/theme";
 const Section6 = props => (
   <Part>
-    <Text>
+    <Text data-aos="zoom-in" data-aos-duration="2000">
       <p>다양해진 OTT 플랫폼 사이에서</p>
       <p>
         <Point>나에게 딱 맞는 플랫폼</Point>은

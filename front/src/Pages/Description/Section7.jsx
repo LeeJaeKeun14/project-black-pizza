@@ -10,7 +10,7 @@ const Section7 = props => {
   };
   return (
     <Part>
-      <Text>
+      <Text data-aos="fade-down" data-aos-delay={1000}>
         <p>보고싶은 영화를 고르고</p>
         <p>
           <Point>나만의 맞춤 OTT와 영화</Point>를

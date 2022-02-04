@@ -8,9 +8,10 @@ const Section1 = props => {
   const goSurvey = () => {
     navigator("/survey");
   };
+
   return (
     <Part>
-      <Text>
+      <Text data-aos="fade-down" data-aos-delay={500}>
         <div>{`OTT 플랫폼 & 영화`}</div>
         <div>추천 웹 서비스</div>
       </Text>
@@ -24,7 +25,7 @@ const Part = styled.section`
   position: relative;
   display: flex;
   background-color: #000000c0;
-
+  padding-top: 80px;
   &:before {
     content: "";
     position: absolute;
