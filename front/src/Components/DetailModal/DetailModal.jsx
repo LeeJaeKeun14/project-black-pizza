@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { useContentDetail } from "../../hooks/useContent";
 import { useUserPickPost } from "../../hooks/useUserPick";
 import Portal from "../../Pages/Main/Portal";
-import { detailModalState } from "../../store/atoms";
+import { detailModalState, loginState } from "../../store/atoms";
 import { media } from "../../styles/theme";
 
 const DetailModal = ({ id }) => {
   const setDetailModalState = useSetRecoilState(detailModalState);
+  const isLogin = useRecoilValue(loginState);
   const { data, isLoading } = useContentDetail(parseInt(id));
   const [isPicked, setIsPicked] = useState(false);
 
@@ -31,7 +32,11 @@ const DetailModal = ({ id }) => {
       .join(" ");
   };
   const postUserPick = () => {
-    userPickPost.mutate([{ contents_id: parseInt(id), is_picked: true }]);
+    if (!isLogin) {
+      alert("로그인시 이용가능 합니다.");
+    } else {
+      userPickPost.mutate([{ contents_id: parseInt(id), is_picked: true }]);
+    }
   };
 
   const cancelUserPick = () => {
@@ -45,6 +50,7 @@ const DetailModal = ({ id }) => {
       closeModal();
     }
   };
+
   return (
     <Portal elementId="modal-root">
       <ModalOverlay visible={id} />
