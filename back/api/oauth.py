@@ -45,22 +45,19 @@ def callback():
 
     user = User.query.filter(User.name == name).first()
 
-    if user is not None:
-        message = f'{user.name} 계정은 이미 등록된 계정입니다.'
-        value = {"status": 404, "result": "fail", "msg": message}
-    else:
+    if user is None:
         # 유저 테이블에 추가
         user = User(name, email, generate_password_hash(name))
         db.session.add(user)
         db.session.commit()
 
-        message = '회원가입이 완료되었습니다.'
-        value = {"status": 200, "result": "success", "msg": message}
+        # message = '회원가입이 완료되었습니다.'
+        # value = {"status": 200, "result": "success", "msg": message}
 
     session['email'] = user.email
-    message = '로그인에 성공하였습니다.'
-    value = {"status": 200, "result": "success",
-             "msg": message}
+    session['isKakao'] = True
+    # message = '로그인에 성공하였습니다.'
+    # value = {"status": 200, "result": "success", "msg": message}
 
     return redirect("http://localhost")
 
@@ -71,7 +68,7 @@ def kakao_sign_out():
     kakao_oauth_url = f"https://kauth.kakao.com/oauth/logout?client_id={CLIENT_ID}&logout_redirect_uri={SIGNOUT_REDIRECT_URI}"
 
     if session.get('email'):
-        session.pop('email')
+        session.clear()
         value = {"status": 200, "result": "success"}
     else:
         value = {"status": 404, "result": "fail"}

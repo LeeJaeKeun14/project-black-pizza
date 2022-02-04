@@ -75,6 +75,7 @@ def signin():
         if message is None:
             # session.clear()
             session['email'] = user.email
+            session['isKakao'] = False
             message = '로그인에 성공하였습니다.'
             value = {"status": 200, "result": "success",
                      "msg": message}
@@ -87,7 +88,7 @@ def signin():
 @user.route('/signout', methods=['GET'])
 def signout():
     if session.get('email'):
-        session.pop('email')
+        session.clear()
         value = {"status": 200, "result": "success"}
     else:
         value = {"status": 404, "result": "fail"}
@@ -98,8 +99,9 @@ def signout():
 def isLogin():
     if session.get('email'):
         email = session['email']
+        isKakao = session['isKakao']
         value = {"status": 200, "result": "success",
-                 "payload": email}
+                 "email": email, "isKakao": isKakao}
     else:
         value = {"status": 404, "result": "fail"}
     return jsonify(value)
