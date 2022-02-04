@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { useRecoilState } from "recoil";
-import { loginState } from "../../store/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loginState, socialLoginState } from "../../store/atoms";
 import { logout } from "../../api/user";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import { media } from "../../styles/theme";
 const NavBar = ({ pathname }) => {
   const navigator = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const isSocialLogin = useRecoilValue(socialLoginState);
   const [open, setOpen] = useState(false);
   const handleLogout = async () => {
     await logout().then(res => {
@@ -40,7 +41,11 @@ const NavBar = ({ pathname }) => {
           )}
           <ListItem>
             {pathname === "/mypage" ? (
-              <Button onClick={handleLogout}>로그아웃</Button>
+              isSocialLogin ? (
+                <Anchor href="/oauth/kakao/signout">카카오 로그아웃</Anchor>
+              ) : (
+                <Button onClick={handleLogout}>로그아웃</Button>
+              )
             ) : (
               <StyledLink to="/mypage">마이페이지</StyledLink>
             )}
@@ -137,5 +142,11 @@ const Button = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+`;
+const Anchor = styled.a`
+  color: ${({ theme }) => theme.color.font};
+  text-decoration: none;
+  ${({ theme }) => theme.font.small}
+  padding: 0 6px;
 `;
 export default NavBar;

@@ -52,7 +52,10 @@ const LoginForm = props => {
         onChangeHandler={password.setValue}
       />
       <Alert>{errorMessage}</Alert>
-      <Button onClick={sendLoginInfo}>login</Button>
+      <Button onClick={sendLoginInfo}>로그인하기</Button>
+      <Anchor href="/oauth/kakao/">
+        <img src="/images/kakao_login_medium_wide.png" alt="social login" />
+      </Anchor>
     </InputForm>
   );
 };
@@ -81,7 +84,7 @@ const Button = styled.button`
   height: 40px;
   box-sizing: border-box;
   padding: 4px 16px;
-  border-radius: 10px;
+  border-radius: 6px;
   border: none;
   margin-bottom: 30px;
   background-color: #ffffff;
@@ -90,5 +93,10 @@ const Button = styled.button`
     background-color: ${({ theme }) => theme.color.coral};
     color: ${({ theme }) => theme.color.font};
   }
+`;
+const Anchor = styled.a`
+  height: 45px;
+  margin-bottom: 30px;
+  display: block;
 `;
 export default LoginForm;

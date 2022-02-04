@@ -38,6 +38,11 @@ export const loginState = atom({
   default: null
 })
 
+export const socialLoginState = atom({
+  key: 'socialLoginState',
+  default: null
+})
+
 export const detailModalState = atom({
   key: 'detailModalState',
   default: null
