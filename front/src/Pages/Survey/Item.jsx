@@ -36,6 +36,9 @@ const Item = forwardRef(({ data }, ref) => {
         onMouseLeave={() => setDisplay(0)}
       >
         <Image src={imgURL} alt="poster" loading="lazy" />
+        <Skeleton>
+          <p>{title}</p>
+        </Skeleton>
         <InfoWrap
           isDisplay={display}
           isStarRated={isStarRated}
@@ -74,39 +77,23 @@ const ItemWrap = styled.li`
 const ImageWrap = styled.div`
   position: relative;
 `;
+
 const Image = styled.img`
   width: 100%;
   height: 300px;
   display: block;
-  @-webkit-keyframes skeleton-gradient {
-    0% {
-      background-color: rgba(165, 165, 165, 0.1);
-    }
-
-    50% {
-      background-color: rgba(165, 165, 165, 0.3);
-    }
-
-    100% {
-      background-color: rgba(165, 165, 165, 0.1);
-    }
-  }
-
-  @keyframes skeleton-gradient {
-    0% {
-      background-color: rgba(165, 165, 165, 0.1);
-    }
-
-    50% {
-      background-color: rgba(165, 165, 165, 0.3);
-    }
-
-    100% {
-      background-color: rgba(165, 165, 165, 0.1);
-    }
-  }
-  -webkit-animation: skeleton-gradient 1.8s infinite ease-in-out;
-  animation: skeleton-gradient 1.8s infinite ease-in-out;
+  // z-index: 2;
+`;
+const Skeleton = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: -1;
 `;
 const InfoWrap = styled.div`
   position: absolute;
