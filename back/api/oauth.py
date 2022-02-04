@@ -62,7 +62,7 @@ def callback():
     value = {"status": 200, "result": "success",
              "msg": message}
 
-    return value
+    return redirect("http://localhost")
 
 
 @kakao.route('/signout')
