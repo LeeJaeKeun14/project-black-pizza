@@ -52,7 +52,7 @@ const NavBar = ({ pathname }) => {
           </ListItem>
         </Nav>
       ) : (
-        <Nav open={open}>
+        <Nav isOpen={open}>
           <ListItem>
             <StyledLink to="/description">서비스 소개</StyledLink>
           </ListItem>
