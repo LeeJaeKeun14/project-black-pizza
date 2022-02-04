@@ -1,12 +1,11 @@
-import React, { memo, useState } from "react";
-
+import React, { memo, useState, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "../../styles/theme";
 
 import PurchaseType from "./PurchaseType";
 
-const Item = memo(({ id, data }) => {
+const Item = forwardRef(({ id, data }, ref) => {
   const navigator = useNavigate();
   const [display, setDisplay] = useState(0);
   const [title, imgURL, saleType] = data;
@@ -15,7 +14,7 @@ const Item = memo(({ id, data }) => {
   };
 
   return (
-    <ItemWrap>
+    <ItemWrap ref={ref}>
       <ImageWrap
         onMouseEnter={() => setDisplay(1)}
         onMouseLeave={() => setDisplay(0)}
@@ -40,24 +39,21 @@ const Item = memo(({ id, data }) => {
 const ItemWrap = styled.div`
   padding: 10px;
   box-sizing: border-box;
-  height: fit-content;
-  border-radius: 10px;
+  // height: fit-content;
+  // border-radius: 10px;
 
   width: ${100 / 4}%;
   ${media.tablet} {
-    // width: ${100 / 3}%;
-    width: 240px;
+    width: ${100 / 3}%;
+    // width: 240px;
   }
-  // ${media[768]} {
-  //   width: ${100 / 2}%;
-  //   max-width: 240px;
-  //   min-width: 240px;
-  // }
   // ${media.mobile} {
-  //   width: ${100}%;
-  //   max-width: 240px;
-  //   min-width: 240px;
+  //   // width: ${100 / 2}%;
+  //   width: 240px;
   // }
+  display: inline-block;
+  position: absolute;
+  border-radius: 1rem;
 `;
 const ImageWrap = styled.div`
   position: relative;
