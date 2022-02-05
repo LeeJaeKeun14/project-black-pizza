@@ -6,6 +6,7 @@ import { useUserPickPost } from "../../hooks/useUserPick";
 import Portal from "../../Pages/Main/Portal";
 import { detailModalState, loginState } from "../../store/atoms";
 import { media } from "../../styles/theme";
+import { ottURL } from "../../utils/utils";
 
 const DetailModal = ({ id }) => {
   const setDetailModalState = useSetRecoilState(detailModalState);
@@ -84,6 +85,13 @@ const DetailModal = ({ id }) => {
                     <span key={i}>
                       {i === data.actor.length - 1 ? `${e}` : `${e} ・`}
                     </span>
+                  ))}
+                </div>
+                <div>
+                  {data.ott.map((e, i) => (
+                    <OttTag href={ottURL[e]} key={i} target="_blank">
+                      {e}
+                    </OttTag>
                   ))}
                 </div>
                 {data.is_picked ? (
@@ -205,7 +213,7 @@ const YearGenreWrap = styled.div`
   align-items: baseline;
 `;
 const GenreTag = styled.span`
-  background-color: ${({ theme }) => theme.color.coral};
+  background-color: #4f6fb8;
   padding: 4px 5px;
   border-radius: 6px;
   & + & {
@@ -214,6 +222,16 @@ const GenreTag = styled.span`
 `;
 const SpanTitle = styled.span`
   font-weight: bold;
+`;
+const OttTag = styled.a`
+  background-color: ${({ theme }) => theme.color.coral};
+  padding: 4px 5px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: ${({ theme }) => theme.color.font};
+  & + & {
+    margin-left: 5px;
+  }
 `;
 const SynopsisPart = styled.div`
   padding: 50px;

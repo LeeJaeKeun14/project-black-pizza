@@ -5,6 +5,7 @@ import Header from "../../Components/Header/Header";
 import { useContentDetail } from "../../hooks/useContent";
 import { useUserPickPost } from "../../hooks/useUserPick";
 import { media } from "../../styles/theme";
+import { ottURL } from "../../utils/utils";
 
 const Detail = props => {
   const { id } = useParams();
@@ -70,6 +71,13 @@ const Detail = props => {
                   </span>
                 ))}
               </div>
+              <div>
+                {data.ott.map((e, i) => (
+                  <OttTag href={ottURL[e]} key={i} target="_blank">
+                    {e}
+                  </OttTag>
+                ))}
+              </div>
               {isPicked ? (
                 <Button onClick={cancelUserPick} isPicked={isPicked}>
                   찜 취소
@@ -133,7 +141,7 @@ const YearGenreWrap = styled.div`
   align-items: baseline;
 `;
 const GenreTag = styled.span`
-  background-color: ${({ theme }) => theme.color.coral};
+  background-color: #4f6fb8;
   padding: 4px 5px;
   border-radius: 6px;
   & + & {
@@ -161,6 +169,16 @@ const Button = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.color.coral};
     border-color: runningTime ${({ theme }) => theme.color.coral};
+  }
+`;
+const OttTag = styled.a`
+  background-color: ${({ theme }) => theme.color.coral};
+  padding: 4px 5px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: ${({ theme }) => theme.color.font};
+  & + & {
+    margin-left: 5px;
   }
 `;
 export default Detail;
