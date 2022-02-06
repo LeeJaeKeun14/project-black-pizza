@@ -4,10 +4,9 @@
 > [**나만의 맞춤 콘텐츠와 OTT 추천 받으러 가기!**](http://elice-blackpizza.koreacentral.cloudapp.azure.com/)  
 > [발표 자료](./OTT서비스_1팀_최종-발표.pdf)
 
-
 ## 배포사이트 (~2022. 2. 19.)
-> http://elice-blackpizza.koreacentral.cloudapp.azure.com/
 
+> http://elice-blackpizza.koreacentral.cloudapp.azure.com/
 
 ## 로컬에서 실행하기
 
@@ -65,19 +64,17 @@
 
 - 서버를 종료해야 삭제가 가능합니다.
 
-
-
 ## 프로젝트 구성 안내
 
 ## 1. 프로젝트 소개
 
 ### 기술 스택
 
-| 파트       | 주요 스택 및 라이브러리                   |
-| ---------- | ----------------------------------------- |
-| 프론트엔드 | `JavaScript`,`React`                      |
-| 백엔드     | `Python`,`Flask`,`MySQL`,`Docker`         |
-| 데이터분석 | `Python`, `Pandas`, `Selenium`, `Sklearn` |
+| 파트       | 주요 스택 및 라이브러리                    |
+| ---------- | ------------------------------------------ |
+| 프론트엔드 | `JavaScript`,`React`,`Recoil`,`ReactQuery` |
+| 백엔드     | `Python`,`Flask`,`MySQL`,`Docker`          |
+| 데이터분석 | `Python`, `Pandas`, `Selenium`, `Sklearn`  |
 
 ### 파트별 주요 기능 소개 (README)
 
