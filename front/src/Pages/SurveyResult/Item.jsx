@@ -42,15 +42,6 @@ const ItemWrap = styled.div`
   // height: fit-content;
   // border-radius: 10px;
 
-  width: ${100 / 4}%;
-  ${media.tablet} {
-    width: ${100 / 3}%;
-    // width: 240px;
-  }
-  // ${media.mobile} {
-  //   // width: ${100 / 2}%;
-  //   width: 240px;
-  // }
   display: inline-block;
   position: absolute;
   border-radius: 1rem;
